@@ -1,8 +1,18 @@
 {
-  "version": "1.1.1",
-  "download_url": "https://github.com/matthewwaters319-dotcom/OnyxRadio/releases/download/v1.1.1/OnyxRadio-v1.0.0.zip",
-  "changelog": "Live radio added — PTT now transmits real audio to everyone in your channel.",
+  "version": "1.2.0",
+  "download_url": "https://github.com/matthewwaters319-dotcom/OnyxRadio/releases/download/v1.2.0/OnyxRadioSetup.exe",
+  "changelog": "Installer release — proper setup.exe with silent auto-update support.",
   "changelogs": [
+    {
+      "version": "1.2.0",
+      "date": "April 2026",
+      "notes": [
+        "New installer (.exe) — proper Windows setup with desktop shortcut and Start Menu entry",
+        "Silent auto-update — future updates install automatically in the background, no manual reinstall",
+        "Cross-channel visibility — see which channel your friends are in and click JOIN to hop over",
+        "Firebase connection diagnostics — clear toast error if the radio server is unreachable"
+      ]
+    },
     {
       "version": "1.1.1",
       "date": "April 6, 2026",
