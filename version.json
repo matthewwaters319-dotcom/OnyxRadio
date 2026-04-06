@@ -1,42 +1,49 @@
 {
-  "version": "1.2.0",
-  "download_url": "https://github.com/user-attachments/files/26521437/OnyxRadioSetup.zip",
-  "changelog": "Installer release — proper setup.exe with silent auto-update support.",
-  "changelogs": [
-    {
-      "version": "1.2.0",
-      "date": "April 2026",
-      "notes": [
-        "New installer (.exe) — proper Windows setup with desktop shortcut and Start Menu entry",
-        "Silent auto-update — future updates install automatically in the background, no manual reinstall",
-        "Cross-channel visibility — see which channel your friends are in and click JOIN to hop over",
-        "Firebase connection diagnostics — clear toast error if the radio server is unreachable"
-      ]
-    },
-    {
-      "version": "1.1.1",
-      "date": "April 6, 2026",
-      "notes": [
-        "Live PTT radio — hold your push-to-talk key and your voice is transmitted to everyone in your channel in real time",
-        "Firebase audio relay — audio is streamed through Firebase Realtime Database, no peer-to-peer setup required",
-        "User cards now update live — see who is speaking with a green glow and Transmitting status",
-        "Sidebar shows all users currently in each channel, updating as they join or leave",
-        "Channel switching now reconnects the audio stream automatically",
-        "Mic captured at 8 kHz mono with mu-law compression for low-latency walkie-talkie quality"
-      ]
-    },
-    {
-      "version": "1.0.0",
-      "date": "April 2026",
-      "notes": [
-        "Initial release of Onyx Radio",
-        "Discord OAuth2 login with avatar sync",
-        "Community join and create flow using invite codes",
-        "Push-to-talk keybind system (keyboard and mouse buttons)",
-        "Radio channels with category support",
-        "Server owner tools — members list, kick, customize panel, rename channels",
-        "Auto-updater framework"
-      ]
-    }
-  ]
+    "version":  "1.3.0",
+    "download_url":  "https://github.com/matthewwaters319-dotcom/OnyxRadio/releases/download/v1.3.0/OnyxRadioSetup.zip",
+    "changelog":  "Installer release — proper setup.exe with silent auto-update support.",
+    "changelogs":  [
+                       {
+                           "version":  "1.3.0",
+                           "date":  "April 2026",
+                           "notes":  [
+                                         "See release notes on GitHub"
+                                     ]
+                       },
+                       {
+                           "version":  "1.2.0",
+                           "date":  "April 2026",
+                           "notes":  [
+                                         "New installer (.exe) — proper Windows setup with desktop shortcut and Start Menu entry",
+                                         "Silent auto-update — future updates install automatically in the background, no manual reinstall",
+                                         "Cross-channel visibility — see which channel your friends are in and click JOIN to hop over",
+                                         "Firebase connection diagnostics — clear toast error if the radio server is unreachable"
+                                     ]
+                       },
+                       {
+                           "version":  "1.1.1",
+                           "date":  "April 6, 2026",
+                           "notes":  [
+                                         "Live PTT radio — hold your push-to-talk key and your voice is transmitted to everyone in your channel in real time",
+                                         "Firebase audio relay — audio is streamed through Firebase Realtime Database, no peer-to-peer setup required",
+                                         "User cards now update live — see who is speaking with a green glow and Transmitting status",
+                                         "Sidebar shows all users currently in each channel, updating as they join or leave",
+                                         "Channel switching now reconnects the audio stream automatically",
+                                         "Mic captured at 8 kHz mono with mu-law compression for low-latency walkie-talkie quality"
+                                     ]
+                       },
+                       {
+                           "version":  "1.0.0",
+                           "date":  "April 2026",
+                           "notes":  [
+                                         "Initial release of Onyx Radio",
+                                         "Discord OAuth2 login with avatar sync",
+                                         "Community join and create flow using invite codes",
+                                         "Push-to-talk keybind system (keyboard and mouse buttons)",
+                                         "Radio channels with category support",
+                                         "Server owner tools — members list, kick, customize panel, rename channels",
+                                         "Auto-updater framework"
+                                     ]
+                       }
+                   ]
 }
