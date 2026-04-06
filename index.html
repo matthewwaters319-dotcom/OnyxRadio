@@ -12,14 +12,13 @@
         ::-webkit-scrollbar{width:4px}
         ::-webkit-scrollbar-thumb{background:#1A1A22;border-radius:2px}
         svg.icon{display:inline-block;vertical-align:middle;fill:currentColor}
-
         /* LOGIN */
         #loginPage{display:flex;align-items:center;justify-content:center;flex:1;background:linear-gradient(135deg,#08080F 0%,#0E0E1A 50%,#0A0A12 100%)}
         .login-wrap{width:380px;text-align:center}
         .login-wrap img{height:72px;margin-bottom:12px}
         .login-wrap h1{font-size:28px;font-weight:700;margin-bottom:4px}
         .login-wrap .sub{font-size:13px;color:#666;margin-bottom:36px}
-        .login-card{background:#111116;border:1px solid #1E1E28;border-radius:14px;padding:28px 32px;text-align:center}
+        .login-card{background:#111116;border:1px solid #1E1E28;border-radius:14px;padding:28px 32px}
         .login-card h2{font-size:20px;font-weight:600;margin-bottom:6px}
         .login-card p{font-size:13px;color:#777;margin-bottom:28px}
         .discord-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#5865F2;color:#fff;border:none;border-radius:8px;padding:12px 0;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
@@ -29,7 +28,9 @@
         .privacy-box h4{font-size:12px;font-weight:600;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:6px}
         .privacy-box p{font-size:11.5px;color:#555;line-height:18px}
         .login-footer{font-size:11px;color:#444;margin-top:18px}
-
+        /* FIREBASE SETUP BANNER */
+        #setupBanner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#E74C3C;color:#fff;padding:10px 20px;font-size:13px;text-align:center;line-height:1.5}
+        #setupBanner a{color:#FFD;text-decoration:underline;cursor:pointer}
         /* DASHBOARD */
         #dashboardPage{display:none;flex:1;overflow:hidden}
         .dash-layout{display:flex;height:100%}
@@ -53,14 +54,13 @@
         .sidebar-user .info{flex:1;min-width:0}
         .sidebar-user .info .name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .sidebar-user .info .sub{font-size:10.5px;color:#666;margin-top:-1px}
-        .sidebar-user .logout-btn{color:#888;cursor:pointer;font-size:14px;padding:4px;background:none;border:none;display:flex;align-items:center}
+        .sidebar-user .logout-btn{color:#888;cursor:pointer;padding:4px;background:none;border:none;display:flex;align-items:center}
         .sidebar-user .logout-btn:hover{color:#E74C3C}
         .sidebar-user .logout-btn svg{width:14px;height:14px}
         .main-content{flex:1;overflow:hidden;position:relative}
         .panel{display:none;height:100%;overflow-y:auto}
         .panel.active{display:block}
         .panel-inner{padding:36px 48px}
-
         /* PROFILE */
         .profile-header h1{font-size:24px;font-weight:700;margin-bottom:4px}
         .profile-header p{font-size:13px;color:#666;margin-bottom:24px}
@@ -72,7 +72,7 @@
         .integrations{display:grid;grid-template-columns:1fr 1fr;gap:16px}
         .integration-card{background:#111116;border:1px solid #1E1E28;border-radius:12px;padding:16px 20px}
         .integration-card .header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-        .integration-card .header .icon-box{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff}
+        .integration-card .header .icon-box{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center}
         .integration-card .header .icon-box svg{width:16px;height:16px}
         .integration-card .header h3{font-size:15px;font-weight:600}
         .integration-card .linked{display:flex;align-items:center;gap:10px;margin-bottom:10px}
@@ -84,7 +84,6 @@
         .integration-card .not-linked{font-size:13px;color:#666;margin-bottom:12px}
         .btn-link{background:#1A2420;border:1px solid #1A3A2A;border-radius:6px;padding:7px 14px;font-size:11px;font-weight:600;color:#2ECC71;cursor:pointer;transition:all .2s}
         .btn-link:hover{background:#1A3A2A}
-
         /* COMMUNITIES */
         .communities-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
         .communities-header h1{font-size:22px;font-weight:700}
@@ -100,26 +99,6 @@
         .community-card .info p{font-size:12px;color:#666;margin-top:2px}
         .community-card .arrow{margin-left:auto;color:#444}
         .community-card .arrow svg{width:16px;height:16px}
-
-        /* MODALS */
-        .modal-overlay{display:none;position:absolute;inset:0;background:#0A0A0Aee;align-items:center;justify-content:center;z-index:100}
-        .modal-overlay.active{display:flex}
-        .modal{background:#111116;border:1px solid #1E1E28;border-radius:14px;padding:28px 36px;width:420px}
-        .modal h2{font-size:20px;font-weight:600;margin-bottom:6px}
-        .modal p{font-size:13px;color:#777;margin-bottom:20px}
-        .modal-input{width:100%;padding:10px 12px;font-size:14px;color:#fff;background:#0D0D14;border:1px solid #2A2A3A;border-radius:6px;outline:none}
-        .modal-input:focus{border-color:#5865F2}
-        .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
-        .btn-cancel{background:transparent;border:1px solid #333;color:#AAA;border-radius:6px;padding:10px 20px;font-size:13px;cursor:pointer}
-        .btn-cancel:hover{border-color:#555;color:#CCC}
-        .btn-submit{background:#5865F2;border:none;color:#fff;border-radius:6px;padding:10px 28px;font-size:13px;font-weight:600;cursor:pointer}
-        .btn-submit:hover{background:#4752C4}
-        .btn-green{background:#2ECC71;border:none;color:#fff;border-radius:6px;padding:10px 28px;font-size:13px;font-weight:600;cursor:pointer}
-        .btn-green:hover{background:#27AE60}
-        .generated-code{background:#0D0D14;border:1px solid #2A2A3A;border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin-top:12px}
-        .generated-code .code{font-family:Consolas,monospace;font-size:16px;font-weight:700;color:#5865F2;flex:1}
-        .btn-copy{background:#5865F2;border:none;color:#fff;border-radius:4px;padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer}
-
         /* SERVER VIEW */
         #serverViewPage{display:none;position:absolute;inset:0;background:#0A0A0A;z-index:50;flex-direction:column}
         #serverViewPage.active{display:flex}
@@ -141,7 +120,6 @@
         .sv-tab:not(.active){background:#1A1A24;color:#888}
         .sv-tab:not(.active):hover{color:#AAA}
         .sv-body{flex:1;display:flex;overflow:hidden}
-
         /* CHANNELS */
         .ch-sidebar{width:250px;background:#0C0C12;border-right:1px solid #1A1A22;display:flex;flex-direction:column;flex-shrink:0}
         .ch-sidebar-header{padding:12px 14px 10px;border-bottom:1px solid #1A1A22;font-size:11px;font-weight:700;color:#555}
@@ -158,12 +136,10 @@
         .ch-row .name{font-size:12px;font-weight:600;color:#888;flex:1}
         .ch-row.active .name{color:#DDD}
         .ch-row .badge{background:#1A2420;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;color:#2ECC71}
-        .ch-user{display:flex;align-items:center;padding:5px 14px 5px 36px;margin:1px 8px 0;gap:8px;animation:fadeIn .25s ease-out}
-        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .ch-user{display:flex;align-items:center;padding:5px 14px 5px 36px;margin:1px 8px 0;gap:8px}
         .ch-user .dot{width:7px;height:7px;border-radius:50%;background:#555;flex-shrink:0;transition:all .2s}
         .ch-user .dot.tx{background:#2ECC71;box-shadow:0 0 6px rgba(46,204,113,.4)}
         .ch-user .uname{font-size:11.5px;color:#AAA}
-
         /* DISPATCH */
         .dispatch{flex:1;display:flex;flex-direction:column;background:#0A0A0F}
         .dispatch-header{padding:16px 24px 12px;border-bottom:1px solid #1A1A22;display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -175,9 +151,8 @@
         .dispatch-header .room-code{margin-left:auto;font-family:Consolas,monospace;font-size:12px;background:#1A1A26;padding:4px 10px;border-radius:6px;color:#5865F2;cursor:pointer}
         .dispatch-header .room-code:hover{background:#22223A}
         .dispatch-body{flex:1;overflow-y:auto;padding:16px 24px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:12px}
-
         /* USER CARDS */
-        .ucard{background:#111118;border:1px solid #1E1E28;border-radius:10px;padding:14px 16px;width:180px;transition:border-color .2s;animation:fadeIn .3s ease-out}
+        .ucard{background:#111118;border:1px solid #1E1E28;border-radius:10px;padding:14px 16px;width:180px;transition:border-color .2s}
         .ucard.tx{border-color:#2ECC71}
         .ucard-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
         .ucard-avatar{width:36px;height:36px;border-radius:50%;background:#1A1A24;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#5865F2;flex-shrink:0;overflow:hidden}
@@ -188,7 +163,6 @@
         .ucard-status{font-size:10.5px;color:#666;margin-top:1px;transition:color .2s}
         .ucard-status.tx{color:#2ECC71}
         .ucard-ch{display:inline-block;background:#14141E;padding:4px 8px;border-radius:4px;font-size:10px;color:#888}
-
         /* MEMBERS */
         .members-header{display:flex;align-items:center;gap:10px;padding:16px 24px 12px;border-bottom:1px solid #1A1A22;flex-shrink:0}
         .members-header svg{width:18px;height:18px;color:#5865F2}
@@ -205,7 +179,6 @@
         .member-row .avatar img{width:100%;height:100%;object-fit:cover}
         .member-row .name{flex:1;font-size:13px;font-weight:600}
         .member-row .role{width:120px;text-align:right;font-size:11px;font-weight:700;color:#5865F2}
-
         /* STATUS BAR */
         .status-bar{padding:8px 20px;background:#0B0B10;border-top:1px solid #1A1A22;display:none;align-items:center;justify-content:space-between;font-size:12px;color:#555;flex-shrink:0}
         .status-bar.active{display:flex}
@@ -214,7 +187,27 @@
         .status-dot.off{background:#ED4245}
         .leave-btn{background:none;border:1px solid #333;color:#999;padding:4px 14px;border-radius:4px;font-size:12px;cursor:pointer}
         .leave-btn:hover{border-color:#ED4245;color:#ED4245}
-
+        /* MODALS */
+        .modal-overlay{display:none;position:absolute;inset:0;background:#0A0A0Aee;align-items:center;justify-content:center;z-index:100}
+        .modal-overlay.active{display:flex}
+        .modal{background:#111116;border:1px solid #1E1E28;border-radius:14px;padding:28px 36px;width:420px}
+        .modal h2{font-size:20px;font-weight:600;margin-bottom:6px}
+        .modal p{font-size:13px;color:#777;margin-bottom:20px}
+        .modal-input{width:100%;padding:10px 12px;font-size:14px;color:#fff;background:#0D0D14;border:1px solid #2A2A3A;border-radius:6px;outline:none}
+        .modal-input:focus{border-color:#5865F2}
+        .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+        .btn-cancel{background:transparent;border:1px solid #333;color:#AAA;border-radius:6px;padding:10px 20px;font-size:13px;cursor:pointer}
+        .btn-cancel:hover{border-color:#555;color:#CCC}
+        .btn-submit{background:#5865F2;border:none;color:#fff;border-radius:6px;padding:10px 28px;font-size:13px;font-weight:600;cursor:pointer}
+        .btn-submit:hover{background:#4752C4}
+        .btn-green{background:#2ECC71;border:none;color:#fff;border-radius:6px;padding:10px 28px;font-size:13px;font-weight:600;cursor:pointer}
+        .btn-green:hover{background:#27AE60}
+        .generated-code{background:#0D0D14;border:1px solid #2A2A3A;border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin-top:12px}
+        .generated-code .code{font-family:Consolas,monospace;font-size:16px;font-weight:700;color:#5865F2;flex:1}
+        .btn-copy{background:#5865F2;border:none;color:#fff;border-radius:4px;padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer}
+        .admin-card{background:#111116;border:1px solid #1E1E28;border-radius:12px;padding:20px 24px}
+        .admin-card h3{font-size:17px;font-weight:600;margin-bottom:4px}
+        .admin-card>p{font-size:12px;color:#777;margin-bottom:18px}
         /* TOAST */
         .toast{position:fixed;top:20px;right:20px;background:#111118;border:1px solid #1E1E28;border-radius:10px;padding:14px 20px;min-width:260px;transform:translateX(120%);transition:transform .3s ease;z-index:9999}
         .toast.show{transform:translateX(0)}
@@ -222,17 +215,6 @@
         .toast p{font-size:11px;color:#666}
         .toast.success{border-left:3px solid #2ECC71}
         .toast.error{border-left:3px solid #E74C3C}
-
-        .admin-card{background:#111116;border:1px solid #1E1E28;border-radius:12px;padding:20px 24px}
-        .admin-card h3{font-size:17px;font-weight:600;margin-bottom:4px}
-        .admin-card>p{font-size:12px;color:#777;margin-bottom:18px}
-
-        @media(max-width:768px){
-            .sidebar{width:60px}.sidebar .nav-item span:not(.ni){display:none}
-            .sidebar-brand-text,.sidebar-section,.sidebar-user .info,.sidebar-user .logout-btn,.sidebar-bottom .nav-item span:not(.ni){display:none}
-            .ch-sidebar{width:200px}.ucard{width:160px}
-        }
-        @media(max-width:600px){.ch-sidebar{display:none}.ucard{width:100%}}
     </style>
 </head>
 <body>
@@ -256,6 +238,12 @@
     <symbol id="ico-expand" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></symbol>
 </svg>
 
+<!-- FIREBASE SETUP BANNER -->
+<div id="setupBanner">
+    Firebase is not configured — voice and presence won't work across devices.
+    <a onclick="showFirebaseHelp()"> How to set up Firebase (free, 2 minutes)</a>
+</div>
+
 <!-- LOGIN -->
 <div id="loginPage">
     <div class="login-wrap">
@@ -270,7 +258,7 @@
             </button>
             <div class="privacy-box">
                 <h4><svg class="icon" style="width:14px;height:14px"><use href="#ico-lock"/></svg> Privacy Notice</h4>
-                <p>We do not store, access, or share any of your Discord login credentials. Authentication is handled entirely through Discord's secure OAuth2 system. We only receive your public username and avatar.</p>
+                <p>We only receive your public Discord username and avatar. No credentials are stored or shared. Authentication is handled entirely through Discord's secure OAuth2 system.</p>
             </div>
         </div>
         <p class="login-footer">By signing in, you agree to our Terms of Service.</p>
@@ -295,9 +283,6 @@
                 <div class="nav-item active" data-nav="dashboard" onclick="switchNav('dashboard')">
                     <span class="ni"><svg class="icon"><use href="#ico-dashboard"/></svg></span><span>Dashboard</span>
                 </div>
-                <div class="nav-item" data-nav="admin" onclick="switchNav('admin')" id="navAdmin" style="display:none">
-                    <span class="ni"><svg class="icon"><use href="#ico-shield"/></svg></span><span>Admin</span>
-                </div>
             </div>
             <div class="sidebar-bottom">
                 <div class="nav-item" onclick="showRedeemModal()">
@@ -318,7 +303,7 @@
         </div>
 
         <div class="main-content">
-            <!-- PROFILE -->
+            <!-- PROFILE PANEL -->
             <div class="panel" id="panelProfile">
                 <div class="panel-inner">
                     <div class="profile-header"><h1>Profile &amp; Integrations</h1><p>Manage your Onyx Radio account and linked connections.</p></div>
@@ -343,14 +328,14 @@
                                 <div class="icon-box" style="background:#E74C3C"><svg class="icon" style="fill:#fff"><use href="#ico-gamepad"/></svg></div>
                                 <h3>Roblox Account</h3>
                             </div>
-                            <div class="not-linked">Roblox linking requires the desktop app.</div>
-                            <button class="btn-link" onclick="showToast('Roblox','Roblox OAuth2 requires a server-side token exchange. Use the desktop app to link your account.','success')">Link Roblox Account</button>
+                            <div class="not-linked">Roblox linking is available on the desktop app only.</div>
+                            <button class="btn-link" onclick="showToast('Desktop Only','Use the Onyx Radio desktop app to link your Roblox account.','success')">Link via Desktop App</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- DASHBOARD -->
+            <!-- DASHBOARD PANEL -->
             <div class="panel active" id="panelDashboard">
                 <div class="panel-inner">
                     <div id="noCommunities" class="no-communities">
@@ -364,43 +349,37 @@
                 </div>
             </div>
 
-            <!-- ADMIN -->
-            <div class="panel" id="panelAdmin">
-                <div class="panel-inner">
-                    <h1 style="font-size:24px;font-weight:700;margin-bottom:4px">Admin Panel</h1>
-                    <p style="font-size:13px;color:#666;margin-bottom:28px">Manage access codes and server settings.</p>
-                    <div class="admin-card">
-                        <h3>Create Access Key</h3>
-                        <p>Generate a one-time redeem code that lets someone create a server.</p>
-                        <label style="font-size:12px;color:#AAA;font-weight:600;display:block;margin-bottom:6px">Description</label>
-                        <input type="text" class="modal-input" id="adminKeyDesc" maxlength="60" style="margin-bottom:16px">
-                        <button class="btn-green" onclick="generateAccessKey()">Generate Access Key</button>
-                        <div id="generatedKeyPanel" style="display:none" class="generated-code">
-                            <div><div style="font-size:11px;color:#888;margin-bottom:4px">New access key:</div><div class="code" id="generatedKeyText"></div></div>
-                            <button class="btn-copy" onclick="copyText(document.getElementById('generatedKeyText').textContent)">Copy</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- MODALS -->
             <div class="modal-overlay" id="joinModal"><div class="modal">
                 <h2>Join a community</h2><p>Enter the invite code provided by a community owner.</p>
-                <input type="text" class="modal-input" id="joinCodeInput" placeholder="Enter join code">
+                <input type="text" class="modal-input" id="joinCodeInput" placeholder="e.g. ONYX-2026">
                 <div class="modal-actions"><button class="btn-cancel" onclick="hideModal('joinModal')">Cancel</button><button class="btn-submit" onclick="joinCommunity()">Join</button></div>
             </div></div>
             <div class="modal-overlay" id="redeemModal"><div class="modal">
-                <h2>Redeem access code</h2><p>Enter your one-time access code below.</p>
+                <h2>Redeem access code</h2><p>Enter your one-time access code to create a server.</p>
                 <input type="text" class="modal-input" id="redeemCodeInput" placeholder="Enter access code">
                 <div class="modal-actions"><button class="btn-cancel" onclick="hideModal('redeemModal')">Cancel</button><button class="btn-submit" onclick="redeemCode()">Redeem</button></div>
             </div></div>
             <div class="modal-overlay" id="createServerModal"><div class="modal" style="width:440px">
-                <h2>Create your server</h2><p>Your access code has been redeemed. Give your server a name.</p>
+                <h2>Create your server</h2><p>Access code accepted. Give your server a name — your join code is ready below.</p>
                 <label style="font-size:12px;color:#AAA;font-weight:600;display:block;margin-bottom:6px">Server Name</label>
-                <input type="text" class="modal-input" id="serverNameInput" maxlength="40">
-                <div style="font-size:11px;color:#666;margin-top:16px;margin-bottom:6px">Your server join code:</div>
+                <input type="text" class="modal-input" id="serverNameInput" maxlength="40" placeholder="e.g. My ERLC Community">
+                <div style="font-size:11px;color:#666;margin-top:16px;margin-bottom:6px">Share this join code with your members:</div>
                 <div class="generated-code"><div class="code" id="newServerCode"></div><button class="btn-copy" onclick="copyText(document.getElementById('newServerCode').textContent)">Copy</button></div>
                 <div class="modal-actions"><button class="btn-green" onclick="createServer()">Create Server</button></div>
+            </div></div>
+            <div class="modal-overlay" id="firebaseModal"><div class="modal" style="width:500px">
+                <h2>Firebase Setup</h2>
+                <p>Paste your Firebase config below to enable real-time voice and presence across all devices.</p>
+                <div style="font-size:12px;color:#888;margin-bottom:8px;font-weight:600">How to get this:</div>
+                <ol style="font-size:12px;color:#888;margin-left:16px;margin-bottom:14px;line-height:20px">
+                    <li>Go to <strong style="color:#AAA">console.firebase.google.com</strong></li>
+                    <li>Create a project → Add a web app → Copy the firebaseConfig object</li>
+                    <li>Go to Build → Realtime Database → Create database → Start in test mode</li>
+                    <li>Paste the config JSON below</li>
+                </ol>
+                <textarea class="modal-input" id="firebaseConfigInput" rows="7" placeholder='{"apiKey":"...","authDomain":"...","databaseURL":"...","projectId":"..."}'></textarea>
+                <div class="modal-actions"><button class="btn-cancel" onclick="hideModal('firebaseModal')">Cancel</button><button class="btn-green" onclick="applyFirebaseConfig()">Apply &amp; Connect</button></div>
             </div></div>
 
             <!-- SERVER VIEW -->
@@ -409,7 +388,7 @@
                     <div class="sv-top-bar">
                         <div class="sv-top-left"><img src="onyxradiologo.png" alt=""><h2 id="svServerName">Server</h2></div>
                         <div class="sv-top-right">
-                            <div class="sv-ptt-badge"><svg class="icon"><use href="#ico-mic"/></svg><span id="svPttLabel">PTT: Space</span></div>
+                            <div class="sv-ptt-badge"><svg class="icon"><use href="#ico-mic"/></svg><span>PTT: Space</span></div>
                             <button class="sv-btn sv-btn-secondary" onclick="closeServerView()"><svg class="icon" style="width:12px;height:12px"><use href="#ico-back"/></svg> Back</button>
                         </div>
                     </div>
@@ -428,9 +407,9 @@
                             <div class="dispatch-header">
                                 <span class="mic"><svg class="icon"><use href="#ico-mic"/></svg></span>
                                 <span class="ch-name" id="svDispatchChName">Dispatch</span>
-                                <span class="sep"> -- </span>
-                                <span class="ucount" id="svDispatchCount">0 users</span>
-                                <span class="room-code" id="svRoomCode" title="Click to copy" onclick="copyRoomCode()">--</span>
+                                <span class="sep"> — </span>
+                                <span class="ucount" id="svDispatchCount">1 user</span>
+                                <span class="room-code" id="svRoomCode" title="Click to copy" onclick="copyText(activeServer&&activeServer.code||'')">—</span>
                             </div>
                             <div class="dispatch-body" id="svUserCards"></div>
                         </div>
@@ -439,7 +418,7 @@
                         <div class="members-header">
                             <svg class="icon"><use href="#ico-users"/></svg>
                             <h3>Community Members</h3>
-                            <span class="sep"> -- </span>
+                            <span class="sep"> — </span>
                             <span class="count" id="svMemberCount">0 members</span>
                         </div>
                         <div class="members-body">
@@ -455,709 +434,703 @@
 
 <!-- STATUS BAR -->
 <div class="status-bar" id="statusBar">
-    <div class="status-bar-left"><div class="status-dot" id="statusDot"></div><span id="statusText">Connected</span></div>
+    <div class="status-bar-left"><div class="status-dot" id="statusDot"></div><span id="statusText">Connecting...</span></div>
     <button class="leave-btn" onclick="leaveRoom()">Leave Room</button>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"><h4 id="toastTitle"></h4><p id="toastMsg"></p></div>
 
+<!-- Firebase v8 compat + PeerJS -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script>
 (function(){
-    // ===== CONFIG =====
-    var DISCORD_CLIENT_ID = '1490413039676166317';
-    var DISCORD_REDIRECT = window.location.origin + window.location.pathname;
+'use strict';
 
-    // Seed communities matching desktop app CodeDatabase.cs
-    var SEED_COMMUNITIES = [
-        {code:'ONYX-2026', name:'Onyx Radio Official'},
-        {code:'ERLC-SQUAD', name:'ERLC Squad Community'},
-        {code:'MAPLE-RP', name:'Maple Grove Roleplay'}
-    ];
+// ===== DISCORD CONFIG =====
+var DISCORD_CLIENT_ID = '1490413039676166317';
+var DISCORD_REDIRECT = window.location.origin + window.location.pathname;
 
-    // ===== STATE =====
-    var currentUser = null;
-    var communities = [];
-    var activeServer = null;
-    var activeTab = 'dashboard';
-    var peer = null;
-    var connections = {};
-    var localStream = null;
-    var roomId = '';
-    var myChannel = 'Dispatch';
-    var isTransmitting = false;
-    var isInRoom = false;
-    var channelStructure = [{category:'Patrol Ops', channels:['Dispatch','Tactical']}];
+// ===== SEED COMMUNITIES (matching CodeDatabase.cs) =====
+var SEED_COMMUNITIES = [
+    {code:'ONYX-2026', name:'Onyx Radio Official'},
+    {code:'ERLC-SQUAD', name:'ERLC Squad Community'},
+    {code:'MAPLE-RP', name:'Maple Grove Roleplay'}
+];
 
-    function save(k,v){try{localStorage.setItem('onyx_'+k,JSON.stringify(v))}catch(e){}}
-    function load(k){try{return JSON.parse(localStorage.getItem('onyx_'+k))}catch(e){return null}}
-    function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+// ===== STATE =====
+var currentUser = null;
+var communities = [];
+var activeServer = null;
+var peer = null;
+// connections[peerId] = {uid, name, avatarUrl, channel, speaking, call}
+var connections = {};
+var connectedPeerIds = {};   // peerId -> true, tracks who we've attempted to connect to
+var audioElements = {};      // peerId -> <audio> element
+var localStream = null;
+var myChannel = 'Dispatch';
+var isTransmitting = false;
+var isInRoom = false;
+var roomCode = '';
+// Firebase refs
+var db = null;
+var FIREBASE_READY = false;
+var roomPresenceRef = null;
+var roomClickRef = null;
+var clickListenFromTs = 0;
+// Channel structure (default, could be made per-server)
+var channelStructure = [{category:'Patrol Ops', channels:['Dispatch','Tactical']}];
 
-    // ===== AUDIO =====
-    var audioCtx;
-    function ensureAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();audioCtx.resume();return audioCtx}
-    function playRadioClick(){
-        var ctx=ensureAudio(),o=ctx.createOscillator(),g=ctx.createGain();
-        o.connect(g);g.connect(ctx.destination);
-        o.frequency.setValueAtTime(1800,ctx.currentTime);
-        o.frequency.exponentialRampToValueAtTime(800,ctx.currentTime+.04);
-        g.gain.setValueAtTime(.15,ctx.currentTime);
-        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.08);
-        o.start(ctx.currentTime);o.stop(ctx.currentTime+.08);
+// ===== FIREBASE INIT =====
+function initFirebase(config){
+    try{
+        if(firebase.apps.length)firebase.apps[0].delete();
+        firebase.initializeApp(config);
+        db=firebase.database();
+        FIREBASE_READY=true;
+        document.getElementById('setupBanner').style.display='none';
+        save('fbconfig',config);
+        console.log('[Onyx] Firebase ready');
+        return true;
+    }catch(e){
+        console.error('[Onyx] Firebase init failed:',e);
+        FIREBASE_READY=false;
+        db=null;
+        return false;
     }
+}
 
-    // ===== DISCORD OAUTH2 IMPLICIT GRANT =====
-    window.loginDiscord = function(){
-        var state = Math.random().toString(36).substring(2,15);
-        save('oauth_state', state);
-        window.location.href = 'https://discord.com/oauth2/authorize'
-            + '?client_id=' + DISCORD_CLIENT_ID
-            + '&response_type=token'
-            + '&redirect_uri=' + encodeURIComponent(DISCORD_REDIRECT)
-            + '&scope=identify'
-            + '&state=' + state;
-    };
-
-    async function handleOAuthCallback(){
-        var hash = window.location.hash.substring(1);
-        if(!hash) return false;
-        var params = new URLSearchParams(hash);
-        var token = params.get('access_token');
-        var state = params.get('state');
-        if(!token) return false;
-        var saved = load('oauth_state');
-        if(state && saved && state !== saved){showToast('Error','OAuth state mismatch.','error');return false}
-        localStorage.removeItem('onyx_oauth_state');
-        history.replaceState(null,'',window.location.pathname);
-        try{
-            var r = await fetch('https://discord.com/api/users/@me',{headers:{'Authorization':'Bearer '+token}});
-            if(!r.ok) throw new Error('API error');
-            var d = await r.json();
-            var av = d.avatar ? 'https://cdn.discordapp.com/avatars/'+d.id+'/'+d.avatar+'.png?size=128' : '';
-            currentUser = {id:d.id, username:d.username, avatarUrl:av};
-            save('user',currentUser);
-            communities = load('communities')||[];
-            enterDashboard();
-            showToast('Welcome!','Logged in as '+d.username,'success');
-            return true;
-        }catch(e){showToast('Error','Failed to fetch Discord profile.','error');return false}
+// Try loading saved Firebase config
+(function(){
+    var saved=load('fbconfig');
+    if(saved&&saved.apiKey&&saved.databaseURL){
+        var ok=initFirebase(saved);
+        if(!ok)document.getElementById('setupBanner').style.display='block';
+    }else{
+        document.getElementById('setupBanner').style.display='block';
     }
+})();
 
-    window.logout = function(){
-        if(isInRoom)leaveRoom();
-        currentUser=null;localStorage.removeItem('onyx_user');
-        document.getElementById('loginPage').style.display='flex';
-        document.getElementById('dashboardPage').style.display='none';
-        document.getElementById('statusBar').classList.remove('active');
-    };
-
-    function enterDashboard(){
-        document.getElementById('loginPage').style.display='none';
-        document.getElementById('dashboardPage').style.display='flex';
-        updateUI();refreshCommunityList();
+window.showFirebaseHelp=function(){showModal('firebaseModal')};
+window.applyFirebaseConfig=function(){
+    var raw=document.getElementById('firebaseConfigInput').value.trim();
+    // Strip "var firebaseConfig = " wrapper if pasted from Firebase console
+    raw=raw.replace(/^[\s\S]*?({)/,'$1').replace(/;?\s*$/,'');
+    var cfg;
+    try{cfg=JSON.parse(raw)}catch(e){showToast('Error','Invalid JSON. Paste only the config object.','error');return}
+    if(!cfg.apiKey||!cfg.databaseURL){showToast('Error','Config must include apiKey and databaseURL.','error');return}
+    if(initFirebase(cfg)){
+        hideModal('firebaseModal');
+        showToast('Firebase Connected!','Real-time voice and presence enabled.','success');
+        // If currently in a room, re-register
+        if(isInRoom&&roomCode)registerAndListen(roomCode,peer?peer.id:null);
+    }else{
+        showToast('Error','Firebase init failed. Check your config.','error');
     }
+};
 
-    function updateUI(){
-        if(!currentUser)return;
-        var i=currentUser.username[0].toUpperCase(),av=currentUser.avatarUrl;
-        function setAv(el){if(av)el.innerHTML='<img src="'+esc(av)+'" style="width:100%;height:100%;object-fit:cover">';else el.textContent=i}
-        setAv(document.getElementById('sidebarAvatar'));
-        setAv(document.getElementById('profileAvatar'));
-        setAv(document.getElementById('profileDiscordAvatar'));
-        document.getElementById('sidebarUsername').textContent=currentUser.username;
-        document.getElementById('profileUsername').textContent=currentUser.username;
-        document.getElementById('profileDiscordName').textContent=currentUser.username;
+// ===== STORAGE =====
+function save(k,v){try{localStorage.setItem('onyx_'+k,JSON.stringify(v))}catch(e){}}
+function load(k){try{return JSON.parse(localStorage.getItem('onyx_'+k))}catch(e){return null}}
+function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
+
+// ===== AUDIO =====
+var audioCtx;
+function ensureAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();audioCtx.resume();return audioCtx}
+function playRadioClick(){
+    var ctx=ensureAudio(),o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.frequency.setValueAtTime(1800,ctx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(800,ctx.currentTime+0.04);
+    g.gain.setValueAtTime(0.15,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.08);
+    o.start(ctx.currentTime);o.stop(ctx.currentTime+0.08);
+}
+
+// ===== DISCORD OAUTH2 =====
+window.loginDiscord=function(){
+    var state=Math.random().toString(36).substring(2,15);
+    save('oauth_state',state);
+    window.location.href='https://discord.com/oauth2/authorize'
+        +'?client_id='+DISCORD_CLIENT_ID
+        +'&response_type=token'
+        +'&redirect_uri='+encodeURIComponent(DISCORD_REDIRECT)
+        +'&scope=identify'
+        +'&state='+state;
+};
+
+async function handleOAuthCallback(){
+    var hash=window.location.hash.substring(1);
+    if(!hash)return false;
+    var params=new URLSearchParams(hash);
+    var token=params.get('access_token');
+    if(!token)return false;
+    var state=params.get('state');
+    var saved=load('oauth_state');
+    if(state&&saved&&state!==saved){showToast('Error','OAuth state mismatch.','error');return false}
+    localStorage.removeItem('onyx_oauth_state');
+    history.replaceState(null,'',window.location.pathname);
+    try{
+        var r=await fetch('https://discord.com/api/users/@me',{headers:{'Authorization':'Bearer '+token}});
+        if(!r.ok)throw new Error('API error '+r.status);
+        var d=await r.json();
+        var av=d.avatar?'https://cdn.discordapp.com/avatars/'+d.id+'/'+d.avatar+'.png?size=128':'';
+        currentUser={id:d.id,username:d.username,avatarUrl:av};
+        save('user',currentUser);
+        communities=load('communities')||[];
+        enterDashboard();
+        showToast('Welcome!','Logged in as '+d.username,'success');
+        return true;
+    }catch(e){
+        showToast('Error','Failed to fetch Discord profile: '+e.message,'error');
+        return false;
     }
+}
 
-    // ===== NAV =====
-    window.switchNav = function(nav){
-        activeTab=nav;
-        document.querySelectorAll('.nav-item[data-nav]').forEach(function(el){el.classList.toggle('active',el.dataset.nav===nav)});
-        document.querySelectorAll('.panel').forEach(function(el){el.classList.remove('active')});
-        var p=document.getElementById('panel'+nav.charAt(0).toUpperCase()+nav.slice(1));if(p)p.classList.add('active');
-        closeServerView();
-    };
+window.logout=function(){
+    if(isInRoom)leaveRoom();
+    currentUser=null;
+    localStorage.removeItem('onyx_user');
+    document.getElementById('loginPage').style.display='flex';
+    document.getElementById('dashboardPage').style.display='none';
+    document.getElementById('statusBar').classList.remove('active');
+};
 
-    // ===== COMMUNITIES =====
-    function refreshCommunityList(){
-        var items=document.getElementById('communityItems');items.innerHTML='';
-        if(!communities.length){
-            document.getElementById('noCommunities').style.display='block';
-            document.getElementById('communityList').style.display='none';return;
-        }
-        document.getElementById('noCommunities').style.display='none';
-        document.getElementById('communityList').style.display='block';
-        communities.forEach(function(c){
-            var card=document.createElement('div');card.className='community-card';
-            card.innerHTML='<div class="c-icon"><svg class="icon"><use href="#ico-radio"/></svg></div>'
-                +'<div class="info"><h3>'+esc(c.name)+'</h3><p>Code: '+esc(c.code)+(c.isOwner?' · Owner':'')+'</p></div>'
-                +'<div class="arrow"><svg class="icon"><use href="#ico-arrow"/></svg></div>';
-            card.addEventListener('click',function(){openServerView(c)});
-            items.appendChild(card);
+function enterDashboard(){
+    document.getElementById('loginPage').style.display='none';
+    document.getElementById('dashboardPage').style.display='flex';
+    updateUI();
+    refreshCommunityList();
+}
+
+function updateUI(){
+    if(!currentUser)return;
+    var init=currentUser.username[0].toUpperCase(),av=currentUser.avatarUrl;
+    function setAv(el){if(av)el.innerHTML='<img src="'+esc(av)+'" style="width:100%;height:100%;object-fit:cover">';else el.textContent=init}
+    setAv(document.getElementById('sidebarAvatar'));
+    setAv(document.getElementById('profileAvatar'));
+    setAv(document.getElementById('profileDiscordAvatar'));
+    document.getElementById('sidebarUsername').textContent=currentUser.username;
+    document.getElementById('profileUsername').textContent=currentUser.username;
+    document.getElementById('profileDiscordName').textContent=currentUser.username;
+}
+
+// ===== NAV =====
+window.switchNav=function(nav){
+    document.querySelectorAll('.nav-item[data-nav]').forEach(function(el){el.classList.toggle('active',el.dataset.nav===nav)});
+    document.querySelectorAll('.panel').forEach(function(el){el.classList.remove('active')});
+    var p=document.getElementById('panel'+nav.charAt(0).toUpperCase()+nav.slice(1));if(p)p.classList.add('active');
+    closeServerView();
+};
+
+// ===== COMMUNITIES =====
+function refreshCommunityList(){
+    var items=document.getElementById('communityItems');items.innerHTML='';
+    if(!communities.length){
+        document.getElementById('noCommunities').style.display='block';
+        document.getElementById('communityList').style.display='none';return;
+    }
+    document.getElementById('noCommunities').style.display='none';
+    document.getElementById('communityList').style.display='block';
+    communities.forEach(function(c){
+        var card=document.createElement('div');card.className='community-card';
+        card.innerHTML='<div class="c-icon"><svg class="icon"><use href="#ico-radio"/></svg></div>'
+            +'<div class="info"><h3>'+esc(c.name)+'</h3><p>Code: '+esc(c.code)+(c.isOwner?' · Owner':'')+'</p></div>'
+            +'<div class="arrow"><svg class="icon"><use href="#ico-arrow"/></svg></div>';
+        card.addEventListener('click',function(){openServerView(c)});
+        items.appendChild(card);
+    });
+}
+
+window.showJoinModal=function(){showModal('joinModal')};
+window.showRedeemModal=function(){showModal('redeemModal')};
+
+window.joinCommunity=function(){
+    var code=document.getElementById('joinCodeInput').value.trim().toUpperCase();
+    if(!code){showToast('Error','Please enter a join code.','error');return}
+    if(communities.some(function(c){return c.code===code})){showToast('Already joined','You are already a member.','error');return}
+    var found=SEED_COMMUNITIES.find(function(s){return s.code===code});
+    var allC=load('allCommunities')||{};
+    var custom=allC[code];
+    if(!found&&!custom){showToast('Error','Community not found. Check the code.','error');return}
+    var name=found?found.name:custom.name;
+    communities.push({code:code,name:name,isOwner:false});
+    save('communities',communities);
+    hideModal('joinModal');
+    document.getElementById('joinCodeInput').value='';
+    refreshCommunityList();
+    showToast('Joined!','You joined '+name,'success');
+};
+
+window.redeemCode=function(){
+    var code=document.getElementById('redeemCodeInput').value.trim().toUpperCase();
+    if(!code){showToast('Error','Please enter a code.','error');return}
+    hideModal('redeemModal');
+    document.getElementById('redeemCodeInput').value='';
+    var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',sc='ONYX-';
+    for(var i=0;i<7;i++)sc+=chars[Math.floor(Math.random()*chars.length)];
+    document.getElementById('newServerCode').textContent=sc;
+    showModal('createServerModal');
+};
+
+window.createServer=function(){
+    var name=document.getElementById('serverNameInput').value.trim();
+    if(!name){showToast('Error','Enter a server name.','error');return}
+    var code=document.getElementById('newServerCode').textContent;
+    communities.push({code:code,name:name,isOwner:true});
+    save('communities',communities);
+    var all=load('allCommunities')||{};all[code]={name:name,ownerUserId:currentUser.id};
+    save('allCommunities',all);
+    hideModal('createServerModal');
+    document.getElementById('serverNameInput').value='';
+    refreshCommunityList();
+    showToast('Server Created!','"'+name+'" is live. Share the code with your members.','success');
+};
+
+// ===== SERVER VIEW =====
+window.openServerView=function(community){
+    activeServer=community;
+    document.getElementById('svServerName').textContent=community.name;
+    document.getElementById('svRoomCode').textContent=community.code;
+    document.getElementById('serverViewPage').classList.add('active');
+    document.getElementById('svTabMembers').style.display=community.isOwner?'flex':'none';
+    switchServerTab('radio');
+    roomCode=community.code;
+    myChannel='Dispatch';
+    isInRoom=true;
+    document.getElementById('statusBar').classList.add('active');
+    updateStatus('Connecting...',false);
+    joinRoom(community.code);
+    rebuildRadioUI();
+};
+
+window.closeServerView=function(){
+    if(isInRoom)leaveRoom();
+    activeServer=null;
+    document.getElementById('serverViewPage').classList.remove('active');
+};
+
+window.switchServerTab=function(tab){
+    document.querySelectorAll('.sv-tab').forEach(function(el){el.classList.toggle('active',el.dataset.tab===tab)});
+    document.getElementById('svRadioPanel').style.display=tab==='radio'?'flex':'none';
+    document.getElementById('svMembersPanel').style.display=tab==='members'?'flex':'none';
+    if(tab==='members')buildMembersList();
+};
+
+function buildMembersList(){
+    if(!activeServer)return;
+    var list=document.getElementById('svMemberList');list.innerHTML='';
+    var all=[{name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',role:activeServer.isOwner?'Owner':'Member'}];
+    Object.values(connections).forEach(function(c){if(c.name)all.push({name:c.name,avatarUrl:c.avatarUrl||'',role:'Member'})});
+    document.getElementById('svMemberCount').textContent=all.length+' member'+(all.length!==1?'s':'');
+    all.forEach(function(m){
+        var row=document.createElement('div');row.className='member-row';
+        var init=m.name[0].toUpperCase();
+        var avHtml=m.avatarUrl?'<img src="'+esc(m.avatarUrl)+'" style="width:100%;height:100%;object-fit:cover">':esc(init);
+        row.innerHTML='<div class="avatar">'+avHtml+'</div><div class="name">'+esc(m.name)+'</div><div class="role">'+esc(m.role)+'</div>';
+        list.appendChild(row);
+    });
+}
+
+// ===== NETWORKING: Firebase presence + PeerJS audio =====
+// Firebase is the single source of truth for:
+//   who is in the room, what channel they're in, speaking state
+// PeerJS is used ONLY for WebRTC audio transport
+
+async function getMic(){
+    if(localStream)return true;
+    try{
+        localStream=await navigator.mediaDevices.getUserMedia({
+            audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},
+            video:false
         });
+        localStream.getAudioTracks().forEach(function(t){t.enabled=false});
+        return true;
+    }catch(e){
+        console.error('[Onyx] Mic denied:',e);
+        showToast('Microphone','Allow mic access to use voice. Presence still works.','error');
+        return false;
     }
+}
 
-    window.showJoinModal=function(){showModal('joinModal')};
-    window.showRedeemModal=function(){showModal('redeemModal')};
-
-    window.joinCommunity=function(){
-        var code=document.getElementById('joinCodeInput').value.trim().toUpperCase();
-        if(!code){showToast('Error','Please enter a join code.','error');return}
-        if(communities.some(function(c){return c.code===code})){showToast('Error','Already joined.','error');return}
-        var found=SEED_COMMUNITIES.find(function(s){return s.code===code});
-        var allC=load('allCommunities')||{};var custom=allC[code];
-        if(!found&&!custom){showToast('Error','Community not found.','error');return}
-        var name=found?found.name:custom.name;
-        communities.push({code:code,name:name,isOwner:false});
-        save('communities',communities);hideModal('joinModal');
-        document.getElementById('joinCodeInput').value='';
-        refreshCommunityList();showToast('Joined!','You joined '+name+'.','success');
-    };
-
-    window.redeemCode=function(){
-        var code=document.getElementById('redeemCodeInput').value.trim().toUpperCase();
-        if(!code){showToast('Error','Please enter a code.','error');return}
-        hideModal('redeemModal');document.getElementById('redeemCodeInput').value='';
-        var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',sc='ONYX-';
-        for(var i=0;i<7;i++)sc+=chars[Math.floor(Math.random()*chars.length)];
-        document.getElementById('newServerCode').textContent=sc;showModal('createServerModal');
-    };
-
-    window.createServer=function(){
-        var name=document.getElementById('serverNameInput').value.trim();
-        if(!name){showToast('Error','Enter a server name.','error');return}
-        var code=document.getElementById('newServerCode').textContent;
-        communities.push({code:code,name:name,isOwner:true});save('communities',communities);
-        var all=load('allCommunities')||{};all[code]={name:name};save('allCommunities',all);
-        hideModal('createServerModal');document.getElementById('serverNameInput').value='';
-        refreshCommunityList();showToast('Created!','"'+name+'" is ready.','success');
-    };
-
-    window.generateAccessKey=function(){
-        var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',k='ONYX-';
-        for(var i=0;i<8;i++)k+=chars[Math.floor(Math.random()*chars.length)];
-        document.getElementById('generatedKeyText').textContent=k;
-        document.getElementById('generatedKeyPanel').style.display='flex';
-        showToast('Generated!','Access key created.','success');
-    };
-
-    // ===== SERVER VIEW =====
-    window.openServerView=function(community){
-        activeServer=community;
-        document.getElementById('svServerName').textContent=community.name;
-        document.getElementById('serverViewPage').classList.add('active');
-        document.getElementById('svTabMembers').style.display=community.isOwner?'flex':'none';
-        switchServerTab('radio');
-        roomId=community.code.replace(/[^A-Z0-9]/g,'');
-        document.getElementById('svRoomCode').textContent=community.code;
-        myChannel='Dispatch';isInRoom=true;
-        document.getElementById('statusBar').classList.add('active');
-        joinRoom(roomId);rebuildRadioUI();
-    };
-
-    window.closeServerView=function(){
-        if(isInRoom)leaveRoom();activeServer=null;
-        document.getElementById('serverViewPage').classList.remove('active');
-    };
-
-    window.switchServerTab=function(tab){
-        document.querySelectorAll('.sv-tab').forEach(function(el){el.classList.toggle('active',el.dataset.tab===tab)});
-        document.getElementById('svRadioPanel').style.display=tab==='radio'?'flex':'none';
-        document.getElementById('svMembersPanel').style.display=tab==='members'?'flex':'none';
-        if(tab==='members')buildMembersList();
-    };
-
-    function buildMembersList(){
-        if(!activeServer)return;
-        var list=document.getElementById('svMemberList');list.innerHTML='';
-        var all=[{name:currentUser.username,avatarUrl:currentUser.avatarUrl,role:activeServer.isOwner?'Owner':'Member'}];
-        Object.values(connections).forEach(function(c){if(c.name)all.push({name:c.name,avatarUrl:c.avatarUrl||'',role:'Member'})});
-        document.getElementById('svMemberCount').textContent=all.length+' member'+(all.length!==1?'s':'');
-        all.forEach(function(m){
-            var row=document.createElement('div');row.className='member-row';
-            var init=m.name?m.name[0].toUpperCase():'?';
-            var avHtml=m.avatarUrl?'<img src="'+esc(m.avatarUrl)+'" style="width:100%;height:100%;object-fit:cover">':esc(init);
-            row.innerHTML='<div class="avatar">'+avHtml+'</div><div class="name">'+esc(m.name)+'</div><div class="role">'+esc(m.role)+'</div>';
-            list.appendChild(row);
-        });
-    }
-
-    // ===== WEBRTC MESH — GLOBAL VOICE + PRESENCE + RADIO CLICKS =====
-    var isHost=false;
-    var heartbeatTimer=null;
-    var retryTimer=null;
-    var currentRoomId='';
-    var audioElements={};
-
-    function sanitizeId(id){return id.replace(/[^a-zA-Z0-9_-]/g,'_')}
-
-    function joinRoom(rid){
-        currentRoomId=rid;
-        ensureAudio();
-        getMic().then(function(ok){
-            if(!ok){
-                showToast('Mic Required','Allow microphone access to use voice.','error');
-                return;
-            }
-            tryBecomeHost(rid);
-        });
-    }
-
-    function tryBecomeHost(rid){
-        if(!isInRoom)return;
-        var hostId='onyxroom-'+rid+'-host';
-        console.log('[Onyx] Trying to claim host:',hostId);
-        updateStatus('Connecting...', false);
+function joinRoom(code){
+    getMic().then(function(){
+        // Create PeerJS peer with a random ID
         if(peer){try{peer.destroy()}catch(e){}}
-        peer=new Peer(hostId,{debug:1});
-        var settled=false;
-        peer.on('open',function(id){
-            if(settled)return;settled=true;
-            isHost=true;
-            console.log('[Onyx] I am HOST:',id);
-            updateStatus('Connected (Host)',true);
-            showToast('Room','You are the room host.','success');
-            setupPeerListeners();
-            startHeartbeat();
+        peer=new Peer(null,{debug:0});
+        peer.on('open',function(peerId){
+            console.log('[Onyx] PeerJS peer ID:',peerId);
+            registerAndListen(code,peerId);
         });
-        peer.on('error',function(err){
-            if(settled&&err.type==='peer-unavailable')return;
-            if(err.type==='unavailable-id'){
-                settled=true;
-                console.log('[Onyx] Host exists, joining as client');
-                try{peer.destroy()}catch(e){}
-                joinAsClient(rid,hostId);
-            }else{
-                console.warn('[Onyx] Peer error:',err.type,err);
-                if(!settled){settled=true;retryJoin(rid,2000)}
+        // Someone calls us
+        peer.on('call',function(incomingCall){
+            console.log('[Onyx] Incoming call from:',incomingCall.peer);
+            incomingCall.answer(localStream||createSilentStream());
+            setupMediaConn(incomingCall);
+        });
+        peer.on('error',function(e){
+            console.warn('[Onyx] PeerJS error:',e.type,e);
+            if(e.type==='network'||e.type==='disconnected'){
+                updateStatus('Reconnecting...',false);
+                setTimeout(function(){if(isInRoom&&peer&&!peer.destroyed)try{peer.reconnect()}catch(ex){}},2000);
             }
-        });
-    }
-
-    function joinAsClient(rid,hostId){
-        if(!isInRoom)return;
-        var cid='onyx-'+rid+'-'+currentUser.id.substring(0,8)+'-'+Date.now();
-        console.log('[Onyx] Creating client peer:',cid);
-        peer=new Peer(cid,{debug:1});
-        var settled=false;
-        peer.on('open',function(id){
-            if(settled)return;settled=true;
-            isHost=false;
-            console.log('[Onyx] CLIENT ready:',id);
-            updateStatus('Connected',true);
-            setupPeerListeners();
-            connectToHost(hostId,0);
-        });
-        peer.on('error',function(err){
-            if(err.type==='peer-unavailable'){
-                console.warn('[Onyx] Host not found, will retry become host...');
-                retryJoin(rid,3000);
-            }else{
-                console.warn('[Onyx] Client error:',err.type,err);
-                if(!settled){settled=true;retryJoin(rid,2000)}
-            }
-        });
-    }
-
-    function connectToHost(hostId,attempt){
-        if(!isInRoom||!peer||peer.destroyed)return;
-        if(connections[hostId]&&connections[hostId].conn&&connections[hostId].conn.open)return;
-        console.log('[Onyx] Connecting to host (attempt '+(attempt+1)+'):',hostId);
-        try{
-            var c=peer.connect(hostId,{
-                metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel},
-                reliable:true
-            });
-            if(!c){if(attempt<5)setTimeout(function(){connectToHost(hostId,attempt+1)},2000);return}
-            var opened=false;
-            c.on('open',function(){
-                opened=true;
-                console.log('[Onyx] Data channel to host OPEN');
-                onDataConnOpen(c);
-                // Now also establish audio
-                callPeer(hostId);
-            });
-            c.on('error',function(e){
-                console.warn('[Onyx] Data conn error to host:',e);
-                if(!opened&&attempt<5){
-                    setTimeout(function(){connectToHost(hostId,attempt+1)},2000+attempt*1000);
-                }
-            });
-            setupDataEvents(c);
-        }catch(e){
-            console.warn('[Onyx] Connect error:',e);
-            if(attempt<5)setTimeout(function(){connectToHost(hostId,attempt+1)},2000);
-        }
-    }
-
-    function connectToPeer(pid){
-        if(!isInRoom||!peer||peer.destroyed)return;
-        if(pid===peer.id)return;
-        if(connections[pid]&&connections[pid].conn&&connections[pid].conn.open)return;
-        console.log('[Onyx] Connecting to peer:',pid);
-        try{
-            var c=peer.connect(pid,{
-                metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel},
-                reliable:true
-            });
-            if(!c)return;
-            c.on('open',function(){
-                console.log('[Onyx] Data channel to peer OPEN:',pid);
-                onDataConnOpen(c);
-                callPeer(pid);
-            });
-            setupDataEvents(c);
-        }catch(e){console.warn('[Onyx] ConnectToPeer error:',e)}
-    }
-
-    function callPeer(pid){
-        if(!localStream||!peer||peer.destroyed)return;
-        if(connections[pid]&&connections[pid].call)return;
-        console.log('[Onyx] Calling peer:',pid);
-        try{
-            var call=peer.call(pid,localStream,{metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||''}});
-            if(call)setupMediaConn(call);
-        }catch(e){console.warn('[Onyx] Call error:',e)}
-    }
-
-    function retryJoin(rid,delay){
-        if(!isInRoom)return;
-        clearTimeout(retryTimer);
-        updateStatus('Reconnecting...',false);
-        retryTimer=setTimeout(function(){
-            if(isInRoom)tryBecomeHost(rid);
-        },delay);
-    }
-
-    function setupPeerListeners(){
-        peer.on('connection',function(c){
-            console.log('[Onyx] Incoming data connection from:',c.peer);
-            c.on('open',function(){
-                console.log('[Onyx] Incoming data OPEN from:',c.peer);
-                onDataConnOpen(c);
-            });
-            setupDataEvents(c);
-        });
-        peer.on('call',function(c){
-            console.log('[Onyx] Incoming call from:',c.peer);
-            c.answer(localStream);
-            setupMediaConn(c);
         });
         peer.on('disconnected',function(){
-            console.warn('[Onyx] Disconnected from signaling');
             updateStatus('Reconnecting...',false);
-            if(isInRoom&&peer&&!peer.destroyed){
-                try{peer.reconnect()}catch(e){
-                    console.warn('[Onyx] Reconnect failed, re-joining');
-                    retryJoin(currentRoomId,2000);
-                }
-            }
+            setTimeout(function(){if(isInRoom&&peer&&!peer.destroyed)try{peer.reconnect()}catch(ex){}},2000);
         });
-        peer.on('close',function(){
-            console.warn('[Onyx] Peer closed');
-            if(isInRoom)retryJoin(currentRoomId,2000);
-        });
-    }
+    });
+}
 
-    async function getMic(){
-        try{
-            localStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true},video:false});
-            localStream.getAudioTracks().forEach(function(t){t.enabled=false});
-            return true;
-        }catch(e){
-            console.error('[Onyx] Mic error:',e);
-            showToast('Mic Error','Microphone access denied. Voice will not work.','error');
-            return false;
-        }
-    }
+// Silent stream for answering calls when mic isn't available
+function createSilentStream(){
+    try{
+        var ctx=ensureAudio();
+        var dest=ctx.createMediaStreamDestination();
+        return dest.stream;
+    }catch(e){return null}
+}
 
-    function onDataConnOpen(conn){
-        var pid=conn.peer;
-        var p=connections[pid]=connections[pid]||{};
-        p.conn=conn;
-        p.name=conn.metadata&&conn.metadata.name?conn.metadata.name:'Unknown';
-        p.avatarUrl=conn.metadata&&conn.metadata.avatarUrl?conn.metadata.avatarUrl:'';
-        p.channel=conn.metadata&&conn.metadata.channel?conn.metadata.channel:'Dispatch';
-        p.speaking=false;
-        p.lastSeen=Date.now();
-        // Send our info
-        try{conn.send({type:'info',name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel,speaking:isTransmitting})}catch(e){}
-        // Host: share peer list so newcomer can connect to everyone
-        if(isHost){
-            var pl=Object.keys(connections).filter(function(k){return k!==pid&&connections[k].conn&&connections[k].conn.open});
-            if(pl.length){
-                try{conn.send({type:'peers',peers:pl})}catch(e){}
-            }
-            // Also tell existing peers about the newcomer
-            Object.keys(connections).forEach(function(k){
-                if(k!==pid&&connections[k].conn&&connections[k].conn.open){
-                    try{connections[k].conn.send({type:'peers',peers:[pid]})}catch(e){}
-                }
-            });
-        }
-        rebuildRadioUI();
-        console.log('[Onyx] Peer registered:',pid,'as',p.name);
+function registerAndListen(code,peerId){
+    if(!FIREBASE_READY){
+        updateStatus('Connected (local only)',true);
+        showToast('Firebase not set up','Others cannot see or hear you. Configure Firebase to go live.','error');
+        return;
     }
+    if(!peerId)return;
 
-    function setupDataEvents(conn){
-        conn.on('data',function(data){
-            if(!data||!data.type)return;
-            var pid=conn.peer;
-            var p=connections[pid];if(!p)p=connections[pid]={};
-            p.lastSeen=Date.now();
-            switch(data.type){
-                case 'info':
-                    p.name=data.name||p.name;p.avatarUrl=data.avatarUrl||p.avatarUrl||'';
-                    p.channel=data.channel||p.channel;
-                    if(data.speaking!==undefined)p.speaking=data.speaking;
-                    rebuildRadioUI();break;
-                case 'peers':
-                    console.log('[Onyx] Received peer list:',(data.peers||[]).length,'peers');
-                    (data.peers||[]).forEach(function(id){
-                        setTimeout(function(){connectToPeer(id)},Math.random()*1000);
-                    });break;
-                case 'speaking':
-                    p.speaking=data.value;rebuildRadioUI();break;
-                case 'channel':
-                    p.channel=data.channel;rebuildRadioUI();
-                    // Update audio muting
-                    var aEl=audioElements[pid];
-                    if(aEl)aEl.muted=(data.channel!==myChannel);
-                    break;
-                case 'radioclick':
-                    if(data.channel===myChannel)playRadioClick();break;
-                case 'heartbeat':
-                    // Host sends heartbeat with full peer list
-                    (data.peers||[]).forEach(function(id){connectToPeer(id)});break;
-            }
-        });
-        conn.on('close',function(){
-            console.log('[Onyx] Peer left:',conn.peer);
-            removePeer(conn.peer);
-        });
-        conn.on('error',function(e){
-            console.warn('[Onyx] Data error from',conn.peer,':',e);
-        });
-    }
-
-    function setupMediaConn(call){
-        call.on('stream',function(rs){
-            var pid=call.peer;
-            var p=connections[pid]=connections[pid]||{};
-            p.call=call;p.stream=rs;
-            var safeId='audio-'+sanitizeId(pid);
-            var a=audioElements[pid];
-            if(!a){
-                a=document.createElement('audio');
-                a.id=safeId;a.autoplay=true;a.playsInline=true;
-                a.setAttribute('playsinline','');
-                document.body.appendChild(a);
-                audioElements[pid]=a;
-            }
-            a.srcObject=rs;
-            a.muted=!!(p.channel&&p.channel!==myChannel);
-            // Force play (Chrome autoplay policy)
-            a.play().catch(function(e){console.warn('[Onyx] Audio play blocked:',e)});
-            console.log('[Onyx] Audio stream from:',pid,'muted:',a.muted);
-        });
-        call.on('close',function(){
-            var a=audioElements[call.peer];
-            if(a){a.srcObject=null;a.remove();delete audioElements[call.peer]}
-        });
-        call.on('error',function(e){console.warn('[Onyx] Media error:',e)});
-    }
-
-    function removePeer(pid){
-        var a=audioElements[pid];
-        if(a){a.srcObject=null;a.remove();delete audioElements[pid]}
-        if(connections[pid]){
-            try{if(connections[pid].conn)connections[pid].conn.close()}catch(e){}
-            try{if(connections[pid].call)connections[pid].call.close()}catch(e){}
-        }
-        delete connections[pid];
-        rebuildRadioUI();
-        // If the host left and we're a client, try to become host
-        if(pid.endsWith('-host')&&!isHost&&isInRoom){
-            console.log('[Onyx] Host left! Trying to become new host...');
-            showToast('Room','Host left. Reconnecting...','error');
-            retryJoin(currentRoomId,1500);
-        }
-    }
-
-    function startHeartbeat(){
-        clearInterval(heartbeatTimer);
-        heartbeatTimer=setInterval(function(){
-            if(!isInRoom||!isHost)return;
-            var pl=Object.keys(connections).filter(function(k){return connections[k].conn&&connections[k].conn.open});
-            if(pl.length){
-                broadcast({type:'heartbeat',peers:pl});
-            }
-            // Prune stale connections (no data in 30s)
-            var now=Date.now();
-            Object.keys(connections).forEach(function(k){
-                if(connections[k].lastSeen&&(now-connections[k].lastSeen)>30000){
-                    console.log('[Onyx] Pruning stale peer:',k);
-                    removePeer(k);
-                }
-            });
-        },5000);
-    }
-
-    function broadcast(msg){
-        Object.keys(connections).forEach(function(k){
-            var c=connections[k];
-            if(c&&c.conn&&c.conn.open){
-                try{c.conn.send(msg)}catch(e){console.warn('[Onyx] Broadcast fail to',k,e)}
-            }
-        });
-    }
-
-    function startTransmit(){
-        if(!isInRoom||isTransmitting)return;
-        isTransmitting=true;
-        playRadioClick();
-        broadcast({type:'radioclick',channel:myChannel});
-        if(localStream)localStream.getAudioTracks().forEach(function(t){t.enabled=true});
-        broadcast({type:'speaking',value:true});
-        rebuildRadioUI();
-    }
-
-    function stopTransmit(){
-        if(!isTransmitting)return;
-        isTransmitting=false;
-        playRadioClick();
-        broadcast({type:'radioclick',channel:myChannel});
-        if(localStream)localStream.getAudioTracks().forEach(function(t){t.enabled=false});
-        broadcast({type:'speaking',value:false});
-        rebuildRadioUI();
-    }
-
-    window.leaveRoom=function(){
-        isInRoom=false;isTransmitting=false;isHost=false;
-        clearInterval(heartbeatTimer);clearTimeout(retryTimer);
-        Object.keys(connections).forEach(function(k){removePeer(k)});
-        connections={};
-        if(localStream){localStream.getTracks().forEach(function(t){t.stop()});localStream=null}
-        if(peer){try{peer.destroy()}catch(e){}peer=null}
-        Object.keys(audioElements).forEach(function(k){
-            try{audioElements[k].srcObject=null;audioElements[k].remove()}catch(e){}
-        });
-        audioElements={};
-        document.getElementById('statusBar').classList.remove('active');
-        myChannel='Dispatch';currentRoomId='';
+    var presence={
+        peerId:peerId,
+        username:currentUser.username,
+        avatarUrl:currentUser.avatarUrl||'',
+        channel:myChannel,
+        speaking:false,
+        joinedAt:firebase.database.ServerValue.TIMESTAMP
     };
 
-    // ===== RADIO UI =====
-    function rebuildRadioUI(){
+    var myRef=db.ref('rooms/'+code+'/peers/'+currentUser.id);
+    myRef.set(presence);
+    // Firebase automatically removes this when the browser disconnects
+    myRef.onDisconnect().remove();
+
+    updateStatus('Connected',true);
+
+    // Watch everyone in the room
+    roomPresenceRef=db.ref('rooms/'+code+'/peers');
+    roomPresenceRef.on('value',function(snap){
         if(!isInRoom)return;
-        buildChannelSidebar();buildUserCards();
-        Object.keys(connections).forEach(function(pid){
-            var a=audioElements[pid];
-            if(a)a.muted=!!(connections[pid].channel&&connections[pid].channel!==myChannel);
+        handleRoomSnapshot(snap.val()||{});
+    });
+
+    // Watch for radio click events from others
+    clickListenFromTs=Date.now();
+    roomClickRef=db.ref('rooms/'+code+'/click');
+    roomClickRef.on('value',function(snap){
+        var d=snap.val();
+        if(!d||!d.ts)return;
+        if(d.ts<clickListenFromTs)return;       // ignore pre-join events
+        if(d.uid===currentUser.id)return;       // ignore our own
+        if(d.channel===myChannel)playRadioClick();
+    });
+}
+
+function handleRoomSnapshot(peers){
+    if(!isInRoom||!peer)return;
+
+    // Build set of active peer IDs from Firebase (excluding ourselves)
+    var activePeerIds={};
+
+    Object.keys(peers).forEach(function(uid){
+        if(uid===currentUser.id)return;
+        var d=peers[uid];
+        if(!d||!d.peerId)return;
+        var pid=d.peerId;
+
+        activePeerIds[pid]=true;
+
+        // Update or create connection state
+        var c=connections[pid];
+        if(!c){c={};connections[pid]=c}
+        c.uid=uid;
+        c.name=d.username||'Unknown';
+        c.avatarUrl=d.avatarUrl||'';
+        c.channel=d.channel||'Dispatch';
+        c.speaking=!!d.speaking;
+
+        // Update audio muting based on channel
+        if(audioElements[pid])audioElements[pid].muted=(c.channel!==myChannel);
+
+        // Establish audio connection if not done yet
+        if(!connectedPeerIds[pid]){
+            connectedPeerIds[pid]=true;
+            callPeer(pid);
+        }
+    });
+
+    // Clean up peers that left
+    Object.keys(connections).forEach(function(pid){
+        if(!activePeerIds[pid]){
+            cleanupPeer(pid);
+            delete connections[pid];
+        }
+    });
+
+    rebuildRadioUI();
+}
+
+function callPeer(pid){
+    if(!peer||peer.destroyed)return;
+    // Small random delay to avoid both sides calling each other simultaneously
+    setTimeout(function(){
+        if(!isInRoom||!peer||peer.destroyed)return;
+        if(!localStream)return; // no mic, can't call — they'll call us
+        console.log('[Onyx] Calling peer:',pid);
+        try{
+            var call=peer.call(pid,localStream);
+            if(!call)return;
+            var c=connections[pid]=connections[pid]||{};
+            c.call=call;
+            setupMediaConn(call);
+        }catch(e){console.warn('[Onyx] Call error:',e)}
+    },Math.random()*800+200); // 200-1000ms random delay
+}
+
+function setupMediaConn(call){
+    var pid=call.peer;
+    call.on('stream',function(remoteStream){
+        console.log('[Onyx] Got audio stream from:',pid);
+        var c=connections[pid]=connections[pid]||{};
+        c.call=call;
+
+        if(!audioElements[pid]){
+            var a=document.createElement('audio');
+            a.autoplay=true;
+            a.setAttribute('playsinline','');
+            document.body.appendChild(a);
+            audioElements[pid]=a;
+        }
+        audioElements[pid].srcObject=remoteStream;
+        audioElements[pid].muted=!!(c.channel&&c.channel!==myChannel);
+        audioElements[pid].play().catch(function(e){
+            console.warn('[Onyx] Audio play blocked (autoplay policy):',e);
         });
+        connectedPeerIds[pid]=true;
+        rebuildRadioUI();
+    });
+    call.on('close',function(){
+        console.log('[Onyx] Audio call closed:',pid);
+        cleanupAudio(pid);
+    });
+    call.on('error',function(e){console.warn('[Onyx] Media conn error:',e)});
+}
+
+function cleanupAudio(pid){
+    if(audioElements[pid]){
+        audioElements[pid].srcObject=null;
+        audioElements[pid].remove();
+        delete audioElements[pid];
+    }
+    if(connections[pid]&&connections[pid].call){
+        try{connections[pid].call.close()}catch(e){}
+        delete connections[pid].call;
+    }
+}
+
+function cleanupPeer(pid){
+    cleanupAudio(pid);
+    delete connectedPeerIds[pid];
+}
+
+window.leaveRoom=function(){
+    isInRoom=false;
+    isTransmitting=false;
+
+    // Remove our presence from Firebase
+    if(FIREBASE_READY&&db&&roomCode&&currentUser){
+        try{db.ref('rooms/'+roomCode+'/peers/'+currentUser.id).remove()}catch(e){}
     }
 
-    function buildChannelSidebar(){
-        var list=document.getElementById('svChannelList');list.innerHTML='';
-        channelStructure.forEach(function(cat){
-            var h=document.createElement('div');h.className='cat-header';
-            h.innerHTML='<span class="expand"><svg class="icon"><use href="#ico-expand"/></svg></span><span class="name">'+esc(cat.category)+'</span>';
-            list.appendChild(h);
-            cat.channels.forEach(function(ch){
-                var active=ch===myChannel,count=active?1:0;
-                Object.values(connections).forEach(function(c){if(c.channel===ch)count++});
-                var row=document.createElement('div');row.className='ch-row'+(active?' active':'');
-                row.innerHTML='<span class="mic"><svg class="icon"><use href="#ico-mic"/></svg></span><span class="name">'+esc(ch)+'</span>'+(count>0?'<span class="badge">'+count+'</span>':'');
-                row.addEventListener('click',(function(c){return function(){switchChannel(c)}})(ch));
-                list.appendChild(row);
-                // Users in this channel
-                if(active){
-                    var me=document.createElement('div');me.className='ch-user';
-                    me.innerHTML='<div class="dot '+(isTransmitting?'tx':'')+'"></div><span class="uname">'+esc(currentUser.username)+'</span>';
-                    list.appendChild(me);
+    // Detach Firebase listeners
+    if(roomPresenceRef){roomPresenceRef.off();roomPresenceRef=null}
+    if(roomClickRef){roomClickRef.off();roomClickRef=null}
+
+    // Close all peer connections
+    Object.keys(connections).forEach(cleanupPeer);
+    connections={};
+    connectedPeerIds={};
+
+    // Stop mic
+    if(localStream){localStream.getTracks().forEach(function(t){t.stop()});localStream=null}
+
+    // Destroy PeerJS
+    if(peer){try{peer.destroy()}catch(e){}peer=null}
+
+    document.getElementById('statusBar').classList.remove('active');
+    myChannel='Dispatch';
+    roomCode='';
+};
+
+// ===== TRANSMIT (PTT) =====
+function startTransmit(){
+    if(!isInRoom||isTransmitting)return;
+    isTransmitting=true;
+    ensureAudio();
+    playRadioClick();
+    if(localStream)localStream.getAudioTracks().forEach(function(t){t.enabled=true});
+    // Update Firebase: speaking=true + radio click event
+    if(FIREBASE_READY&&db&&roomCode&&currentUser){
+        db.ref('rooms/'+roomCode+'/peers/'+currentUser.id+'/speaking').set(true);
+        db.ref('rooms/'+roomCode+'/click').set({ts:Date.now(),channel:myChannel,uid:currentUser.id});
+    }
+    rebuildRadioUI();
+}
+
+function stopTransmit(){
+    if(!isTransmitting)return;
+    isTransmitting=false;
+    playRadioClick();
+    if(localStream)localStream.getAudioTracks().forEach(function(t){t.enabled=false});
+    // Update Firebase: speaking=false + radio click event
+    if(FIREBASE_READY&&db&&roomCode&&currentUser){
+        db.ref('rooms/'+roomCode+'/peers/'+currentUser.id+'/speaking').set(false);
+        db.ref('rooms/'+roomCode+'/click').set({ts:Date.now(),channel:myChannel,uid:currentUser.id});
+    }
+    rebuildRadioUI();
+}
+
+// ===== CHANNEL SWITCHING =====
+function switchChannel(ch){
+    if(!isInRoom||ch===myChannel)return;
+    if(isTransmitting)stopTransmit();
+    myChannel=ch;
+    // Update Firebase: our channel changed
+    if(FIREBASE_READY&&db&&roomCode&&currentUser){
+        db.ref('rooms/'+roomCode+'/peers/'+currentUser.id+'/channel').set(ch);
+    }
+    // Mute/unmute audio based on new channel
+    Object.keys(audioElements).forEach(function(pid){
+        var c=connections[pid];
+        if(audioElements[pid])audioElements[pid].muted=!(c&&c.channel===myChannel);
+    });
+    rebuildRadioUI();
+}
+
+// ===== RADIO UI =====
+function rebuildRadioUI(){
+    if(!isInRoom)return;
+    buildChannelSidebar();
+    buildUserCards();
+}
+
+function buildChannelSidebar(){
+    var list=document.getElementById('svChannelList');list.innerHTML='';
+    channelStructure.forEach(function(cat){
+        var h=document.createElement('div');h.className='cat-header';
+        h.innerHTML='<span class="expand"><svg class="icon"><use href="#ico-expand"/></svg></span><span class="name">'+esc(cat.category)+'</span>';
+        list.appendChild(h);
+        cat.channels.forEach(function(ch){
+            var active=ch===myChannel;
+            // Count users in this channel
+            var count=active?1:0;
+            Object.values(connections).forEach(function(c){if(c.channel===ch)count++});
+
+            var row=document.createElement('div');row.className='ch-row'+(active?' active':'');
+            row.innerHTML='<span class="mic"><svg class="icon"><use href="#ico-mic"/></svg></span>'
+                +'<span class="name">'+esc(ch)+'</span>'
+                +(count>0?'<span class="badge">'+count+'</span>':'');
+            row.addEventListener('click',(function(c){return function(){switchChannel(c)}})(ch));
+            list.appendChild(row);
+
+            // Show users listed under the channel
+            if(active){
+                var me=document.createElement('div');me.className='ch-user';
+                me.innerHTML='<div class="dot '+(isTransmitting?'tx':'')+'"></div><span class="uname">'+esc(currentUser.username)+'</span>';
+                list.appendChild(me);
+            }
+            Object.values(connections).forEach(function(c){
+                if(c.channel===ch){
+                    var u=document.createElement('div');u.className='ch-user';
+                    u.innerHTML='<div class="dot '+(c.speaking?'tx':'')+'"></div><span class="uname">'+esc(c.name||'Unknown')+'</span>';
+                    list.appendChild(u);
                 }
-                Object.values(connections).forEach(function(c){
-                    if(c.channel===ch){
-                        var e=document.createElement('div');e.className='ch-user';
-                        e.innerHTML='<div class="dot '+(c.speaking?'tx':'')+'"></div><span class="uname">'+esc(c.name||'Unknown')+'</span>';
-                        list.appendChild(e);
-                    }
-                });
             });
         });
-    }
-
-    function buildUserCards(){
-        var area=document.getElementById('svUserCards');area.innerHTML='';
-        var count=1;
-        Object.values(connections).forEach(function(c){if(c.channel===myChannel)count++});
-        document.getElementById('svDispatchChName').textContent=myChannel;
-        document.getElementById('svDispatchCount').textContent=count+' user'+(count!==1?'s':'');
-        area.appendChild(makeCard(currentUser.username,currentUser.avatarUrl,myChannel,isTransmitting,true));
-        Object.values(connections).forEach(function(c){
-            if(c.channel===myChannel)area.appendChild(makeCard(c.name||'Unknown',c.avatarUrl||'',c.channel,c.speaking,false));
-        });
-    }
-
-    function makeCard(name,avatar,channel,speaking,isMe){
-        var d=document.createElement('div');d.className='ucard'+(speaking?' tx':'');
-        var init=name?name[0].toUpperCase():'?';
-        var avHtml=avatar?'<img src="'+esc(avatar)+'" style="width:100%;height:100%;object-fit:cover">':esc(init);
-        d.innerHTML='<div class="ucard-top"><div class="ucard-avatar">'+avHtml+'</div><div class="ucard-info"><div class="ucard-name">'+esc(name)+(isMe?' <span class="you">(you)</span>':'')+'</div><div class="ucard-status '+(speaking?'tx':'')+'">'+(speaking?'Transmitting':'Idle')+'</div></div></div><div class="ucard-ch">'+esc(channel)+'</div>';
-        return d;
-    }
-
-    function switchChannel(ch){
-        if(!isInRoom||ch===myChannel)return;
-        myChannel=ch;if(isTransmitting)stopTransmit();
-        broadcast({type:'channel',channel:myChannel});
-        rebuildRadioUI();
-    }
-
-    window.copyRoomCode=function(){if(activeServer)copyText(activeServer.code)};
-
-    function updateStatus(t,ok){
-        document.getElementById('statusText').textContent=t;
-        document.getElementById('statusDot').className='status-dot'+(ok?'':' off');
-    }
-
-    // ===== PTT =====
-    document.addEventListener('keydown',function(e){
-        if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
-        if(e.code==='Space'&&!e.repeat&&isInRoom){e.preventDefault();startTransmit()}
     });
-    document.addEventListener('keyup',function(e){
-        if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
-        if(e.code==='Space'){e.preventDefault();stopTransmit()}
-    });
-    window.addEventListener('keydown',function(e){
-        if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
-        if(e.code==='Space'&&isInRoom)e.preventDefault();
-    });
+}
 
-    // ===== HELPERS =====
-    function showModal(id){document.getElementById(id).classList.add('active')}
-    function hideModal(id){document.getElementById(id).classList.remove('active')}
-    window.hideModal=hideModal;
-    function showToast(title,msg,type){
-        var t=document.getElementById('toast');t.className='toast '+(type||'success');
-        document.getElementById('toastTitle').textContent=title;
-        document.getElementById('toastMsg').textContent=msg;
-        t.classList.add('show');setTimeout(function(){t.classList.remove('show')},3000);
+function buildUserCards(){
+    var area=document.getElementById('svUserCards');area.innerHTML='';
+    var count=1;
+    Object.values(connections).forEach(function(c){if(c.channel===myChannel)count++});
+    document.getElementById('svDispatchChName').textContent=myChannel;
+    document.getElementById('svDispatchCount').textContent=count+' user'+(count!==1?'s':'');
+    // My own card
+    area.appendChild(makeCard(currentUser.username,currentUser.avatarUrl||'',myChannel,isTransmitting,true));
+    // Other users in the same channel
+    Object.values(connections).forEach(function(c){
+        if(c.channel===myChannel)area.appendChild(makeCard(c.name||'Unknown',c.avatarUrl||'',c.channel,c.speaking,false));
+    });
+}
+
+function makeCard(name,avatar,channel,speaking,isMe){
+    var d=document.createElement('div');d.className='ucard'+(speaking?' tx':'');
+    var init=name?name[0].toUpperCase():'?';
+    var avHtml=avatar?'<img src="'+esc(avatar)+'" style="width:100%;height:100%;object-fit:cover">':esc(init);
+    d.innerHTML='<div class="ucard-top">'
+        +'<div class="ucard-avatar">'+avHtml+'</div>'
+        +'<div class="ucard-info">'
+        +'<div class="ucard-name">'+esc(name)+(isMe?' <span class="you">(you)</span>':'')+'</div>'
+        +'<div class="ucard-status '+(speaking?'tx':'')+'">'+(speaking?'Transmitting':'Idle')+'</div>'
+        +'</div></div>'
+        +'<div class="ucard-ch">'+esc(channel)+'</div>';
+    return d;
+}
+
+// ===== PTT KEYBIND (Spacebar) =====
+document.addEventListener('keydown',function(e){
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+    if(e.code==='Space'&&!e.repeat&&isInRoom){e.preventDefault();startTransmit()}
+});
+document.addEventListener('keyup',function(e){
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+    if(e.code==='Space'){stopTransmit()}
+});
+
+// ===== STATUS BAR =====
+function updateStatus(t,ok){
+    document.getElementById('statusText').textContent=t;
+    document.getElementById('statusDot').className='status-dot'+(ok?'':' off');
+}
+
+// ===== HELPERS =====
+function showModal(id){document.getElementById(id).classList.add('active')}
+function hideModal(id){document.getElementById(id).classList.remove('active')}
+window.hideModal=hideModal;
+function showToast(title,msg,type){
+    var t=document.getElementById('toast');t.className='toast '+(type||'success');
+    document.getElementById('toastTitle').textContent=title;
+    document.getElementById('toastMsg').textContent=msg;
+    t.classList.add('show');setTimeout(function(){t.classList.remove('show')},3500);
+}
+window.showToast=showToast;
+function copyText(t){if(!t)return;navigator.clipboard.writeText(t).then(function(){showToast('Copied!','Copied to clipboard','success')})}
+window.copyText=copyText;
+
+// ===== INIT =====
+(async function(){
+    if(window.location.hash&&window.location.hash.includes('access_token')){
+        if(await handleOAuthCallback())return;
     }
-    window.showToast=showToast;
-    function copyText(t){navigator.clipboard.writeText(t).then(function(){showToast('Copied!','Copied to clipboard.','success')})}
-    window.copyText=copyText;
+    var saved=load('user');
+    if(saved&&saved.id&&saved.username){
+        currentUser=saved;
+        communities=load('communities')||[];
+        enterDashboard();
+    }
+})();
 
-    // ===== INIT =====
-    (async function(){
-        if(window.location.hash&&window.location.hash.includes('access_token')){
-            if(await handleOAuthCallback())return;
-        }
-        var saved=load('user');
-        if(saved){currentUser=saved;communities=load('communities')||[];enterDashboard()}
-    })();
 })();
 </script>
 </body>
