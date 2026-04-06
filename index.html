@@ -28,9 +28,7 @@
         .privacy-box h4{font-size:12px;font-weight:600;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:6px}
         .privacy-box p{font-size:11.5px;color:#555;line-height:18px}
         .login-footer{font-size:11px;color:#444;margin-top:18px}
-        /* FIREBASE SETUP BANNER */
-        #setupBanner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#E74C3C;color:#fff;padding:10px 20px;font-size:13px;text-align:center;line-height:1.5}
-        #setupBanner a{color:#FFD;text-decoration:underline;cursor:pointer}
+
         /* DASHBOARD */
         #dashboardPage{display:none;flex:1;overflow:hidden}
         .dash-layout{display:flex;height:100%}
@@ -238,12 +236,6 @@
     <symbol id="ico-expand" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></symbol>
 </svg>
 
-<!-- FIREBASE SETUP BANNER -->
-<div id="setupBanner">
-    Firebase is not configured — voice and presence won't work across devices.
-    <a onclick="showFirebaseHelp()"> How to set up Firebase (free, 2 minutes)</a>
-</div>
-
 <!-- LOGIN -->
 <div id="loginPage">
     <div class="login-wrap">
@@ -368,19 +360,7 @@
                 <div class="generated-code"><div class="code" id="newServerCode"></div><button class="btn-copy" onclick="copyText(document.getElementById('newServerCode').textContent)">Copy</button></div>
                 <div class="modal-actions"><button class="btn-green" onclick="createServer()">Create Server</button></div>
             </div></div>
-            <div class="modal-overlay" id="firebaseModal"><div class="modal" style="width:500px">
-                <h2>Firebase Setup</h2>
-                <p>Paste your Firebase config below to enable real-time voice and presence across all devices.</p>
-                <div style="font-size:12px;color:#888;margin-bottom:8px;font-weight:600">How to get this:</div>
-                <ol style="font-size:12px;color:#888;margin-left:16px;margin-bottom:14px;line-height:20px">
-                    <li>Go to <strong style="color:#AAA">console.firebase.google.com</strong></li>
-                    <li>Create a project → Add a web app → Copy the firebaseConfig object</li>
-                    <li>Go to Build → Realtime Database → Create database → Start in test mode</li>
-                    <li>Paste the config JSON below</li>
-                </ol>
-                <textarea class="modal-input" id="firebaseConfigInput" rows="7" placeholder='{"apiKey":"...","authDomain":"...","databaseURL":"...","projectId":"..."}'></textarea>
-                <div class="modal-actions"><button class="btn-cancel" onclick="hideModal('firebaseModal')">Cancel</button><button class="btn-green" onclick="applyFirebaseConfig()">Apply &amp; Connect</button></div>
-            </div></div>
+
 
             <!-- SERVER VIEW -->
             <div id="serverViewPage">
@@ -490,8 +470,6 @@ function initFirebase(config){
         firebase.initializeApp(config);
         db=firebase.database();
         FIREBASE_READY=true;
-        document.getElementById('setupBanner').style.display='none';
-        save('fbconfig',config);
         console.log('[Onyx] Firebase ready');
         return true;
     }catch(e){
@@ -502,34 +480,17 @@ function initFirebase(config){
     }
 }
 
-// Try loading saved Firebase config
-(function(){
-    var saved=load('fbconfig');
-    if(saved&&saved.apiKey&&saved.databaseURL){
-        var ok=initFirebase(saved);
-        if(!ok)document.getElementById('setupBanner').style.display='block';
-    }else{
-        document.getElementById('setupBanner').style.display='block';
-    }
-})();
-
-window.showFirebaseHelp=function(){showModal('firebaseModal')};
-window.applyFirebaseConfig=function(){
-    var raw=document.getElementById('firebaseConfigInput').value.trim();
-    // Strip "var firebaseConfig = " wrapper if pasted from Firebase console
-    raw=raw.replace(/^[\s\S]*?({)/,'$1').replace(/;?\s*$/,'');
-    var cfg;
-    try{cfg=JSON.parse(raw)}catch(e){showToast('Error','Invalid JSON. Paste only the config object.','error');return}
-    if(!cfg.apiKey||!cfg.databaseURL){showToast('Error','Config must include apiKey and databaseURL.','error');return}
-    if(initFirebase(cfg)){
-        hideModal('firebaseModal');
-        showToast('Firebase Connected!','Real-time voice and presence enabled.','success');
-        // If currently in a room, re-register
-        if(isInRoom&&roomCode)registerAndListen(roomCode,peer?peer.id:null);
-    }else{
-        showToast('Error','Firebase init failed. Check your config.','error');
-    }
-};
+// Initialize Firebase with hardcoded config
+initFirebase({
+    apiKey: 'AIzaSyAA0eCMXNa1xK7Zxhp8tytl2v3cuOmAtoU',
+    authDomain: 'onyx-radio-core.firebaseapp.com',
+    databaseURL: 'https://onyx-radio-core-default-rtdb.firebaseio.com',
+    projectId: 'onyx-radio-core',
+    storageBucket: 'onyx-radio-core.firebasestorage.app',
+    messagingSenderId: '428186692043',
+    appId: '1:428186692043:web:f6009e7a42ae39ead3ee4e',
+    measurementId: 'G-SH4H0B6RHE'
+});
 
 // ===== STORAGE =====
 function save(k,v){try{localStorage.setItem('onyx_'+k,JSON.stringify(v))}catch(e){}}
