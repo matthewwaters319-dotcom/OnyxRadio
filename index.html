@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onyx Radio — ERLC Radio Management</title>
+    <link rel="icon" href="onyxradiologo.png" type="image/png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #08080D;
+            color: white;
+            min-height: 100vh;
+        }
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 40px 20px;
+            background: radial-gradient(ellipse at 50% 30%, rgba(88, 101, 242, 0.12) 0%, transparent 60%);
+        }
+        .logo { width: 120px; height: 120px; margin-bottom: 24px; }
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tagline {
+            font-size: 1.2rem;
+            color: #888;
+            max-width: 500px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 24px rgba(88, 101, 242, 0.3);
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(88, 101, 242, 0.45);
+        }
+        .download-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        .version {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .features {
+            display: flex;
+            gap: 32px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .feature {
+            background: #0E0E14;
+            border: 1px solid #1A1A22;
+            border-radius: 12px;
+            padding: 24px;
+            width: 220px;
+            text-align: left;
+        }
+        .feature h3 { font-size: 1rem; margin-bottom: 6px; color: #ddd; }
+        .feature p { font-size: 0.85rem; color: #666; line-height: 1.5; }
+        .feature-icon { font-size: 1.5rem; margin-bottom: 10px; }
+        footer {
+            text-align: center;
+            padding: 32px;
+            color: #333;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <img src="onyxradiologo.png" alt="Onyx Radio" class="logo">
+        <h1>Onyx Radio</h1>
+        <p class="tagline">
+            The ultimate radio management tool for ERLC. Push-to-talk, channels,
+            community management — all in one sleek desktop app.
+        </p>
+        <a href="OnyxRadio-v1.0.0.zip" class="download-btn">
+            <svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5v-2z"/></svg>
+            Download for Windows
+        </a>
+        <p class="version">v1.0.0 &middot; Windows 10/11 &middot; ~64 MB</p>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🎙️</div>
+                <h3>Push-to-Talk</h3>
+                <p>Bind any key or mouse button. Visual transmit status and radio click sounds.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📡</div>
+                <h3>Channels</h3>
+                <p>Organize dispatch into categories and channels. Switch instantly.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">👥</div>
+                <h3>Communities</h3>
+                <p>Create or join servers with invite codes. Manage members as owner.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔗</div>
+                <h3>Discord & Roblox</h3>
+                <p>Sign in with Discord. Link your Roblox account for identity.</p>
+            </div>
+        </div>
+    </div>
+    <footer>&copy; 2026 Onyx Radio. Not affiliated with Roblox Corporation.</footer>
+</body>
+</html>
