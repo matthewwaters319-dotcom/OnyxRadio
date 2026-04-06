@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onyx Radio — ERLC Radio Management</title>
+    <title>Onyx Radio</title>
     <link rel="icon" href="onyxradiologo.png" type="image/png">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
@@ -11,12 +11,10 @@
         input,textarea,button{font-family:inherit}
         ::-webkit-scrollbar{width:4px}
         ::-webkit-scrollbar-thumb{background:#1A1A22;border-radius:2px}
+        svg.icon{display:inline-block;vertical-align:middle;fill:currentColor}
 
-        /* ===== LOGIN PAGE ===== */
-        #loginPage{
-            display:flex;align-items:center;justify-content:center;flex:1;
-            background:linear-gradient(135deg,#08080F 0%,#0E0E1A 50%,#0A0A12 100%);
-        }
+        /* LOGIN */
+        #loginPage{display:flex;align-items:center;justify-content:center;flex:1;background:linear-gradient(135deg,#08080F 0%,#0E0E1A 50%,#0A0A12 100%)}
         .login-wrap{width:380px;text-align:center}
         .login-wrap img{height:72px;margin-bottom:12px}
         .login-wrap h1{font-size:28px;font-weight:700;margin-bottom:4px}
@@ -24,26 +22,18 @@
         .login-card{background:#111116;border:1px solid #1E1E28;border-radius:14px;padding:28px 32px;text-align:center}
         .login-card h2{font-size:20px;font-weight:600;margin-bottom:6px}
         .login-card p{font-size:13px;color:#777;margin-bottom:28px}
-        .discord-btn{
-            display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
-            background:#5865F2;color:#fff;border:none;border-radius:8px;padding:12px 0;
-            font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;
-        }
+        .discord-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#5865F2;color:#fff;border:none;border-radius:8px;padding:12px 0;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
         .discord-btn:hover{background:#4752C4}
+        .discord-btn svg{width:20px;height:20px}
         .privacy-box{background:#0D0D12;border-radius:8px;padding:12px 14px;margin-top:20px;text-align:left}
-        .privacy-box h4{font-size:12px;font-weight:600;color:#888;margin-bottom:6px}
+        .privacy-box h4{font-size:12px;font-weight:600;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:6px}
         .privacy-box p{font-size:11.5px;color:#555;line-height:18px}
         .login-footer{font-size:11px;color:#444;margin-top:18px}
 
-        /* ===== DASHBOARD LAYOUT ===== */
+        /* DASHBOARD */
         #dashboardPage{display:none;flex:1;overflow:hidden}
         .dash-layout{display:flex;height:100%}
-
-        /* Sidebar */
-        .sidebar{
-            width:200px;background:#0E0E12;border-right:1px solid #1A1A22;
-            display:flex;flex-direction:column;flex-shrink:0;
-        }
+        .sidebar{width:200px;background:#0E0E12;border-right:1px solid #1A1A22;display:flex;flex-direction:column;flex-shrink:0}
         .sidebar-top{padding:16px 16px 0}
         .sidebar-brand{display:flex;align-items:center;gap:8px;margin-bottom:4px}
         .sidebar-brand img{height:26px}
@@ -51,34 +41,27 @@
         .sidebar-brand-text span{font-size:10.5px;color:#666;margin-top:-1px;display:block}
         .sidebar-section{font-size:10px;color:#555;font-weight:600;letter-spacing:2px;margin:22px 0 6px;padding:0 16px}
         .sidebar-nav{padding:0 6px}
-        .nav-item{
-            display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:6px;
-            color:#AAA;font-size:13.5px;cursor:pointer;margin:2px 0;transition:all .12s;
-        }
+        .nav-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:6px;color:#AAA;font-size:13.5px;cursor:pointer;margin:2px 0;transition:all .12s}
         .nav-item:hover{color:#CCC;background:#12121A}
         .nav-item.active{background:#1A1A24;color:#fff}
-        .nav-item .icon{font-size:14px;width:20px;text-align:center}
+        .nav-item .ni{font-size:14px;width:20px;text-align:center;display:flex;align-items:center;justify-content:center}
+        .nav-item .ni svg{width:16px;height:16px}
         .sidebar-bottom{margin-top:auto;padding:6px 6px 14px}
-        .sidebar-user{
-            background:#12121A;border-radius:8px;padding:10px;display:flex;align-items:center;gap:10px;margin-top:10px;
-        }
+        .sidebar-user{background:#12121A;border-radius:8px;padding:10px;display:flex;align-items:center;gap:10px;margin-top:10px}
         .sidebar-user .avatar{width:34px;height:34px;border-radius:50%;background:#1A1A24;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#5865F2;overflow:hidden;flex-shrink:0}
         .sidebar-user .avatar img{width:100%;height:100%;object-fit:cover}
         .sidebar-user .info{flex:1;min-width:0}
         .sidebar-user .info .name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .sidebar-user .info .sub{font-size:10.5px;color:#666;margin-top:-1px}
-        .sidebar-user .logout-icon{color:#888;cursor:pointer;font-size:14px;padding:4px}
-        .sidebar-user .logout-icon:hover{color:#E74C3C}
-
-        /* Main content */
+        .sidebar-user .logout-btn{color:#888;cursor:pointer;font-size:14px;padding:4px;background:none;border:none;display:flex;align-items:center}
+        .sidebar-user .logout-btn:hover{color:#E74C3C}
+        .sidebar-user .logout-btn svg{width:14px;height:14px}
         .main-content{flex:1;overflow:hidden;position:relative}
-
-        /* ===== PANELS ===== */
         .panel{display:none;height:100%;overflow-y:auto}
         .panel.active{display:block}
         .panel-inner{padding:36px 48px}
 
-        /* ===== PROFILE PAGE ===== */
+        /* PROFILE */
         .profile-header h1{font-size:24px;font-weight:700;margin-bottom:4px}
         .profile-header p{font-size:13px;color:#666;margin-bottom:24px}
         .user-card{background:#111116;border:1px solid #1E1E28;border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:20px}
@@ -89,7 +72,8 @@
         .integrations{display:grid;grid-template-columns:1fr 1fr;gap:16px}
         .integration-card{background:#111116;border:1px solid #1E1E28;border-radius:12px;padding:16px 20px}
         .integration-card .header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-        .integration-card .header .icon-box{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff}
+        .integration-card .header .icon-box{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff}
+        .integration-card .header .icon-box svg{width:16px;height:16px}
         .integration-card .header h3{font-size:15px;font-weight:600}
         .integration-card .linked{display:flex;align-items:center;gap:10px;margin-bottom:10px}
         .integration-card .linked .avatar{width:36px;height:36px;border-radius:50%;background:#1A1A24;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#5865F2;flex-shrink:0}
@@ -100,39 +84,30 @@
         .integration-card .not-linked{font-size:13px;color:#666;margin-bottom:12px}
         .btn-link{background:#1A2420;border:1px solid #1A3A2A;border-radius:6px;padding:7px 14px;font-size:11px;font-weight:600;color:#2ECC71;cursor:pointer;transition:all .2s}
         .btn-link:hover{background:#1A3A2A}
-        .btn-unlink{background:#1A1015;border:1px solid #3A1A1A;border-radius:6px;padding:7px 14px;font-size:11px;font-weight:600;color:#E74C3C;cursor:pointer;transition:all .2s}
-        .btn-unlink:hover{background:#2A1520}
 
-        /* ===== DASHBOARD (COMMUNITIES) ===== */
+        /* COMMUNITIES */
         .communities-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
         .communities-header h1{font-size:22px;font-weight:700}
         .btn-primary{background:#5865F2;color:#fff;border:none;border-radius:6px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
         .btn-primary:hover{background:#4752C4}
         .no-communities{text-align:center;padding:80px 0}
         .no-communities h2{font-size:22px;font-weight:600;color:#888;margin-bottom:20px}
-        .community-card{
-            background:#111116;border:1px solid #1E1E28;border-radius:12px;padding:16px 20px;
-            display:flex;align-items:center;gap:14px;margin-bottom:10px;cursor:pointer;transition:all .15s;
-        }
+        .community-card{background:#111116;border:1px solid #1E1E28;border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:10px;cursor:pointer;transition:all .15s}
         .community-card:hover{border-color:#5865F2;background:#12121C}
-        .community-card .icon{width:44px;height:44px;border-radius:8px;background:#1A1A24;display:flex;align-items:center;justify-content:center;font-size:18px;color:#5865F2;flex-shrink:0}
+        .community-card .c-icon{width:44px;height:44px;border-radius:8px;background:#1A1A24;display:flex;align-items:center;justify-content:center;color:#5865F2;flex-shrink:0}
+        .community-card .c-icon svg{width:20px;height:20px}
         .community-card .info h3{font-size:15px;font-weight:600}
         .community-card .info p{font-size:12px;color:#666;margin-top:2px}
-        .community-card .arrow{margin-left:auto;color:#444;font-size:14px}
+        .community-card .arrow{margin-left:auto;color:#444}
+        .community-card .arrow svg{width:16px;height:16px}
 
-        /* ===== MODALS ===== */
-        .modal-overlay{
-            display:none;position:absolute;inset:0;background:#0A0A0Aee;
-            align-items:center;justify-content:center;z-index:100;
-        }
+        /* MODALS */
+        .modal-overlay{display:none;position:absolute;inset:0;background:#0A0A0Aee;align-items:center;justify-content:center;z-index:100}
         .modal-overlay.active{display:flex}
         .modal{background:#111116;border:1px solid #1E1E28;border-radius:14px;padding:28px 36px;width:420px}
         .modal h2{font-size:20px;font-weight:600;margin-bottom:6px}
         .modal p{font-size:13px;color:#777;margin-bottom:20px}
-        .modal-input{
-            width:100%;padding:10px 12px;font-size:14px;color:#fff;background:#0D0D14;
-            border:1px solid #2A2A3A;border-radius:6px;outline:none;
-        }
+        .modal-input{width:100%;padding:10px 12px;font-size:14px;color:#fff;background:#0D0D14;border:1px solid #2A2A3A;border-radius:6px;outline:none}
         .modal-input:focus{border-color:#5865F2}
         .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
         .btn-cancel{background:transparent;border:1px solid #333;color:#AAA;border-radius:6px;padding:10px 20px;font-size:13px;cursor:pointer}
@@ -145,7 +120,7 @@
         .generated-code .code{font-family:Consolas,monospace;font-size:16px;font-weight:700;color:#5865F2;flex:1}
         .btn-copy{background:#5865F2;border:none;color:#fff;border-radius:4px;padding:6px 16px;font-size:12px;font-weight:600;cursor:pointer}
 
-        /* ===== SERVER VIEW ===== */
+        /* SERVER VIEW */
         #serverViewPage{display:none;position:absolute;inset:0;background:#0A0A0A;z-index:50;flex-direction:column}
         #serverViewPage.active{display:flex}
         .sv-top{background:#0E0E14;border-bottom:1px solid #1A1A22;flex-shrink:0}
@@ -155,39 +130,30 @@
         .sv-top-left h2{font-size:16px;font-weight:700}
         .sv-top-right{display:flex;align-items:center;gap:10px}
         .sv-ptt-badge{display:flex;align-items:center;gap:6px;background:#14141E;padding:5px 10px;border-radius:6px;font-size:11px;color:#AAA}
-        .sv-ptt-badge .icon{color:#5865F2}
+        .sv-ptt-badge svg{width:14px;height:14px;color:#5865F2}
         .sv-btn{padding:5px 12px;border-radius:6px;border:none;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
-        .sv-btn-primary{background:#5865F2;color:#fff}
-        .sv-btn-primary:hover{background:#4752C4}
         .sv-btn-secondary{background:#1A1A24;color:#AAA;display:flex;align-items:center;gap:6px}
         .sv-btn-secondary:hover{background:#22222E;color:#CCC}
-
-        /* Tab bar */
         .sv-tabs{display:flex;background:#111118;border-top:1px solid #1A1A22;padding:0 16px}
-        .sv-tab{
-            display:flex;align-items:center;gap:7px;padding:9px 20px;margin-top:4px;
-            border-radius:6px 6px 0 0;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;
-        }
+        .sv-tab{display:flex;align-items:center;gap:7px;padding:9px 20px;margin-top:4px;border-radius:6px 6px 0 0;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s}
+        .sv-tab svg{width:14px;height:14px}
         .sv-tab.active{background:#5865F2;color:#fff}
         .sv-tab:not(.active){background:#1A1A24;color:#888}
         .sv-tab:not(.active):hover{color:#AAA}
-
-        /* Server view body */
         .sv-body{flex:1;display:flex;overflow:hidden}
 
-        /* Channel sidebar */
+        /* CHANNELS */
         .ch-sidebar{width:250px;background:#0C0C12;border-right:1px solid #1A1A22;display:flex;flex-direction:column;flex-shrink:0}
         .ch-sidebar-header{padding:12px 14px 10px;border-bottom:1px solid #1A1A22;font-size:11px;font-weight:700;color:#555}
         .ch-list{flex:1;overflow-y:auto;padding:6px 0}
         .cat-header{display:flex;align-items:center;gap:8px;padding:10px 14px 6px;margin-top:4px}
-        .cat-header .expand{font-size:9px;color:#555}
+        .cat-header .expand svg{width:10px;height:10px;color:#555}
         .cat-header .name{font-size:11px;font-weight:700;color:#666;text-transform:uppercase}
-        .ch-row{
-            display:flex;align-items:center;padding:7px 12px;margin:2px 8px 0;border-radius:6px;cursor:pointer;transition:all .12s;
-        }
+        .ch-row{display:flex;align-items:center;padding:7px 12px;margin:2px 8px 0;border-radius:6px;cursor:pointer;transition:all .12s}
         .ch-row:hover{background:#14141C}
         .ch-row.active{background:#12121C}
-        .ch-row .mic{font-size:13px;color:#555;margin-right:10px}
+        .ch-row .mic{color:#555;margin-right:10px;display:flex;align-items:center}
+        .ch-row .mic svg{width:14px;height:14px}
         .ch-row.active .mic{color:#5865F2}
         .ch-row .name{font-size:12px;font-weight:600;color:#888;flex:1}
         .ch-row.active .name{color:#DDD}
@@ -198,12 +164,11 @@
         .ch-user .dot.tx{background:#2ECC71;box-shadow:0 0 6px rgba(46,204,113,.4)}
         .ch-user .uname{font-size:11.5px;color:#AAA}
 
-        /* Dispatch area */
+        /* DISPATCH */
         .dispatch{flex:1;display:flex;flex-direction:column;background:#0A0A0F}
-        .dispatch-header{
-            padding:16px 24px 12px;border-bottom:1px solid #1A1A22;display:flex;align-items:center;gap:10px;flex-shrink:0;
-        }
-        .dispatch-header .mic{font-size:16px;color:#5865F2}
+        .dispatch-header{padding:16px 24px 12px;border-bottom:1px solid #1A1A22;display:flex;align-items:center;gap:10px;flex-shrink:0}
+        .dispatch-header .mic{color:#5865F2;display:flex;align-items:center}
+        .dispatch-header .mic svg{width:18px;height:18px}
         .dispatch-header .ch-name{font-size:16px;font-weight:700}
         .dispatch-header .sep{font-size:14px;color:#444}
         .dispatch-header .ucount{font-size:13px;color:#666}
@@ -211,11 +176,12 @@
         .dispatch-header .room-code:hover{background:#22223A}
         .dispatch-body{flex:1;overflow-y:auto;padding:16px 24px;display:flex;flex-wrap:wrap;align-content:flex-start;gap:12px}
 
-        /* User cards */
+        /* USER CARDS */
         .ucard{background:#111118;border:1px solid #1E1E28;border-radius:10px;padding:14px 16px;width:180px;transition:border-color .2s;animation:fadeIn .3s ease-out}
         .ucard.tx{border-color:#2ECC71}
         .ucard-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-        .ucard-avatar{width:36px;height:36px;border-radius:50%;background:#1A1A24;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#5865F2;flex-shrink:0}
+        .ucard-avatar{width:36px;height:36px;border-radius:50%;background:#1A1A24;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#5865F2;flex-shrink:0;overflow:hidden}
+        .ucard-avatar img{width:100%;height:100%;object-fit:cover}
         .ucard-info{flex:1;min-width:0}
         .ucard-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .ucard-name .you{color:#5865F2;font-size:10px}
@@ -223,9 +189,9 @@
         .ucard-status.tx{color:#2ECC71}
         .ucard-ch{display:inline-block;background:#14141E;padding:4px 8px;border-radius:4px;font-size:10px;color:#888}
 
-        /* Members panel */
+        /* MEMBERS */
         .members-header{display:flex;align-items:center;gap:10px;padding:16px 24px 12px;border-bottom:1px solid #1A1A22;flex-shrink:0}
-        .members-header .icon{font-size:16px;color:#5865F2}
+        .members-header svg{width:18px;height:18px;color:#5865F2}
         .members-header h3{font-size:16px;font-weight:700}
         .members-header .sep{font-size:14px;color:#444}
         .members-header .count{font-size:13px;color:#666}
@@ -233,33 +199,15 @@
         .members-table-header{display:flex;padding:8px 16px;font-size:11px;font-weight:700;color:#555;border-bottom:1px solid #1A1A22;margin-bottom:4px}
         .members-table-header .col-name{flex:1}
         .members-table-header .col-role{width:120px;text-align:right}
-        .member-row{display:flex;align-items:center;background:#0E0E14;border-radius:8px;padding:10px 16px;margin:2px 0;cursor:pointer}
+        .member-row{display:flex;align-items:center;background:#0E0E14;border-radius:8px;padding:10px 16px;margin:2px 0}
         .member-row:hover{background:#12121C}
         .member-row .avatar{width:28px;height:28px;border-radius:50%;background:#1A1A24;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#5865F2;margin-right:10px;flex-shrink:0}
         .member-row .avatar img{width:100%;height:100%;object-fit:cover}
         .member-row .name{flex:1;font-size:13px;font-weight:600}
         .member-row .role{width:120px;text-align:right;font-size:11px;font-weight:700;color:#5865F2}
 
-        /* PTT modal */
-        .ptt-modal{
-            display:none;position:absolute;inset:0;background:#0A0A0Aee;z-index:200;
-            align-items:center;justify-content:center;
-        }
-        .ptt-modal.active{display:flex}
-        .ptt-modal-card{background:#111116;border:1px solid #1E1E28;border-radius:14px;padding:28px 36px;width:440px;text-align:center}
-        .ptt-modal-card .icon{font-size:32px;color:#5865F2;margin-bottom:16px}
-        .ptt-modal-card h2{font-size:20px;font-weight:600;margin-bottom:6px}
-        .ptt-modal-card p{font-size:13px;color:#777;margin-bottom:24px}
-        .ptt-key-display{background:#0D0D14;border:1px solid #2A2A3A;border-radius:10px;padding:18px 24px;display:inline-block;min-width:220px}
-        .ptt-key-display .key{font-size:22px;font-weight:700;color:#5865F2}
-        .ptt-key-display .sub{font-size:10px;color:#555;margin-top:6px}
-        .ptt-modal-card .hint{font-size:11px;color:#444;margin-top:18px}
-
-        /* Status bar */
-        .status-bar{
-            padding:8px 20px;background:#0B0B10;border-top:1px solid #1A1A22;
-            display:none;align-items:center;justify-content:space-between;font-size:12px;color:#555;flex-shrink:0;
-        }
+        /* STATUS BAR */
+        .status-bar{padding:8px 20px;background:#0B0B10;border-top:1px solid #1A1A22;display:none;align-items:center;justify-content:space-between;font-size:12px;color:#555;flex-shrink:0}
         .status-bar.active{display:flex}
         .status-bar-left{display:flex;align-items:center;gap:6px}
         .status-dot{width:6px;height:6px;border-radius:50%;background:#3BA55D}
@@ -267,20 +215,21 @@
         .leave-btn{background:none;border:1px solid #333;color:#999;padding:4px 14px;border-radius:4px;font-size:12px;cursor:pointer}
         .leave-btn:hover{border-color:#ED4245;color:#ED4245}
 
-        /* Toast */
-        .toast{
-            position:fixed;top:20px;right:20px;background:#111118;border:1px solid #1E1E28;border-radius:10px;
-            padding:14px 20px;min-width:260px;transform:translateX(120%);transition:transform .3s ease;z-index:9999;
-        }
+        /* TOAST */
+        .toast{position:fixed;top:20px;right:20px;background:#111118;border:1px solid #1E1E28;border-radius:10px;padding:14px 20px;min-width:260px;transform:translateX(120%);transition:transform .3s ease;z-index:9999}
         .toast.show{transform:translateX(0)}
         .toast h4{font-size:13px;font-weight:600;margin-bottom:2px}
         .toast p{font-size:11px;color:#666}
         .toast.success{border-left:3px solid #2ECC71}
         .toast.error{border-left:3px solid #E74C3C}
 
+        .admin-card{background:#111116;border:1px solid #1E1E28;border-radius:12px;padding:20px 24px}
+        .admin-card h3{font-size:17px;font-weight:600;margin-bottom:4px}
+        .admin-card>p{font-size:12px;color:#777;margin-bottom:18px}
+
         @media(max-width:768px){
-            .sidebar{width:60px}.sidebar .nav-item span:not(.icon){display:none}
-            .sidebar-brand-text,.sidebar-section,.sidebar-user .info,.sidebar-user .logout-icon,.sidebar-bottom .nav-item span:not(.icon){display:none}
+            .sidebar{width:60px}.sidebar .nav-item span:not(.ni){display:none}
+            .sidebar-brand-text,.sidebar-section,.sidebar-user .info,.sidebar-user .logout-btn,.sidebar-bottom .nav-item span:not(.ni){display:none}
             .ch-sidebar{width:200px}.ucard{width:160px}
         }
         @media(max-width:600px){.ch-sidebar{display:none}.ucard{width:100%}}
@@ -288,7 +237,26 @@
 </head>
 <body>
 
-<!-- ============ LOGIN PAGE ============ -->
+<!-- SVG ICONS -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="ico-mic" viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.93V21h2v-3.07A7 7 0 0 0 19 11h-2z"/></symbol>
+    <symbol id="ico-user" viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v2h20v-2c0-3.3-6.7-5-10-5z"/></symbol>
+    <symbol id="ico-users" viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05C16.19 13.89 17 15.02 17 16.5V19h6v-2.5C23 14.17 18.33 13 16 13z"/></symbol>
+    <symbol id="ico-dashboard" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></symbol>
+    <symbol id="ico-shield" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></symbol>
+    <symbol id="ico-key" viewBox="0 0 24 24"><path d="M12.65 10a6 6 0 1 0 0 4H17v4h4v-4h2v-4H12.65zM7 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></symbol>
+    <symbol id="ico-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></symbol>
+    <symbol id="ico-radio" viewBox="0 0 24 24"><path d="M3.24 6.15C2.51 6.43 2 7.17 2 8v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8c0-1.1-.9-2-2-2H8.3l8.26-3.34-.37-.93L3.24 6.15zM7 20a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm11-2h2v2h-2v-2zm-4 0h2v2h-2v-2z"/></symbol>
+    <symbol id="ico-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/></symbol>
+    <symbol id="ico-logout" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></symbol>
+    <symbol id="ico-back" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol>
+    <symbol id="ico-discord" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></symbol>
+    <symbol id="ico-gamepad" viewBox="0 0 24 24"><path d="M15 7.5V2H9v5.5l3 3 3-3zM7.5 9H2v6h5.5l3-3-3-3zM9 16.5V22h6v-5.5l-3-3-3 3zM16.5 9l-3 3 3 3H22V9h-5.5z"/></symbol>
+    <symbol id="ico-arrow" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5v10z"/></symbol>
+    <symbol id="ico-expand" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></symbol>
+</svg>
+
+<!-- LOGIN -->
 <div id="loginPage">
     <div class="login-wrap">
         <img src="onyxradiologo.png" alt="Onyx Radio">
@@ -297,11 +265,11 @@
         <div class="login-card">
             <h2>Welcome back</h2>
             <p>Sign in to continue to your dashboard</p>
-            <button class="discord-btn" onclick="loginWithName()">
-                <span>🔑</span> Login with Discord
+            <button class="discord-btn" onclick="loginDiscord()">
+                <svg class="icon"><use href="#ico-discord"/></svg> Login with Discord
             </button>
             <div class="privacy-box">
-                <h4>🔒 Privacy Notice</h4>
+                <h4><svg class="icon" style="width:14px;height:14px"><use href="#ico-lock"/></svg> Privacy Notice</h4>
                 <p>We do not store, access, or share any of your Discord login credentials. Authentication is handled entirely through Discord's secure OAuth2 system. We only receive your public username and avatar.</p>
             </div>
         </div>
@@ -309,38 +277,34 @@
     </div>
 </div>
 
-<!-- ============ DASHBOARD PAGE ============ -->
+<!-- DASHBOARD -->
 <div id="dashboardPage">
     <div class="dash-layout">
-        <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-top">
                 <div class="sidebar-brand">
                     <img src="onyxradiologo.png" alt="">
-                    <div class="sidebar-brand-text">
-                        <h3>Onyx Radio</h3>
-                        <span>Dashboard</span>
-                    </div>
+                    <div class="sidebar-brand-text"><h3>Onyx Radio</h3><span>Dashboard</span></div>
                 </div>
             </div>
             <div class="sidebar-section">P L A T F O R M</div>
             <div class="sidebar-nav">
                 <div class="nav-item" data-nav="profile" onclick="switchNav('profile')">
-                    <span class="icon">👤</span><span>Profile</span>
+                    <span class="ni"><svg class="icon"><use href="#ico-user"/></svg></span><span>Profile</span>
                 </div>
                 <div class="nav-item active" data-nav="dashboard" onclick="switchNav('dashboard')">
-                    <span class="icon">📋</span><span>Dashboard</span>
+                    <span class="ni"><svg class="icon"><use href="#ico-dashboard"/></svg></span><span>Dashboard</span>
                 </div>
                 <div class="nav-item" data-nav="admin" onclick="switchNav('admin')" id="navAdmin" style="display:none">
-                    <span class="icon">🛡️</span><span>Admin</span>
+                    <span class="ni"><svg class="icon"><use href="#ico-shield"/></svg></span><span>Admin</span>
                 </div>
             </div>
             <div class="sidebar-bottom">
                 <div class="nav-item" onclick="showRedeemModal()">
-                    <span class="icon">🔑</span><span>Redeem access key</span>
+                    <span class="ni"><svg class="icon"><use href="#ico-key"/></svg></span><span>Redeem access key</span>
                 </div>
                 <div class="nav-item" onclick="showToast('Support','Join our Discord for support.','success')">
-                    <span class="icon">💬</span><span>Support</span>
+                    <span class="ni"><svg class="icon"><use href="#ico-chat"/></svg></span><span>Support</span>
                 </div>
                 <div class="sidebar-user">
                     <div class="avatar" id="sidebarAvatar">?</div>
@@ -348,66 +312,45 @@
                         <div class="name" id="sidebarUsername">User</div>
                         <div class="sub">Discord</div>
                     </div>
-                    <span class="logout-icon" onclick="logout()" title="Log out">⏻</span>
+                    <button class="logout-btn" onclick="logout()" title="Log out"><svg class="icon"><use href="#ico-logout"/></svg></button>
                 </div>
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Profile Panel -->
+            <!-- PROFILE -->
             <div class="panel" id="panelProfile">
                 <div class="panel-inner">
-                    <div class="profile-header">
-                        <h1>Profile &amp; Integrations</h1>
-                        <p>Manage your Onyx Radio account and linked connections.</p>
-                    </div>
+                    <div class="profile-header"><h1>Profile &amp; Integrations</h1><p>Manage your Onyx Radio account and linked connections.</p></div>
                     <div class="user-card">
                         <div class="avatar" id="profileAvatar">?</div>
-                        <div class="info">
-                            <h3 id="profileUsername">User</h3>
-                            <div class="badge">USER</div>
-                        </div>
+                        <div class="info"><h3 id="profileUsername">User</h3><div class="badge">USER</div></div>
                     </div>
                     <div class="integrations">
                         <div class="integration-card">
                             <div class="header">
-                                <div class="icon-box" style="background:#5865F2">🔑</div>
+                                <div class="icon-box" style="background:#5865F2"><svg class="icon" style="fill:#fff"><use href="#ico-discord"/></svg></div>
                                 <h3>Discord Account</h3>
                             </div>
                             <div class="linked">
                                 <div class="avatar" id="profileDiscordAvatar">?</div>
-                                <div class="info">
-                                    <div class="name" id="profileDiscordName">User</div>
-                                    <div class="detail">Primary login method</div>
-                                </div>
+                                <div class="info"><div class="name" id="profileDiscordName">User</div><div class="detail">Primary login method</div></div>
                             </div>
                             <div class="note">Discord is used to sign in to Onyx Radio and sync your roles.</div>
                         </div>
                         <div class="integration-card">
                             <div class="header">
-                                <div class="icon-box" style="background:#E74C3C">🎮</div>
+                                <div class="icon-box" style="background:#E74C3C"><svg class="icon" style="fill:#fff"><use href="#ico-gamepad"/></svg></div>
                                 <h3>Roblox Account</h3>
                             </div>
-                            <div id="robloxNotLinked">
-                                <div class="not-linked">No Roblox account linked.</div>
-                                <button class="btn-link" onclick="showToast('Roblox','Roblox linking is available in the desktop app.','success')">Link Roblox Account</button>
-                            </div>
-                            <div id="robloxLinked" style="display:none">
-                                <div class="linked">
-                                    <div class="avatar">🎮</div>
-                                    <div class="info">
-                                        <div class="name" id="robloxName"></div>
-                                        <div class="detail">Linked successfully</div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="not-linked">Roblox linking requires the desktop app.</div>
+                            <button class="btn-link" onclick="showToast('Roblox','Roblox OAuth2 requires a server-side token exchange. Use the desktop app to link your account.','success')">Link Roblox Account</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Dashboard Panel -->
+            <!-- DASHBOARD -->
             <div class="panel active" id="panelDashboard">
                 <div class="panel-inner">
                     <div id="noCommunities" class="no-communities">
@@ -415,109 +358,67 @@
                         <button class="btn-primary" style="padding:12px 32px;font-size:15px" onclick="showJoinModal()">Join now</button>
                     </div>
                     <div id="communityList" style="display:none">
-                        <div class="communities-header">
-                            <h1>My Communities</h1>
-                            <button class="btn-primary" onclick="showJoinModal()">+ Join another</button>
-                        </div>
+                        <div class="communities-header"><h1>My Communities</h1><button class="btn-primary" onclick="showJoinModal()">+ Join another</button></div>
                         <div id="communityItems"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Admin Panel -->
+            <!-- ADMIN -->
             <div class="panel" id="panelAdmin">
                 <div class="panel-inner">
                     <h1 style="font-size:24px;font-weight:700;margin-bottom:4px">Admin Panel</h1>
                     <p style="font-size:13px;color:#666;margin-bottom:28px">Manage access codes and server settings.</p>
-                    <div style="background:#111116;border:1px solid #1E1E28;border-radius:12px;padding:20px 24px">
-                        <h3 style="font-size:17px;font-weight:600;margin-bottom:4px">Create Access Key</h3>
-                        <p style="font-size:12px;color:#777;margin-bottom:18px">Generate a one-time redeem code that lets someone create a server.</p>
+                    <div class="admin-card">
+                        <h3>Create Access Key</h3>
+                        <p>Generate a one-time redeem code that lets someone create a server.</p>
                         <label style="font-size:12px;color:#AAA;font-weight:600;display:block;margin-bottom:6px">Description</label>
                         <input type="text" class="modal-input" id="adminKeyDesc" maxlength="60" style="margin-bottom:16px">
                         <button class="btn-green" onclick="generateAccessKey()">Generate Access Key</button>
                         <div id="generatedKeyPanel" style="display:none" class="generated-code">
-                            <div>
-                                <div style="font-size:11px;color:#888;margin-bottom:4px">New access key:</div>
-                                <div class="code" id="generatedKeyText"></div>
-                            </div>
+                            <div><div style="font-size:11px;color:#888;margin-bottom:4px">New access key:</div><div class="code" id="generatedKeyText"></div></div>
                             <button class="btn-copy" onclick="copyText(document.getElementById('generatedKeyText').textContent)">Copy</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Join Modal -->
-            <div class="modal-overlay" id="joinModal">
-                <div class="modal">
-                    <h2>Join a community</h2>
-                    <p>Enter the invite code provided by a community owner.</p>
-                    <input type="text" class="modal-input" id="joinCodeInput" placeholder="Enter join code">
-                    <div class="modal-actions">
-                        <button class="btn-cancel" onclick="hideModal('joinModal')">Cancel</button>
-                        <button class="btn-submit" onclick="joinCommunity()">Join</button>
-                    </div>
-                </div>
-            </div>
+            <!-- MODALS -->
+            <div class="modal-overlay" id="joinModal"><div class="modal">
+                <h2>Join a community</h2><p>Enter the invite code provided by a community owner.</p>
+                <input type="text" class="modal-input" id="joinCodeInput" placeholder="Enter join code">
+                <div class="modal-actions"><button class="btn-cancel" onclick="hideModal('joinModal')">Cancel</button><button class="btn-submit" onclick="joinCommunity()">Join</button></div>
+            </div></div>
+            <div class="modal-overlay" id="redeemModal"><div class="modal">
+                <h2>Redeem access code</h2><p>Enter your one-time access code below.</p>
+                <input type="text" class="modal-input" id="redeemCodeInput" placeholder="Enter access code">
+                <div class="modal-actions"><button class="btn-cancel" onclick="hideModal('redeemModal')">Cancel</button><button class="btn-submit" onclick="redeemCode()">Redeem</button></div>
+            </div></div>
+            <div class="modal-overlay" id="createServerModal"><div class="modal" style="width:440px">
+                <h2>Create your server</h2><p>Your access code has been redeemed. Give your server a name.</p>
+                <label style="font-size:12px;color:#AAA;font-weight:600;display:block;margin-bottom:6px">Server Name</label>
+                <input type="text" class="modal-input" id="serverNameInput" maxlength="40">
+                <div style="font-size:11px;color:#666;margin-top:16px;margin-bottom:6px">Your server join code:</div>
+                <div class="generated-code"><div class="code" id="newServerCode"></div><button class="btn-copy" onclick="copyText(document.getElementById('newServerCode').textContent)">Copy</button></div>
+                <div class="modal-actions"><button class="btn-green" onclick="createServer()">Create Server</button></div>
+            </div></div>
 
-            <!-- Redeem Modal -->
-            <div class="modal-overlay" id="redeemModal">
-                <div class="modal">
-                    <h2>Redeem access code</h2>
-                    <p>Enter your one-time access code below. Each code can only be redeemed once.</p>
-                    <input type="text" class="modal-input" id="redeemCodeInput" placeholder="Enter access code">
-                    <div class="modal-actions">
-                        <button class="btn-cancel" onclick="hideModal('redeemModal')">Cancel</button>
-                        <button class="btn-submit" onclick="redeemCode()">Redeem</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Create Server Modal -->
-            <div class="modal-overlay" id="createServerModal">
-                <div class="modal" style="width:440px">
-                    <h2>Create your server</h2>
-                    <p>Your access code has been redeemed! Now give your server a name.</p>
-                    <label style="font-size:12px;color:#AAA;font-weight:600;display:block;margin-bottom:6px">Server Name</label>
-                    <input type="text" class="modal-input" id="serverNameInput" maxlength="40">
-                    <div style="font-size:11px;color:#666;margin-top:16px;margin-bottom:6px">Your server join code:</div>
-                    <div class="generated-code">
-                        <div class="code" id="newServerCode"></div>
-                        <button class="btn-copy" onclick="copyText(document.getElementById('newServerCode').textContent)">Copy</button>
-                    </div>
-                    <div class="modal-actions">
-                        <button class="btn-green" onclick="createServer()">Create Server</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ===== SERVER VIEW ===== -->
+            <!-- SERVER VIEW -->
             <div id="serverViewPage">
                 <div class="sv-top">
                     <div class="sv-top-bar">
-                        <div class="sv-top-left">
-                            <img src="onyxradiologo.png" alt="">
-                            <h2 id="svServerName">Server</h2>
-                        </div>
+                        <div class="sv-top-left"><img src="onyxradiologo.png" alt=""><h2 id="svServerName">Server</h2></div>
                         <div class="sv-top-right">
-                            <div class="sv-ptt-badge">
-                                <span class="icon">🎙️</span>
-                                <span id="svPttLabel">PTT: Space</span>
-                            </div>
-                            <button class="sv-btn sv-btn-secondary" onclick="closeServerView()">← Back</button>
+                            <div class="sv-ptt-badge"><svg class="icon"><use href="#ico-mic"/></svg><span id="svPttLabel">PTT: Space</span></div>
+                            <button class="sv-btn sv-btn-secondary" onclick="closeServerView()"><svg class="icon" style="width:12px;height:12px"><use href="#ico-back"/></svg> Back</button>
                         </div>
                     </div>
                     <div class="sv-tabs">
-                        <div class="sv-tab active" data-tab="radio" onclick="switchServerTab('radio')">
-                            <span>🎙️</span><span>RADIO</span>
-                        </div>
-                        <div class="sv-tab" data-tab="members" onclick="switchServerTab('members')" id="svTabMembers" style="display:none">
-                            <span>👥</span><span>MEMBERS</span>
-                        </div>
+                        <div class="sv-tab active" data-tab="radio" onclick="switchServerTab('radio')"><svg class="icon"><use href="#ico-mic"/></svg><span>RADIO</span></div>
+                        <div class="sv-tab" data-tab="members" onclick="switchServerTab('members')" id="svTabMembers" style="display:none"><svg class="icon"><use href="#ico-users"/></svg><span>MEMBERS</span></div>
                     </div>
                 </div>
-
                 <div class="sv-body">
-                    <!-- Radio Panel -->
                     <div id="svRadioPanel" style="display:flex;flex:1;overflow:hidden">
                         <div class="ch-sidebar">
                             <div class="ch-sidebar-header">CHANNELS</div>
@@ -525,29 +426,24 @@
                         </div>
                         <div class="dispatch">
                             <div class="dispatch-header">
-                                <span class="mic">🎙️</span>
+                                <span class="mic"><svg class="icon"><use href="#ico-mic"/></svg></span>
                                 <span class="ch-name" id="svDispatchChName">Dispatch</span>
-                                <span class="sep"> — </span>
+                                <span class="sep"> -- </span>
                                 <span class="ucount" id="svDispatchCount">0 users</span>
-                                <span class="room-code" id="svRoomCode" title="Click to copy" onclick="copyRoomCode()">—</span>
+                                <span class="room-code" id="svRoomCode" title="Click to copy" onclick="copyRoomCode()">--</span>
                             </div>
                             <div class="dispatch-body" id="svUserCards"></div>
                         </div>
                     </div>
-
-                    <!-- Members Panel -->
                     <div id="svMembersPanel" style="display:none;flex-direction:column;flex:1;overflow:hidden;background:#0A0A0F">
                         <div class="members-header">
-                            <span class="icon">👥</span>
+                            <svg class="icon"><use href="#ico-users"/></svg>
                             <h3>Community Members</h3>
-                            <span class="sep"> — </span>
+                            <span class="sep"> -- </span>
                             <span class="count" id="svMemberCount">0 members</span>
                         </div>
                         <div class="members-body">
-                            <div class="members-table-header">
-                                <div class="col-name">USERNAME</div>
-                                <div class="col-role">ROLE</div>
-                            </div>
+                            <div class="members-table-header"><div class="col-name">USERNAME</div><div class="col-role">ROLE</div></div>
                             <div id="svMemberList"></div>
                         </div>
                     </div>
@@ -557,86 +453,100 @@
     </div>
 </div>
 
-<!-- PTT Modal -->
-<div class="ptt-modal" id="pttModal">
-    <div class="ptt-modal-card">
-        <div class="icon">🎙️</div>
-        <h2>Set Push-to-Talk Key</h2>
-        <p>Press any key to bind your push-to-talk.</p>
-        <div class="ptt-key-display">
-            <div class="key" id="pttKeyDisplay">Waiting for input...</div>
-            <div class="sub">listening...</div>
-        </div>
-        <p class="hint">Keyboard keys are supported. Default: Space</p>
-    </div>
-</div>
-
-<!-- Status Bar -->
+<!-- STATUS BAR -->
 <div class="status-bar" id="statusBar">
-    <div class="status-bar-left">
-        <div class="status-dot" id="statusDot"></div>
-        <span id="statusText">Connected</span>
-    </div>
+    <div class="status-bar-left"><div class="status-dot" id="statusDot"></div><span id="statusText">Connected</span></div>
     <button class="leave-btn" onclick="leaveRoom()">Leave Room</button>
 </div>
 
-<!-- Toast -->
+<!-- TOAST -->
 <div class="toast" id="toast"><h4 id="toastTitle"></h4><p id="toastMsg"></p></div>
 
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script>
 (function(){
-    // ===== APP STATE =====
+    // ===== CONFIG =====
+    var DISCORD_CLIENT_ID = '1490413039676166317';
+    var DISCORD_REDIRECT = window.location.origin + window.location.pathname;
+
+    // Seed communities matching desktop app CodeDatabase.cs
+    var SEED_COMMUNITIES = [
+        {code:'ONYX-2026', name:'Onyx Radio Official'},
+        {code:'ERLC-SQUAD', name:'ERLC Squad Community'},
+        {code:'MAPLE-RP', name:'Maple Grove Roleplay'}
+    ];
+
+    // ===== STATE =====
     var currentUser = null;
-    var communities = [];  // {code, name, isOwner, members:[]}
+    var communities = [];
     var activeServer = null;
     var activeTab = 'dashboard';
-
-    // Radio state
     var peer = null;
     var connections = {};
     var localStream = null;
-    var roomCode = '';
+    var roomId = '';
     var myChannel = 'Dispatch';
     var isTransmitting = false;
     var isInRoom = false;
-    var pttKey = 'Space';
+    var channelStructure = [{category:'Patrol Ops', channels:['Dispatch','Tactical']}];
 
-    var channelStructure = [
-        {category:'Patrol Ops', channels:['Dispatch','Tactical']}
-    ];
-
-    // Local storage helpers
-    function save(k,v){ try{localStorage.setItem('onyx_'+k,JSON.stringify(v))}catch(e){} }
-    function load(k){ try{return JSON.parse(localStorage.getItem('onyx_'+k))}catch(e){return null} }
+    function save(k,v){try{localStorage.setItem('onyx_'+k,JSON.stringify(v))}catch(e){}}
+    function load(k){try{return JSON.parse(localStorage.getItem('onyx_'+k))}catch(e){return null}}
+    function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML}
 
     // ===== AUDIO =====
-    var audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    var audioCtx;
+    function ensureAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();audioCtx.resume();return audioCtx}
     function playRadioClick(){
-        var o=audioCtx.createOscillator(),g=audioCtx.createGain();
-        o.connect(g);g.connect(audioCtx.destination);
-        o.frequency.setValueAtTime(1800,audioCtx.currentTime);
-        o.frequency.exponentialRampToValueAtTime(800,audioCtx.currentTime+.04);
-        g.gain.setValueAtTime(.15,audioCtx.currentTime);
-        g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.08);
-        o.start(audioCtx.currentTime);o.stop(audioCtx.currentTime+.08);
+        var ctx=ensureAudio(),o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.frequency.setValueAtTime(1800,ctx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(800,ctx.currentTime+.04);
+        g.gain.setValueAtTime(.15,ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.08);
+        o.start(ctx.currentTime);o.stop(ctx.currentTime+.08);
     }
 
-    // ===== LOGIN =====
-    window.loginWithName = function(){
-        var name = prompt('Enter your display name:');
-        if(!name||!name.trim()) return;
-        name = name.trim();
-        currentUser = {id:Date.now().toString(), username:name, avatarUrl:''};
-        save('user',currentUser);
-        communities = load('communities')||[];
-        enterDashboard();
+    // ===== DISCORD OAUTH2 IMPLICIT GRANT =====
+    window.loginDiscord = function(){
+        var state = Math.random().toString(36).substring(2,15);
+        save('oauth_state', state);
+        window.location.href = 'https://discord.com/oauth2/authorize'
+            + '?client_id=' + DISCORD_CLIENT_ID
+            + '&response_type=token'
+            + '&redirect_uri=' + encodeURIComponent(DISCORD_REDIRECT)
+            + '&scope=identify'
+            + '&state=' + state;
     };
 
+    async function handleOAuthCallback(){
+        var hash = window.location.hash.substring(1);
+        if(!hash) return false;
+        var params = new URLSearchParams(hash);
+        var token = params.get('access_token');
+        var state = params.get('state');
+        if(!token) return false;
+        var saved = load('oauth_state');
+        if(state && saved && state !== saved){showToast('Error','OAuth state mismatch.','error');return false}
+        localStorage.removeItem('onyx_oauth_state');
+        history.replaceState(null,'',window.location.pathname);
+        try{
+            var r = await fetch('https://discord.com/api/users/@me',{headers:{'Authorization':'Bearer '+token}});
+            if(!r.ok) throw new Error('API error');
+            var d = await r.json();
+            var av = d.avatar ? 'https://cdn.discordapp.com/avatars/'+d.id+'/'+d.avatar+'.png?size=128' : '';
+            currentUser = {id:d.id, username:d.username, avatarUrl:av};
+            save('user',currentUser);
+            communities = load('communities')||[];
+            enterDashboard();
+            showToast('Welcome!','Logged in as '+d.username,'success');
+            return true;
+        }catch(e){showToast('Error','Failed to fetch Discord profile.','error');return false}
+    }
+
     window.logout = function(){
-        if(isInRoom) leaveRoom();
-        currentUser = null;
-        localStorage.removeItem('onyx_user');
+        if(isInRoom)leaveRoom();
+        currentUser=null;localStorage.removeItem('onyx_user');
         document.getElementById('loginPage').style.display='flex';
         document.getElementById('dashboardPage').style.display='none';
         document.getElementById('statusBar').classList.remove('active');
@@ -645,347 +555,321 @@
     function enterDashboard(){
         document.getElementById('loginPage').style.display='none';
         document.getElementById('dashboardPage').style.display='flex';
-        updateSidebar();
-        refreshCommunityList();
+        updateUI();refreshCommunityList();
     }
 
-    function updateSidebar(){
-        if(!currentUser) return;
-        var initial = currentUser.username[0].toUpperCase();
-        document.getElementById('sidebarAvatar').textContent = initial;
-        document.getElementById('sidebarUsername').textContent = currentUser.username;
-        document.getElementById('profileAvatar').textContent = initial;
-        document.getElementById('profileUsername').textContent = currentUser.username;
-        document.getElementById('profileDiscordAvatar').textContent = initial;
-        document.getElementById('profileDiscordName').textContent = currentUser.username;
+    function updateUI(){
+        if(!currentUser)return;
+        var i=currentUser.username[0].toUpperCase(),av=currentUser.avatarUrl;
+        function setAv(el){if(av)el.innerHTML='<img src="'+esc(av)+'" style="width:100%;height:100%;object-fit:cover">';else el.textContent=i}
+        setAv(document.getElementById('sidebarAvatar'));
+        setAv(document.getElementById('profileAvatar'));
+        setAv(document.getElementById('profileDiscordAvatar'));
+        document.getElementById('sidebarUsername').textContent=currentUser.username;
+        document.getElementById('profileUsername').textContent=currentUser.username;
+        document.getElementById('profileDiscordName').textContent=currentUser.username;
     }
 
     // ===== NAV =====
     window.switchNav = function(nav){
-        activeTab = nav;
-        document.querySelectorAll('.nav-item[data-nav]').forEach(function(el){
-            el.classList.toggle('active', el.dataset.nav===nav);
-        });
-        document.querySelectorAll('.panel').forEach(function(el){ el.classList.remove('active'); });
-        var panel = document.getElementById('panel'+nav.charAt(0).toUpperCase()+nav.slice(1));
-        if(panel) panel.classList.add('active');
+        activeTab=nav;
+        document.querySelectorAll('.nav-item[data-nav]').forEach(function(el){el.classList.toggle('active',el.dataset.nav===nav)});
+        document.querySelectorAll('.panel').forEach(function(el){el.classList.remove('active')});
+        var p=document.getElementById('panel'+nav.charAt(0).toUpperCase()+nav.slice(1));if(p)p.classList.add('active');
         closeServerView();
     };
 
     // ===== COMMUNITIES =====
     function refreshCommunityList(){
-        var items = document.getElementById('communityItems');
-        items.innerHTML = '';
-        if(communities.length===0){
+        var items=document.getElementById('communityItems');items.innerHTML='';
+        if(!communities.length){
             document.getElementById('noCommunities').style.display='block';
-            document.getElementById('communityList').style.display='none';
-            return;
+            document.getElementById('communityList').style.display='none';return;
         }
         document.getElementById('noCommunities').style.display='none';
         document.getElementById('communityList').style.display='block';
-
         communities.forEach(function(c){
-            var card = document.createElement('div');
-            card.className = 'community-card';
-            card.innerHTML =
-                '<div class="icon">📡</div>'+
-                '<div class="info"><h3>'+esc(c.name)+'</h3><p>Code: '+esc(c.code)+(c.isOwner?' · Owner':'')+'</p></div>'+
-                '<div class="arrow">→</div>';
-            card.addEventListener('click',function(){ openServerView(c); });
+            var card=document.createElement('div');card.className='community-card';
+            card.innerHTML='<div class="c-icon"><svg class="icon"><use href="#ico-radio"/></svg></div>'
+                +'<div class="info"><h3>'+esc(c.name)+'</h3><p>Code: '+esc(c.code)+(c.isOwner?' · Owner':'')+'</p></div>'
+                +'<div class="arrow"><svg class="icon"><use href="#ico-arrow"/></svg></div>';
+            card.addEventListener('click',function(){openServerView(c)});
             items.appendChild(card);
         });
     }
 
-    window.showJoinModal = function(){ showModal('joinModal'); };
-    window.showRedeemModal = function(){ showModal('redeemModal'); };
+    window.showJoinModal=function(){showModal('joinModal')};
+    window.showRedeemModal=function(){showModal('redeemModal')};
 
-    window.joinCommunity = function(){
-        var code = document.getElementById('joinCodeInput').value.trim().toUpperCase();
-        if(!code){ showToast('Error','Please enter a join code.','error'); return; }
-        // Check if already joined
-        if(communities.some(function(c){ return c.code===code; })){
-            showToast('Error','You already joined this community.','error'); return;
-        }
-        // Find if any community has this code (check localStorage for all communities)
-        var allCommunities = load('allCommunities')||{};
-        var existing = allCommunities[code];
-        if(!existing){
-            showToast('Error','Community not found.','error'); return;
-        }
-        communities.push({code:code, name:existing.name, isOwner:false, members:existing.members||[]});
-        save('communities',communities);
-        hideModal('joinModal');
+    window.joinCommunity=function(){
+        var code=document.getElementById('joinCodeInput').value.trim().toUpperCase();
+        if(!code){showToast('Error','Please enter a join code.','error');return}
+        if(communities.some(function(c){return c.code===code})){showToast('Error','Already joined.','error');return}
+        var found=SEED_COMMUNITIES.find(function(s){return s.code===code});
+        var allC=load('allCommunities')||{};var custom=allC[code];
+        if(!found&&!custom){showToast('Error','Community not found.','error');return}
+        var name=found?found.name:custom.name;
+        communities.push({code:code,name:name,isOwner:false});
+        save('communities',communities);hideModal('joinModal');
         document.getElementById('joinCodeInput').value='';
-        refreshCommunityList();
-        showToast('Joined!','You joined '+existing.name+'.','success');
+        refreshCommunityList();showToast('Joined!','You joined '+name+'.','success');
     };
 
-    window.redeemCode = function(){
-        var code = document.getElementById('redeemCodeInput').value.trim().toUpperCase();
-        if(!code){ showToast('Error','Please enter a code.','error'); return; }
-        // For web version, any code works as a redeem code
-        hideModal('redeemModal');
-        document.getElementById('redeemCodeInput').value='';
-        // Generate server code
-        var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-        var serverCode='ONYX-';
-        for(var i=0;i<7;i++) serverCode+=chars[Math.floor(Math.random()*chars.length)];
-        document.getElementById('newServerCode').textContent = serverCode;
-        showModal('createServerModal');
+    window.redeemCode=function(){
+        var code=document.getElementById('redeemCodeInput').value.trim().toUpperCase();
+        if(!code){showToast('Error','Please enter a code.','error');return}
+        hideModal('redeemModal');document.getElementById('redeemCodeInput').value='';
+        var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',sc='ONYX-';
+        for(var i=0;i<7;i++)sc+=chars[Math.floor(Math.random()*chars.length)];
+        document.getElementById('newServerCode').textContent=sc;showModal('createServerModal');
     };
 
-    window.createServer = function(){
-        var name = document.getElementById('serverNameInput').value.trim();
-        if(!name){ showToast('Error','Please enter a server name.','error'); return; }
-        var code = document.getElementById('newServerCode').textContent;
-        var community = {code:code, name:name, isOwner:true, members:[{name:currentUser.username, role:'Owner'}]};
-        communities.push(community);
-        save('communities',communities);
-        // Store globally so others can join
-        var all = load('allCommunities')||{};
-        all[code] = {name:name, members:community.members};
-        save('allCommunities',all);
-        hideModal('createServerModal');
-        document.getElementById('serverNameInput').value='';
-        refreshCommunityList();
-        showToast('Server Created!','Your server "'+name+'" is ready.','success');
+    window.createServer=function(){
+        var name=document.getElementById('serverNameInput').value.trim();
+        if(!name){showToast('Error','Enter a server name.','error');return}
+        var code=document.getElementById('newServerCode').textContent;
+        communities.push({code:code,name:name,isOwner:true});save('communities',communities);
+        var all=load('allCommunities')||{};all[code]={name:name};save('allCommunities',all);
+        hideModal('createServerModal');document.getElementById('serverNameInput').value='';
+        refreshCommunityList();showToast('Created!','"'+name+'" is ready.','success');
     };
 
-    window.generateAccessKey = function(){
-        var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-        var key='ONYX-';
-        for(var i=0;i<8;i++) key+=chars[Math.floor(Math.random()*chars.length)];
-        document.getElementById('generatedKeyText').textContent = key;
+    window.generateAccessKey=function(){
+        var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',k='ONYX-';
+        for(var i=0;i<8;i++)k+=chars[Math.floor(Math.random()*chars.length)];
+        document.getElementById('generatedKeyText').textContent=k;
         document.getElementById('generatedKeyPanel').style.display='flex';
-        showToast('Key Generated!','Access key created successfully.','success');
+        showToast('Generated!','Access key created.','success');
     };
 
     // ===== SERVER VIEW =====
-    window.openServerView = function(community){
-        activeServer = community;
-        document.getElementById('svServerName').textContent = community.name;
+    window.openServerView=function(community){
+        activeServer=community;
+        document.getElementById('svServerName').textContent=community.name;
         document.getElementById('serverViewPage').classList.add('active');
-        document.getElementById('svTabMembers').style.display = community.isOwner?'flex':'none';
+        document.getElementById('svTabMembers').style.display=community.isOwner?'flex':'none';
         switchServerTab('radio');
-
-        // Auto-create room
-        roomCode = 'ONYX-'+community.code.replace(/[^A-Z0-9]/g,'').substring(0,4);
-        document.getElementById('svRoomCode').textContent = roomCode;
-        myChannel = 'Dispatch';
-        isInRoom = true;
+        roomId=community.code.replace(/[^A-Z0-9]/g,'');
+        document.getElementById('svRoomCode').textContent=community.code;
+        myChannel='Dispatch';isInRoom=true;
         document.getElementById('statusBar').classList.add('active');
-        initPeer(roomCode.replace(/[^A-Z0-9]/g,''),true);
-        rebuildRadioUI();
+        joinRoom(roomId);rebuildRadioUI();
     };
 
-    window.closeServerView = function(){
-        if(isInRoom) leaveRoom();
-        activeServer = null;
+    window.closeServerView=function(){
+        if(isInRoom)leaveRoom();activeServer=null;
         document.getElementById('serverViewPage').classList.remove('active');
     };
 
-    window.switchServerTab = function(tab){
-        document.querySelectorAll('.sv-tab').forEach(function(el){
-            el.classList.toggle('active', el.dataset.tab===tab);
-        });
-        document.getElementById('svRadioPanel').style.display = tab==='radio'?'flex':'none';
-        document.getElementById('svMembersPanel').style.display = tab==='members'?'flex':'none';
-        if(tab==='members') buildMembersList();
+    window.switchServerTab=function(tab){
+        document.querySelectorAll('.sv-tab').forEach(function(el){el.classList.toggle('active',el.dataset.tab===tab)});
+        document.getElementById('svRadioPanel').style.display=tab==='radio'?'flex':'none';
+        document.getElementById('svMembersPanel').style.display=tab==='members'?'flex':'none';
+        if(tab==='members')buildMembersList();
     };
 
     function buildMembersList(){
-        if(!activeServer) return;
-        var list = document.getElementById('svMemberList');
-        list.innerHTML = '';
-        var members = activeServer.members||[{name:currentUser.username,role:'Owner'}];
-        document.getElementById('svMemberCount').textContent = members.length+' member'+(members.length!==1?'s':'');
-        members.forEach(function(m){
-            var row = document.createElement('div');
-            row.className = 'member-row';
-            var initial = m.name&&m.name.length>0?m.name[0].toUpperCase():'?';
-            row.innerHTML = '<div class="avatar">'+esc(initial)+'</div><div class="name">'+esc(m.name)+'</div><div class="role">'+esc(m.role||'Member')+'</div>';
-            list.appendChild(row);
-        });
-        // Add connected peers as members
-        Object.values(connections).forEach(function(c){
-            if(!c.name) return;
-            var exists = members.some(function(m){ return m.name===c.name; });
-            if(exists) return;
-            var row = document.createElement('div');
-            row.className = 'member-row';
-            row.innerHTML = '<div class="avatar">'+esc(c.name[0].toUpperCase())+'</div><div class="name">'+esc(c.name)+'</div><div class="role">Member</div>';
+        if(!activeServer)return;
+        var list=document.getElementById('svMemberList');list.innerHTML='';
+        var all=[{name:currentUser.username,avatarUrl:currentUser.avatarUrl,role:activeServer.isOwner?'Owner':'Member'}];
+        Object.values(connections).forEach(function(c){if(c.name)all.push({name:c.name,avatarUrl:c.avatarUrl||'',role:'Member'})});
+        document.getElementById('svMemberCount').textContent=all.length+' member'+(all.length!==1?'s':'');
+        all.forEach(function(m){
+            var row=document.createElement('div');row.className='member-row';
+            var init=m.name?m.name[0].toUpperCase():'?';
+            var avHtml=m.avatarUrl?'<img src="'+esc(m.avatarUrl)+'" style="width:100%;height:100%;object-fit:cover">':esc(init);
+            row.innerHTML='<div class="avatar">'+avHtml+'</div><div class="name">'+esc(m.name)+'</div><div class="role">'+esc(m.role)+'</div>';
             list.appendChild(row);
         });
     }
 
-    // ===== RADIO / WEBRTC =====
-    function initPeer(roomId,isHost){
-        var pid = isHost?'onyx-'+roomId+'-host':'onyx-'+roomId+'-'+Date.now()+'-'+Math.floor(Math.random()*1000);
-        getMicrophone().then(function(ok){
-            if(!ok) return;
-            peer = new Peer(pid);
+    // ===== WEBRTC MESH — GLOBAL VOICE + PRESENCE + RADIO CLICKS =====
+    function joinRoom(rid){
+        ensureAudio();
+        getMic().then(function(ok){
+            if(!ok)return;
+            var hostId='onyxroom-'+rid+'-host';
+            peer=new Peer(hostId);
             peer.on('open',function(){
-                updateStatus('Connected',true);
-                if(!isHost) connectToPeer('onyx-'+roomId+'-host');
-            });
-            peer.on('connection',function(conn){ setupDataConn(conn); });
-            peer.on('call',function(call){
-                call.answer(localStream);
-                setupMediaConn(call);
+                console.log('[Onyx] HOST:',hostId);
+                updateStatus('Connected (Host)',true);
+                setupPeerListeners();
             });
             peer.on('error',function(err){
                 if(err.type==='unavailable-id'){
-                    // Host exists, join as client
                     peer.destroy();
-                    pid = 'onyx-'+roomId+'-'+Date.now()+'-'+Math.floor(Math.random()*1000);
-                    peer = new Peer(pid);
+                    var cid='onyxroom-'+rid+'-'+currentUser.id+'-'+Date.now();
+                    peer=new Peer(cid);
                     peer.on('open',function(){
+                        console.log('[Onyx] CLIENT:',cid);
                         updateStatus('Connected',true);
-                        connectToPeer('onyx-'+roomId+'-host');
+                        setupPeerListeners();
+                        connectToPeer(hostId);
                     });
-                    peer.on('connection',function(conn){ setupDataConn(conn); });
-                    peer.on('call',function(call){ call.answer(localStream); setupMediaConn(call); });
                     peer.on('error',function(e2){
-                        if(e2.type==='peer-unavailable') showToast('Error','Could not connect to room.','error');
+                        if(e2.type==='peer-unavailable')showToast('Room','Connecting...','error');
+                        else console.warn('[Onyx]',e2);
                     });
-                }
+                }else console.warn('[Onyx]',err);
             });
-            peer.on('disconnected',function(){ updateStatus('Reconnecting...',false); peer.reconnect(); });
         });
     }
 
-    async function getMicrophone(){
+    function setupPeerListeners(){
+        peer.on('connection',function(c){setupDataConn(c)});
+        peer.on('call',function(c){c.answer(localStream);setupMediaConn(c)});
+        peer.on('disconnected',function(){updateStatus('Reconnecting...',false);try{peer.reconnect()}catch(e){}});
+    }
+
+    async function getMic(){
         try{
-            localStream = await navigator.mediaDevices.getUserMedia({audio:true,video:false});
-            localStream.getAudioTracks().forEach(function(t){t.enabled=false;});
+            localStream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+            localStream.getAudioTracks().forEach(function(t){t.enabled=false});
             return true;
-        }catch(e){
-            showToast('Mic Error','Microphone access is required.','error');
-            return false;
-        }
+        }catch(e){showToast('Mic Error','Microphone access required.','error');return false}
     }
 
     function connectToPeer(pid){
-        if(connections[pid]) return;
-        var conn = peer.connect(pid,{metadata:{name:currentUser.username,channel:myChannel}});
-        setupDataConn(conn);
-        var call = peer.call(pid,localStream,{metadata:{name:currentUser.username}});
+        if(connections[pid]&&connections[pid].conn)return;
+        console.log('[Onyx] Connecting to:',pid);
+        var c=peer.connect(pid,{metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel}});
+        setupDataConn(c);
+        var call=peer.call(pid,localStream,{metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||''}});
         setupMediaConn(call);
     }
 
     function setupDataConn(conn){
         conn.on('open',function(){
-            connections[conn.peer] = connections[conn.peer]||{};
-            connections[conn.peer].conn = conn;
-            connections[conn.peer].name = conn.metadata&&conn.metadata.name?conn.metadata.name:'Unknown';
-            connections[conn.peer].channel = conn.metadata&&conn.metadata.channel?conn.metadata.channel:'Dispatch';
-            connections[conn.peer].speaking = false;
-            conn.send({type:'info',name:currentUser.username,channel:myChannel});
+            var p=connections[conn.peer]=connections[conn.peer]||{};
+            p.conn=conn;
+            p.name=conn.metadata&&conn.metadata.name?conn.metadata.name:'Unknown';
+            p.avatarUrl=conn.metadata&&conn.metadata.avatarUrl?conn.metadata.avatarUrl:'';
+            p.channel=conn.metadata&&conn.metadata.channel?conn.metadata.channel:'Dispatch';
+            p.speaking=false;
+            // Send our full info
+            conn.send({type:'info',name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel});
+            // Host: share peer list so new peer can mesh with everyone
             if(peer.id.endsWith('-host')){
-                var pl=Object.keys(connections).filter(function(p){return p!==conn.peer;});
-                conn.send({type:'peers',peers:pl});
+                var pl=Object.keys(connections).filter(function(k){return k!==conn.peer&&connections[k].conn});
+                if(pl.length)conn.send({type:'peers',peers:pl});
             }
             rebuildRadioUI();
+            console.log('[Onyx] Data open:',conn.peer,'=',p.name);
         });
         conn.on('data',function(data){
-            if(data.type==='info'){
-                connections[conn.peer]=connections[conn.peer]||{};
-                connections[conn.peer].name=data.name;
-                connections[conn.peer].channel=data.channel;
-                rebuildRadioUI();
-            }else if(data.type==='peers'){
-                data.peers.forEach(function(p){connectToPeer(p);});
-            }else if(data.type==='speaking'){
-                if(connections[conn.peer]){connections[conn.peer].speaking=data.value;rebuildRadioUI();}
-            }else if(data.type==='channel'){
-                if(connections[conn.peer]){connections[conn.peer].channel=data.channel;rebuildRadioUI();}
+            if(!data||!data.type)return;
+            var p=connections[conn.peer];if(!p)p=connections[conn.peer]={};
+            switch(data.type){
+                case 'info':
+                    p.name=data.name;p.avatarUrl=data.avatarUrl||'';p.channel=data.channel;
+                    rebuildRadioUI();break;
+                case 'peers':
+                    (data.peers||[]).forEach(function(pid){connectToPeer(pid)});break;
+                case 'speaking':
+                    p.speaking=data.value;rebuildRadioUI();break;
+                case 'channel':
+                    p.channel=data.channel;rebuildRadioUI();break;
+                case 'radioclick':
+                    // Play radio click if we're in the same channel
+                    if(data.channel===myChannel)playRadioClick();
+                    break;
             }
         });
         conn.on('close',function(){
+            console.log('[Onyx] Peer left:',conn.peer);
             var a=document.getElementById('audio-'+conn.peer);if(a)a.remove();
             delete connections[conn.peer];rebuildRadioUI();
         });
+        conn.on('error',function(e){console.warn('[Onyx] data err:',e)});
     }
 
     function setupMediaConn(call){
         call.on('stream',function(rs){
-            connections[call.peer]=connections[call.peer]||{};
-            connections[call.peer].call=call;
-            connections[call.peer].stream=rs;
+            var p=connections[call.peer]=connections[call.peer]||{};
+            p.call=call;p.stream=rs;
             var a=document.getElementById('audio-'+call.peer);
-            if(!a){a=document.createElement('audio');a.id='audio-'+call.peer;a.autoplay=true;document.body.appendChild(a);}
+            if(!a){a=document.createElement('audio');a.id='audio-'+call.peer;a.autoplay=true;document.body.appendChild(a)}
             a.srcObject=rs;
-            a.muted=(connections[call.peer].channel!==myChannel);
+            a.muted=(p.channel!==myChannel);
+            console.log('[Onyx] Audio from:',call.peer);
         });
-        call.on('close',function(){var a=document.getElementById('audio-'+call.peer);if(a)a.remove();});
+        call.on('close',function(){var a=document.getElementById('audio-'+call.peer);if(a)a.remove()});
+        call.on('error',function(e){console.warn('[Onyx] media err:',e)});
+    }
+
+    function broadcast(msg){
+        Object.values(connections).forEach(function(c){
+            if(c.conn&&c.conn.open)try{c.conn.send(msg)}catch(e){}
+        });
     }
 
     function startTransmit(){
-        if(!isInRoom||isTransmitting) return;
-        isTransmitting=true;audioCtx.resume();playRadioClick();
-        if(localStream) localStream.getAudioTracks().forEach(function(t){t.enabled=true;});
-        Object.values(connections).forEach(function(c){if(c.conn&&c.conn.open)c.conn.send({type:'speaking',value:true});});
-        rebuildRadioUI();
-    }
-    function stopTransmit(){
-        if(!isTransmitting) return;
-        isTransmitting=false;playRadioClick();
-        if(localStream) localStream.getAudioTracks().forEach(function(t){t.enabled=false;});
-        Object.values(connections).forEach(function(c){if(c.conn&&c.conn.open)c.conn.send({type:'speaking',value:false});});
+        if(!isInRoom||isTransmitting)return;
+        isTransmitting=true;
+        playRadioClick(); // local click
+        broadcast({type:'radioclick',channel:myChannel}); // remote click for everyone
+        if(localStream)localStream.getAudioTracks().forEach(function(t){t.enabled=true});
+        broadcast({type:'speaking',value:true});
         rebuildRadioUI();
     }
 
-    window.leaveRoom = function(){
+    function stopTransmit(){
+        if(!isTransmitting)return;
+        isTransmitting=false;
+        playRadioClick(); // local click
+        broadcast({type:'radioclick',channel:myChannel}); // remote click for everyone
+        if(localStream)localStream.getAudioTracks().forEach(function(t){t.enabled=false});
+        broadcast({type:'speaking',value:false});
+        rebuildRadioUI();
+    }
+
+    window.leaveRoom=function(){
         isInRoom=false;isTransmitting=false;
-        Object.values(connections).forEach(function(c){if(c.conn)c.conn.close();if(c.call)c.call.close();});
+        Object.values(connections).forEach(function(c){try{if(c.conn)c.conn.close()}catch(e){}try{if(c.call)c.call.close()}catch(e){}});
         connections={};
-        if(localStream){localStream.getTracks().forEach(function(t){t.stop();});localStream=null;}
-        if(peer){peer.destroy();peer=null;}
-        document.querySelectorAll('audio[id^="audio-"]').forEach(function(a){a.remove();});
+        if(localStream){localStream.getTracks().forEach(function(t){t.stop()});localStream=null}
+        if(peer){try{peer.destroy()}catch(e){}peer=null}
+        document.querySelectorAll('audio[id^="audio-"]').forEach(function(a){a.remove()});
         document.getElementById('statusBar').classList.remove('active');
         myChannel='Dispatch';
     };
 
     // ===== RADIO UI =====
     function rebuildRadioUI(){
-        if(!isInRoom) return;
-        buildChannelSidebar();
-        buildUserCards();
+        if(!isInRoom)return;
+        buildChannelSidebar();buildUserCards();
         Object.keys(connections).forEach(function(pid){
             var a=document.getElementById('audio-'+pid);
-            if(a) a.muted=(connections[pid].channel!==myChannel);
+            if(a)a.muted=(connections[pid].channel!==myChannel);
         });
     }
 
     function buildChannelSidebar(){
-        var list=document.getElementById('svChannelList');
-        list.innerHTML='';
+        var list=document.getElementById('svChannelList');list.innerHTML='';
         channelStructure.forEach(function(cat){
             var h=document.createElement('div');h.className='cat-header';
-            h.innerHTML='<span class="expand">▾</span><span class="name">'+esc(cat.category)+'</span>';
+            h.innerHTML='<span class="expand"><svg class="icon"><use href="#ico-expand"/></svg></span><span class="name">'+esc(cat.category)+'</span>';
             list.appendChild(h);
             cat.channels.forEach(function(ch){
-                var active=ch===myChannel;
-                var count=active?1:0;
-                Object.values(connections).forEach(function(c){if(c.channel===ch)count++;});
-                var row=document.createElement('div');
-                row.className='ch-row'+(active?' active':'');
-                row.innerHTML='<span class="mic">🎙️</span><span class="name">'+esc(ch)+'</span>'+(count>0?'<span class="badge">'+count+'</span>':'');
-                row.addEventListener('click',(function(c){return function(){switchChannel(c);};})(ch));
+                var active=ch===myChannel,count=active?1:0;
+                Object.values(connections).forEach(function(c){if(c.channel===ch)count++});
+                var row=document.createElement('div');row.className='ch-row'+(active?' active':'');
+                row.innerHTML='<span class="mic"><svg class="icon"><use href="#ico-mic"/></svg></span><span class="name">'+esc(ch)+'</span>'+(count>0?'<span class="badge">'+count+'</span>':'');
+                row.addEventListener('click',(function(c){return function(){switchChannel(c)}})(ch));
                 list.appendChild(row);
+                // Users in this channel
                 if(active){
-                    // My entry
                     var me=document.createElement('div');me.className='ch-user';
                     me.innerHTML='<div class="dot '+(isTransmitting?'tx':'')+'"></div><span class="uname">'+esc(currentUser.username)+'</span>';
                     list.appendChild(me);
-                    Object.values(connections).forEach(function(c){
-                        if(c.channel===ch){
-                            var e=document.createElement('div');e.className='ch-user';
-                            e.innerHTML='<div class="dot '+(c.speaking?'tx':'')+'"></div><span class="uname">'+esc(c.name||'Unknown')+'</span>';
-                            list.appendChild(e);
-                        }
-                    });
                 }
+                Object.values(connections).forEach(function(c){
+                    if(c.channel===ch){
+                        var e=document.createElement('div');e.className='ch-user';
+                        e.innerHTML='<div class="dot '+(c.speaking?'tx':'')+'"></div><span class="uname">'+esc(c.name||'Unknown')+'</span>';
+                        list.appendChild(e);
+                    }
+                });
             });
         });
     }
@@ -993,76 +877,73 @@
     function buildUserCards(){
         var area=document.getElementById('svUserCards');area.innerHTML='';
         var count=1;
-        Object.values(connections).forEach(function(c){if(c.channel===myChannel)count++;});
+        Object.values(connections).forEach(function(c){if(c.channel===myChannel)count++});
         document.getElementById('svDispatchChName').textContent=myChannel;
         document.getElementById('svDispatchCount').textContent=count+' user'+(count!==1?'s':'');
-        area.appendChild(makeCard(currentUser.username,myChannel,isTransmitting,true));
+        area.appendChild(makeCard(currentUser.username,currentUser.avatarUrl,myChannel,isTransmitting,true));
         Object.values(connections).forEach(function(c){
-            if(c.channel===myChannel) area.appendChild(makeCard(c.name||'Unknown',c.channel,c.speaking,false));
+            if(c.channel===myChannel)area.appendChild(makeCard(c.name||'Unknown',c.avatarUrl||'',c.channel,c.speaking,false));
         });
     }
 
-    function makeCard(name,channel,speaking,isMe){
+    function makeCard(name,avatar,channel,speaking,isMe){
         var d=document.createElement('div');d.className='ucard'+(speaking?' tx':'');
-        var i=name.length>0?name[0].toUpperCase():'?';
-        d.innerHTML='<div class="ucard-top"><div class="ucard-avatar">'+esc(i)+'</div><div class="ucard-info"><div class="ucard-name">'+esc(name)+(isMe?' <span class="you">(you)</span>':'')+'</div><div class="ucard-status '+(speaking?'tx':'')+'">'+(speaking?'Transmitting':'Idle')+'</div></div></div><div class="ucard-ch">'+esc(channel)+'</div>';
+        var init=name?name[0].toUpperCase():'?';
+        var avHtml=avatar?'<img src="'+esc(avatar)+'" style="width:100%;height:100%;object-fit:cover">':esc(init);
+        d.innerHTML='<div class="ucard-top"><div class="ucard-avatar">'+avHtml+'</div><div class="ucard-info"><div class="ucard-name">'+esc(name)+(isMe?' <span class="you">(you)</span>':'')+'</div><div class="ucard-status '+(speaking?'tx':'')+'">'+(speaking?'Transmitting':'Idle')+'</div></div></div><div class="ucard-ch">'+esc(channel)+'</div>';
         return d;
     }
 
     function switchChannel(ch){
-        if(!isInRoom||ch===myChannel) return;
+        if(!isInRoom||ch===myChannel)return;
         myChannel=ch;if(isTransmitting)stopTransmit();
-        Object.values(connections).forEach(function(c){if(c.conn&&c.conn.open)c.conn.send({type:'channel',channel:myChannel});});
+        broadcast({type:'channel',channel:myChannel});
         rebuildRadioUI();
     }
 
-    window.copyRoomCode = function(){
-        copyText(roomCode);
-    };
+    window.copyRoomCode=function(){if(activeServer)copyText(activeServer.code)};
 
-    function updateStatus(text,ok){
-        document.getElementById('statusText').textContent=text;
+    function updateStatus(t,ok){
+        document.getElementById('statusText').textContent=t;
         document.getElementById('statusDot').className='status-dot'+(ok?'':' off');
     }
 
-    // ===== PTT KEYBOARD =====
+    // ===== PTT =====
     document.addEventListener('keydown',function(e){
-        if(e.code==='Space'&&!e.repeat&&isInRoom){e.preventDefault();startTransmit();}
+        if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+        if(e.code==='Space'&&!e.repeat&&isInRoom){e.preventDefault();startTransmit()}
     });
     document.addEventListener('keyup',function(e){
-        if(e.code==='Space'){e.preventDefault();stopTransmit();}
+        if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+        if(e.code==='Space'){e.preventDefault();stopTransmit()}
     });
-    window.addEventListener('keydown',function(e){if(e.code==='Space'&&isInRoom)e.preventDefault();});
+    window.addEventListener('keydown',function(e){
+        if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+        if(e.code==='Space'&&isInRoom)e.preventDefault();
+    });
 
     // ===== HELPERS =====
-    function showModal(id){document.getElementById(id).classList.add('active');}
-    function hideModal(id){document.getElementById(id).classList.remove('active');}
-    window.hideModal = hideModal;
-
+    function showModal(id){document.getElementById(id).classList.add('active')}
+    function hideModal(id){document.getElementById(id).classList.remove('active')}
+    window.hideModal=hideModal;
     function showToast(title,msg,type){
-        var t=document.getElementById('toast');
-        t.className='toast '+(type||'success');
+        var t=document.getElementById('toast');t.className='toast '+(type||'success');
         document.getElementById('toastTitle').textContent=title;
         document.getElementById('toastMsg').textContent=msg;
-        t.classList.add('show');
-        setTimeout(function(){t.classList.remove('show');},3000);
+        t.classList.add('show');setTimeout(function(){t.classList.remove('show')},3000);
     }
-    window.showToast = showToast;
-
-    function copyText(text){
-        navigator.clipboard.writeText(text).then(function(){showToast('Copied!','Copied to clipboard.','success');});
-    }
-    window.copyText = copyText;
-
-    function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+    window.showToast=showToast;
+    function copyText(t){navigator.clipboard.writeText(t).then(function(){showToast('Copied!','Copied to clipboard.','success')})}
+    window.copyText=copyText;
 
     // ===== INIT =====
-    var saved = load('user');
-    if(saved){
-        currentUser = saved;
-        communities = load('communities')||[];
-        enterDashboard();
-    }
+    (async function(){
+        if(window.location.hash&&window.location.hash.includes('access_token')){
+            if(await handleOAuthCallback())return;
+        }
+        var saved=load('user');
+        if(saved){currentUser=saved;communities=load('communities')||[];enterDashboard()}
+    })();
 })();
 </script>
 </body>
