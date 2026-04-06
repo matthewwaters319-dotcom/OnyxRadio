@@ -684,130 +684,340 @@
     }
 
     // ===== WEBRTC MESH — GLOBAL VOICE + PRESENCE + RADIO CLICKS =====
+    var isHost=false;
+    var heartbeatTimer=null;
+    var retryTimer=null;
+    var currentRoomId='';
+    var audioElements={};
+
+    function sanitizeId(id){return id.replace(/[^a-zA-Z0-9_-]/g,'_')}
+
     function joinRoom(rid){
+        currentRoomId=rid;
         ensureAudio();
         getMic().then(function(ok){
-            if(!ok)return;
-            var hostId='onyxroom-'+rid+'-host';
-            peer=new Peer(hostId);
-            peer.on('open',function(){
-                console.log('[Onyx] HOST:',hostId);
-                updateStatus('Connected (Host)',true);
-                setupPeerListeners();
-            });
-            peer.on('error',function(err){
-                if(err.type==='unavailable-id'){
-                    peer.destroy();
-                    var cid='onyxroom-'+rid+'-'+currentUser.id+'-'+Date.now();
-                    peer=new Peer(cid);
-                    peer.on('open',function(){
-                        console.log('[Onyx] CLIENT:',cid);
-                        updateStatus('Connected',true);
-                        setupPeerListeners();
-                        connectToPeer(hostId);
-                    });
-                    peer.on('error',function(e2){
-                        if(e2.type==='peer-unavailable')showToast('Room','Connecting...','error');
-                        else console.warn('[Onyx]',e2);
-                    });
-                }else console.warn('[Onyx]',err);
-            });
+            if(!ok){
+                showToast('Mic Required','Allow microphone access to use voice.','error');
+                return;
+            }
+            tryBecomeHost(rid);
         });
     }
 
+    function tryBecomeHost(rid){
+        if(!isInRoom)return;
+        var hostId='onyxroom-'+rid+'-host';
+        console.log('[Onyx] Trying to claim host:',hostId);
+        updateStatus('Connecting...', false);
+        if(peer){try{peer.destroy()}catch(e){}}
+        peer=new Peer(hostId,{debug:1});
+        var settled=false;
+        peer.on('open',function(id){
+            if(settled)return;settled=true;
+            isHost=true;
+            console.log('[Onyx] I am HOST:',id);
+            updateStatus('Connected (Host)',true);
+            showToast('Room','You are the room host.','success');
+            setupPeerListeners();
+            startHeartbeat();
+        });
+        peer.on('error',function(err){
+            if(settled&&err.type==='peer-unavailable')return;
+            if(err.type==='unavailable-id'){
+                settled=true;
+                console.log('[Onyx] Host exists, joining as client');
+                try{peer.destroy()}catch(e){}
+                joinAsClient(rid,hostId);
+            }else{
+                console.warn('[Onyx] Peer error:',err.type,err);
+                if(!settled){settled=true;retryJoin(rid,2000)}
+            }
+        });
+    }
+
+    function joinAsClient(rid,hostId){
+        if(!isInRoom)return;
+        var cid='onyx-'+rid+'-'+currentUser.id.substring(0,8)+'-'+Date.now();
+        console.log('[Onyx] Creating client peer:',cid);
+        peer=new Peer(cid,{debug:1});
+        var settled=false;
+        peer.on('open',function(id){
+            if(settled)return;settled=true;
+            isHost=false;
+            console.log('[Onyx] CLIENT ready:',id);
+            updateStatus('Connected',true);
+            setupPeerListeners();
+            connectToHost(hostId,0);
+        });
+        peer.on('error',function(err){
+            if(err.type==='peer-unavailable'){
+                console.warn('[Onyx] Host not found, will retry become host...');
+                retryJoin(rid,3000);
+            }else{
+                console.warn('[Onyx] Client error:',err.type,err);
+                if(!settled){settled=true;retryJoin(rid,2000)}
+            }
+        });
+    }
+
+    function connectToHost(hostId,attempt){
+        if(!isInRoom||!peer||peer.destroyed)return;
+        if(connections[hostId]&&connections[hostId].conn&&connections[hostId].conn.open)return;
+        console.log('[Onyx] Connecting to host (attempt '+(attempt+1)+'):',hostId);
+        try{
+            var c=peer.connect(hostId,{
+                metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel},
+                reliable:true
+            });
+            if(!c){if(attempt<5)setTimeout(function(){connectToHost(hostId,attempt+1)},2000);return}
+            var opened=false;
+            c.on('open',function(){
+                opened=true;
+                console.log('[Onyx] Data channel to host OPEN');
+                onDataConnOpen(c);
+                // Now also establish audio
+                callPeer(hostId);
+            });
+            c.on('error',function(e){
+                console.warn('[Onyx] Data conn error to host:',e);
+                if(!opened&&attempt<5){
+                    setTimeout(function(){connectToHost(hostId,attempt+1)},2000+attempt*1000);
+                }
+            });
+            setupDataEvents(c);
+        }catch(e){
+            console.warn('[Onyx] Connect error:',e);
+            if(attempt<5)setTimeout(function(){connectToHost(hostId,attempt+1)},2000);
+        }
+    }
+
+    function connectToPeer(pid){
+        if(!isInRoom||!peer||peer.destroyed)return;
+        if(pid===peer.id)return;
+        if(connections[pid]&&connections[pid].conn&&connections[pid].conn.open)return;
+        console.log('[Onyx] Connecting to peer:',pid);
+        try{
+            var c=peer.connect(pid,{
+                metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel},
+                reliable:true
+            });
+            if(!c)return;
+            c.on('open',function(){
+                console.log('[Onyx] Data channel to peer OPEN:',pid);
+                onDataConnOpen(c);
+                callPeer(pid);
+            });
+            setupDataEvents(c);
+        }catch(e){console.warn('[Onyx] ConnectToPeer error:',e)}
+    }
+
+    function callPeer(pid){
+        if(!localStream||!peer||peer.destroyed)return;
+        if(connections[pid]&&connections[pid].call)return;
+        console.log('[Onyx] Calling peer:',pid);
+        try{
+            var call=peer.call(pid,localStream,{metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||''}});
+            if(call)setupMediaConn(call);
+        }catch(e){console.warn('[Onyx] Call error:',e)}
+    }
+
+    function retryJoin(rid,delay){
+        if(!isInRoom)return;
+        clearTimeout(retryTimer);
+        updateStatus('Reconnecting...',false);
+        retryTimer=setTimeout(function(){
+            if(isInRoom)tryBecomeHost(rid);
+        },delay);
+    }
+
     function setupPeerListeners(){
-        peer.on('connection',function(c){setupDataConn(c)});
-        peer.on('call',function(c){c.answer(localStream);setupMediaConn(c)});
-        peer.on('disconnected',function(){updateStatus('Reconnecting...',false);try{peer.reconnect()}catch(e){}});
+        peer.on('connection',function(c){
+            console.log('[Onyx] Incoming data connection from:',c.peer);
+            c.on('open',function(){
+                console.log('[Onyx] Incoming data OPEN from:',c.peer);
+                onDataConnOpen(c);
+            });
+            setupDataEvents(c);
+        });
+        peer.on('call',function(c){
+            console.log('[Onyx] Incoming call from:',c.peer);
+            c.answer(localStream);
+            setupMediaConn(c);
+        });
+        peer.on('disconnected',function(){
+            console.warn('[Onyx] Disconnected from signaling');
+            updateStatus('Reconnecting...',false);
+            if(isInRoom&&peer&&!peer.destroyed){
+                try{peer.reconnect()}catch(e){
+                    console.warn('[Onyx] Reconnect failed, re-joining');
+                    retryJoin(currentRoomId,2000);
+                }
+            }
+        });
+        peer.on('close',function(){
+            console.warn('[Onyx] Peer closed');
+            if(isInRoom)retryJoin(currentRoomId,2000);
+        });
     }
 
     async function getMic(){
         try{
-            localStream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+            localStream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true},video:false});
             localStream.getAudioTracks().forEach(function(t){t.enabled=false});
             return true;
-        }catch(e){showToast('Mic Error','Microphone access required.','error');return false}
+        }catch(e){
+            console.error('[Onyx] Mic error:',e);
+            showToast('Mic Error','Microphone access denied. Voice will not work.','error');
+            return false;
+        }
     }
 
-    function connectToPeer(pid){
-        if(connections[pid]&&connections[pid].conn)return;
-        console.log('[Onyx] Connecting to:',pid);
-        var c=peer.connect(pid,{metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel}});
-        setupDataConn(c);
-        var call=peer.call(pid,localStream,{metadata:{name:currentUser.username,avatarUrl:currentUser.avatarUrl||''}});
-        setupMediaConn(call);
-    }
-
-    function setupDataConn(conn){
-        conn.on('open',function(){
-            var p=connections[conn.peer]=connections[conn.peer]||{};
-            p.conn=conn;
-            p.name=conn.metadata&&conn.metadata.name?conn.metadata.name:'Unknown';
-            p.avatarUrl=conn.metadata&&conn.metadata.avatarUrl?conn.metadata.avatarUrl:'';
-            p.channel=conn.metadata&&conn.metadata.channel?conn.metadata.channel:'Dispatch';
-            p.speaking=false;
-            // Send our full info
-            conn.send({type:'info',name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel});
-            // Host: share peer list so new peer can mesh with everyone
-            if(peer.id.endsWith('-host')){
-                var pl=Object.keys(connections).filter(function(k){return k!==conn.peer&&connections[k].conn});
-                if(pl.length)conn.send({type:'peers',peers:pl});
+    function onDataConnOpen(conn){
+        var pid=conn.peer;
+        var p=connections[pid]=connections[pid]||{};
+        p.conn=conn;
+        p.name=conn.metadata&&conn.metadata.name?conn.metadata.name:'Unknown';
+        p.avatarUrl=conn.metadata&&conn.metadata.avatarUrl?conn.metadata.avatarUrl:'';
+        p.channel=conn.metadata&&conn.metadata.channel?conn.metadata.channel:'Dispatch';
+        p.speaking=false;
+        p.lastSeen=Date.now();
+        // Send our info
+        try{conn.send({type:'info',name:currentUser.username,avatarUrl:currentUser.avatarUrl||'',channel:myChannel,speaking:isTransmitting})}catch(e){}
+        // Host: share peer list so newcomer can connect to everyone
+        if(isHost){
+            var pl=Object.keys(connections).filter(function(k){return k!==pid&&connections[k].conn&&connections[k].conn.open});
+            if(pl.length){
+                try{conn.send({type:'peers',peers:pl})}catch(e){}
             }
-            rebuildRadioUI();
-            console.log('[Onyx] Data open:',conn.peer,'=',p.name);
-        });
+            // Also tell existing peers about the newcomer
+            Object.keys(connections).forEach(function(k){
+                if(k!==pid&&connections[k].conn&&connections[k].conn.open){
+                    try{connections[k].conn.send({type:'peers',peers:[pid]})}catch(e){}
+                }
+            });
+        }
+        rebuildRadioUI();
+        console.log('[Onyx] Peer registered:',pid,'as',p.name);
+    }
+
+    function setupDataEvents(conn){
         conn.on('data',function(data){
             if(!data||!data.type)return;
-            var p=connections[conn.peer];if(!p)p=connections[conn.peer]={};
+            var pid=conn.peer;
+            var p=connections[pid];if(!p)p=connections[pid]={};
+            p.lastSeen=Date.now();
             switch(data.type){
                 case 'info':
-                    p.name=data.name;p.avatarUrl=data.avatarUrl||'';p.channel=data.channel;
+                    p.name=data.name||p.name;p.avatarUrl=data.avatarUrl||p.avatarUrl||'';
+                    p.channel=data.channel||p.channel;
+                    if(data.speaking!==undefined)p.speaking=data.speaking;
                     rebuildRadioUI();break;
                 case 'peers':
-                    (data.peers||[]).forEach(function(pid){connectToPeer(pid)});break;
+                    console.log('[Onyx] Received peer list:',(data.peers||[]).length,'peers');
+                    (data.peers||[]).forEach(function(id){
+                        setTimeout(function(){connectToPeer(id)},Math.random()*1000);
+                    });break;
                 case 'speaking':
                     p.speaking=data.value;rebuildRadioUI();break;
                 case 'channel':
-                    p.channel=data.channel;rebuildRadioUI();break;
-                case 'radioclick':
-                    // Play radio click if we're in the same channel
-                    if(data.channel===myChannel)playRadioClick();
+                    p.channel=data.channel;rebuildRadioUI();
+                    // Update audio muting
+                    var aEl=audioElements[pid];
+                    if(aEl)aEl.muted=(data.channel!==myChannel);
                     break;
+                case 'radioclick':
+                    if(data.channel===myChannel)playRadioClick();break;
+                case 'heartbeat':
+                    // Host sends heartbeat with full peer list
+                    (data.peers||[]).forEach(function(id){connectToPeer(id)});break;
             }
         });
         conn.on('close',function(){
             console.log('[Onyx] Peer left:',conn.peer);
-            var a=document.getElementById('audio-'+conn.peer);if(a)a.remove();
-            delete connections[conn.peer];rebuildRadioUI();
+            removePeer(conn.peer);
         });
-        conn.on('error',function(e){console.warn('[Onyx] data err:',e)});
+        conn.on('error',function(e){
+            console.warn('[Onyx] Data error from',conn.peer,':',e);
+        });
     }
 
     function setupMediaConn(call){
         call.on('stream',function(rs){
-            var p=connections[call.peer]=connections[call.peer]||{};
+            var pid=call.peer;
+            var p=connections[pid]=connections[pid]||{};
             p.call=call;p.stream=rs;
-            var a=document.getElementById('audio-'+call.peer);
-            if(!a){a=document.createElement('audio');a.id='audio-'+call.peer;a.autoplay=true;document.body.appendChild(a)}
+            var safeId='audio-'+sanitizeId(pid);
+            var a=audioElements[pid];
+            if(!a){
+                a=document.createElement('audio');
+                a.id=safeId;a.autoplay=true;a.playsInline=true;
+                a.setAttribute('playsinline','');
+                document.body.appendChild(a);
+                audioElements[pid]=a;
+            }
             a.srcObject=rs;
-            a.muted=(p.channel!==myChannel);
-            console.log('[Onyx] Audio from:',call.peer);
+            a.muted=!!(p.channel&&p.channel!==myChannel);
+            // Force play (Chrome autoplay policy)
+            a.play().catch(function(e){console.warn('[Onyx] Audio play blocked:',e)});
+            console.log('[Onyx] Audio stream from:',pid,'muted:',a.muted);
         });
-        call.on('close',function(){var a=document.getElementById('audio-'+call.peer);if(a)a.remove()});
-        call.on('error',function(e){console.warn('[Onyx] media err:',e)});
+        call.on('close',function(){
+            var a=audioElements[call.peer];
+            if(a){a.srcObject=null;a.remove();delete audioElements[call.peer]}
+        });
+        call.on('error',function(e){console.warn('[Onyx] Media error:',e)});
+    }
+
+    function removePeer(pid){
+        var a=audioElements[pid];
+        if(a){a.srcObject=null;a.remove();delete audioElements[pid]}
+        if(connections[pid]){
+            try{if(connections[pid].conn)connections[pid].conn.close()}catch(e){}
+            try{if(connections[pid].call)connections[pid].call.close()}catch(e){}
+        }
+        delete connections[pid];
+        rebuildRadioUI();
+        // If the host left and we're a client, try to become host
+        if(pid.endsWith('-host')&&!isHost&&isInRoom){
+            console.log('[Onyx] Host left! Trying to become new host...');
+            showToast('Room','Host left. Reconnecting...','error');
+            retryJoin(currentRoomId,1500);
+        }
+    }
+
+    function startHeartbeat(){
+        clearInterval(heartbeatTimer);
+        heartbeatTimer=setInterval(function(){
+            if(!isInRoom||!isHost)return;
+            var pl=Object.keys(connections).filter(function(k){return connections[k].conn&&connections[k].conn.open});
+            if(pl.length){
+                broadcast({type:'heartbeat',peers:pl});
+            }
+            // Prune stale connections (no data in 30s)
+            var now=Date.now();
+            Object.keys(connections).forEach(function(k){
+                if(connections[k].lastSeen&&(now-connections[k].lastSeen)>30000){
+                    console.log('[Onyx] Pruning stale peer:',k);
+                    removePeer(k);
+                }
+            });
+        },5000);
     }
 
     function broadcast(msg){
-        Object.values(connections).forEach(function(c){
-            if(c.conn&&c.conn.open)try{c.conn.send(msg)}catch(e){}
+        Object.keys(connections).forEach(function(k){
+            var c=connections[k];
+            if(c&&c.conn&&c.conn.open){
+                try{c.conn.send(msg)}catch(e){console.warn('[Onyx] Broadcast fail to',k,e)}
+            }
         });
     }
 
     function startTransmit(){
         if(!isInRoom||isTransmitting)return;
         isTransmitting=true;
-        playRadioClick(); // local click
-        broadcast({type:'radioclick',channel:myChannel}); // remote click for everyone
+        playRadioClick();
+        broadcast({type:'radioclick',channel:myChannel});
         if(localStream)localStream.getAudioTracks().forEach(function(t){t.enabled=true});
         broadcast({type:'speaking',value:true});
         rebuildRadioUI();
@@ -816,22 +1026,26 @@
     function stopTransmit(){
         if(!isTransmitting)return;
         isTransmitting=false;
-        playRadioClick(); // local click
-        broadcast({type:'radioclick',channel:myChannel}); // remote click for everyone
+        playRadioClick();
+        broadcast({type:'radioclick',channel:myChannel});
         if(localStream)localStream.getAudioTracks().forEach(function(t){t.enabled=false});
         broadcast({type:'speaking',value:false});
         rebuildRadioUI();
     }
 
     window.leaveRoom=function(){
-        isInRoom=false;isTransmitting=false;
-        Object.values(connections).forEach(function(c){try{if(c.conn)c.conn.close()}catch(e){}try{if(c.call)c.call.close()}catch(e){}});
+        isInRoom=false;isTransmitting=false;isHost=false;
+        clearInterval(heartbeatTimer);clearTimeout(retryTimer);
+        Object.keys(connections).forEach(function(k){removePeer(k)});
         connections={};
         if(localStream){localStream.getTracks().forEach(function(t){t.stop()});localStream=null}
         if(peer){try{peer.destroy()}catch(e){}peer=null}
-        document.querySelectorAll('audio[id^="audio-"]').forEach(function(a){a.remove()});
+        Object.keys(audioElements).forEach(function(k){
+            try{audioElements[k].srcObject=null;audioElements[k].remove()}catch(e){}
+        });
+        audioElements={};
         document.getElementById('statusBar').classList.remove('active');
-        myChannel='Dispatch';
+        myChannel='Dispatch';currentRoomId='';
     };
 
     // ===== RADIO UI =====
@@ -839,8 +1053,8 @@
         if(!isInRoom)return;
         buildChannelSidebar();buildUserCards();
         Object.keys(connections).forEach(function(pid){
-            var a=document.getElementById('audio-'+pid);
-            if(a)a.muted=(connections[pid].channel!==myChannel);
+            var a=audioElements[pid];
+            if(a)a.muted=!!(connections[pid].channel&&connections[pid].channel!==myChannel);
         });
     }
 
