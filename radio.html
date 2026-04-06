@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onyx Radio — Web Radio</title>
+    <link rel="icon" href="onyxradiologo.png" type="image/png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #08080D;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            background: #0E0E14;
+            border-bottom: 1px solid #1A1A22;
+        }
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .top-bar img { width: 32px; height: 32px; }
+        .top-bar h1 { font-size: 1.1rem; font-weight: 700; }
+        .back-link {
+            color: #5865F2;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid #5865F2;
+            transition: all 0.2s;
+        }
+        .back-link:hover { background: #5865F2; color: white; }
+
+        /* Main Layout */
+        .main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #0B0B10;
+            border-right: 1px solid #1A1A22;
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            gap: 12px;
+        }
+        .sidebar h2 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555;
+            margin-bottom: 4px;
+        }
+        .channel-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .channel {
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+        }
+        .channel:hover { background: #14141C; color: #ccc; }
+        .channel.active { background: #1A1A26; color: white; font-weight: 600; }
+        .channel-icon { font-size: 0.85rem; opacity: 0.6; }
+        .user-count {
+            margin-left: auto;
+            background: #1A1A26;
+            color: #666;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Join Panel */
+        .join-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .join-card {
+            background: #0E0E14;
+            border: 1px solid #1A1A22;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            width: 400px;
+        }
+        .join-card h2 { margin-bottom: 8px; font-size: 1.3rem; }
+        .join-card p { color: #666; font-size: 0.9rem; margin-bottom: 24px; }
+        .join-card input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #1A1A22;
+            background: #0A0A0F;
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 12px;
+            outline: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .join-card input:focus { border-color: #5865F2; }
+        .join-card input::placeholder {
+            text-transform: none;
+            letter-spacing: normal;
+            color: #444;
+        }
+        .join-card .name-input {
+            text-transform: none;
+            letter-spacing: normal;
+            margin-bottom: 16px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .btn-primary {
+            background: #5865F2;
+            color: white;
+            box-shadow: 0 4px 16px rgba(88, 101, 242, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.35);
+        }
+        .btn-danger {
+            background: #ED4245;
+            color: white;
+        }
+        .btn-danger:hover { background: #d63638; }
+
+        /* Radio Panel */
+        .radio-panel {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+        }
+        .radio-panel.active { display: flex; }
+        .radio-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #1A1A22;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .radio-header h2 { font-size: 1.1rem; }
+        .room-code-display {
+            font-family: monospace;
+            font-size: 0.85rem;
+            background: #1A1A26;
+            padding: 4px 12px;
+            border-radius: 6px;
+            color: #5865F2;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .room-code-display:hover { background: #22223A; }
+
+        .radio-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            padding: 40px;
+        }
+
+        /* PTT Button */
+        .ptt-container { text-align: center; }
+        .ptt-btn {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 3px solid #1A1A26;
+            background: #0E0E14;
+            color: #666;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .ptt-btn:hover { border-color: #333; color: #999; }
+        .ptt-btn.transmitting {
+            border-color: #ED4245;
+            background: rgba(237, 66, 69, 0.1);
+            color: #ED4245;
+            box-shadow: 0 0 40px rgba(237, 66, 69, 0.2);
+        }
+        .ptt-label {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .ptt-label.transmitting { color: #ED4245; font-weight: 600; }
+
+        /* Users List */
+        .users-panel {
+            width: 100%;
+            max-width: 400px;
+        }
+        .users-panel h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .user-entry {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: #0E0E14;
+        }
+        .user-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3BA55D;
+            flex-shrink: 0;
+        }
+        .user-dot.speaking {
+            background: #ED4245;
+            box-shadow: 0 0 8px rgba(237, 66, 69, 0.5);
+            animation: pulse 0.8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+        .user-name { font-size: 0.9rem; }
+        .user-you { color: #5865F2; font-size: 0.7rem; margin-left: 4px; }
+
+        /* Status bar */
+        .status-bar {
+            padding: 10px 24px;
+            background: #0B0B10;
+            border-top: 1px solid #1A1A22;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #555;
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .status-dot.connected { background: #3BA55D; }
+        .status-dot.disconnected { background: #ED4245; }
+
+        .leave-btn {
+            background: none;
+            border: 1px solid #333;
+            color: #999;
+            padding: 4px 14px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .leave-btn:hover { border-color: #ED4245; color: #ED4245; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .join-card { width: 90%; padding: 28px; }
+            .ptt-btn { width: 120px; height: 120px; font-size: 2rem; }
+        }
+
+        /* Hidden */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <img src="onyxradiologo.png" alt="Onyx Radio">
+            <h1>Onyx Radio</h1>
+        </div>
+        <a href="index.html" class="back-link">← Home</a>
+    </div>
+
+    <div class="main">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <h2>Channels</h2>
+            <div class="channel-list" id="channelList">
+                <div class="channel active" data-channel="dispatch">
+                    <span class="channel-icon">🎙️</span>
+                    Dispatch
+                    <span class="user-count" id="count-dispatch">0</span>
+                </div>
+                <div class="channel" data-channel="patrol">
+                    <span class="channel-icon">🎙️</span>
+                    Patrol
+                    <span class="user-count" id="count-patrol">0</span>
+                </div>
+                <div class="channel" data-channel="tac-1">
+                    <span class="channel-icon">🎙️</span>
+                    TAC-1
+                    <span class="user-count" id="count-tac-1">0</span>
+                </div>
+                <div class="channel" data-channel="tac-2">
+                    <span class="channel-icon">🎙️</span>
+                    TAC-2
+                    <span class="user-count" id="count-tac-2">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Join Panel (shown before joining) -->
+        <div class="join-panel" id="joinPanel">
+            <div class="join-card">
+                <h2>Join a Radio Room</h2>
+                <p>Enter a room code to join, or create a new room.</p>
+                <input type="text" id="roomCodeInput" placeholder="Room code (e.g. ONYX-1234)" maxlength="12">
+                <input type="text" class="name-input" id="displayName" placeholder="Your display name" maxlength="24">
+                <button class="btn btn-primary" id="joinBtn" onclick="joinRoom()">Join Room</button>
+                <div style="margin-top: 12px;">
+                    <button class="btn btn-primary" style="background: #3BA55D; box-shadow: 0 4px 16px rgba(59,165,93,0.25);" onclick="createRoom()">Create New Room</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Radio Panel (shown after joining) -->
+        <div class="radio-panel" id="radioPanel">
+            <div class="radio-header">
+                <h2 id="channelName">Dispatch</h2>
+                <div class="room-code-display" id="roomCodeDisplay" title="Click to copy" onclick="copyRoomCode()">—</div>
+            </div>
+            <div class="radio-body">
+                <div class="ptt-container">
+                    <button class="ptt-btn" id="pttBtn">🎙️</button>
+                    <p class="ptt-label" id="pttLabel">Hold to talk (or press Space)</p>
+                </div>
+                <div class="users-panel">
+                    <h3>In Channel — <span id="userCount">0</span></h3>
+                    <div class="user-list" id="userList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div class="status-bar" id="statusBar" style="display:none;">
+        <div>
+            <span class="status-dot connected" id="statusDot"></span>
+            <span id="statusText">Connected</span>
+        </div>
+        <button class="leave-btn" onclick="leaveRoom()">Leave Room</button>
+    </div>
+
+    <!-- Radio Click Sound -->
+    <audio id="radioClickOn" preload="auto">
+        <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=" type="audio/wav">
+    </audio>
+
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script>
+    (function() {
+        // State
+        let peer = null;
+        let connections = {};  // peerId -> { conn, call, name, channel, speaking }
+        let localStream = null;
+        let mutedStream = null;
+        let roomCode = '';
+        let myName = '';
+        let myChannel = 'dispatch';
+        let isTransmitting = false;
+        let isInRoom = false;
+
+        // Audio context for radio click
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playRadioClick() {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.frequency.setValueAtTime(1800, audioCtx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.04);
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.08);
+        }
+
+        // Generate room code
+        function generateRoomCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = 'ONYX-';
+            for (let i = 0; i < 4; i++) code += chars[Math.floor(Math.random() * chars.length)];
+            return code;
+        }
+
+        // Get microphone
+        async function getMicrophone() {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                // Create a muted clone for initial state
+                mutedStream = localStream.clone();
+                mutedStream.getAudioTracks().forEach(t => t.enabled = false);
+                return true;
+            } catch (e) {
+                alert('Microphone access is required for radio. Please allow mic access and try again.');
+                return false;
+            }
+        }
+
+        // Initialize PeerJS
+        function initPeer(roomId, isHost) {
+            const peerId = isHost ? `onyx-${roomId}-host` : `onyx-${roomId}-${Date.now()}`;
+
+            peer = new Peer(peerId);
+
+            peer.on('open', (id) => {
+                console.log('Connected as', id);
+                updateStatus('Connected', true);
+
+                if (!isHost) {
+                    // Connect to host
+                    connectToPeer(`onyx-${roomId}-host`);
+                }
+            });
+
+            peer.on('connection', (conn) => {
+                setupDataConnection(conn);
+            });
+
+            peer.on('call', (call) => {
+                call.answer(mutedStream);
+                setupMediaConnection(call);
+            });
+
+            peer.on('error', (err) => {
+                console.error('Peer error:', err);
+                if (err.type === 'peer-unavailable') {
+                    // Host not found
+                    if (!isHost) {
+                        alert('Room not found. Check the code and try again.');
+                        leaveRoom();
+                    }
+                } else if (err.type === 'unavailable-id') {
+                    alert('This room already has a host. Try joining instead.');
+                    leaveRoom();
+                }
+            });
+
+            peer.on('disconnected', () => {
+                updateStatus('Reconnecting...', false);
+                peer.reconnect();
+            });
+        }
+
+        function connectToPeer(peerId) {
+            if (connections[peerId]) return;
+
+            const conn = peer.connect(peerId, { metadata: { name: myName, channel: myChannel } });
+            setupDataConnection(conn);
+
+            const call = peer.call(peerId, mutedStream, { metadata: { name: myName } });
+            setupMediaConnection(call);
+        }
+
+        function setupDataConnection(conn) {
+            conn.on('open', () => {
+                connections[conn.peer] = connections[conn.peer] || {};
+                connections[conn.peer].conn = conn;
+                connections[conn.peer].name = conn.metadata?.name || 'Unknown';
+                connections[conn.peer].channel = conn.metadata?.channel || 'dispatch';
+                connections[conn.peer].speaking = false;
+
+                // Send our info
+                conn.send({ type: 'info', name: myName, channel: myChannel });
+
+                // If we're host, tell new peer about all other peers
+                if (peer.id.endsWith('-host')) {
+                    const peerList = Object.keys(connections).filter(p => p !== conn.peer);
+                    conn.send({ type: 'peers', peers: peerList });
+                }
+
+                updateUI();
+            });
+
+            conn.on('data', (data) => {
+                if (data.type === 'info') {
+                    connections[conn.peer] = connections[conn.peer] || {};
+                    connections[conn.peer].name = data.name;
+                    connections[conn.peer].channel = data.channel;
+                    updateUI();
+                } else if (data.type === 'peers') {
+                    // Connect to other peers
+                    data.peers.forEach(p => connectToPeer(p));
+                } else if (data.type === 'speaking') {
+                    if (connections[conn.peer]) {
+                        connections[conn.peer].speaking = data.value;
+                        updateUI();
+                    }
+                } else if (data.type === 'channel') {
+                    if (connections[conn.peer]) {
+                        connections[conn.peer].channel = data.channel;
+                        updateUI();
+                    }
+                }
+            });
+
+            conn.on('close', () => {
+                delete connections[conn.peer];
+                updateUI();
+            });
+        }
+
+        function setupMediaConnection(call) {
+            call.on('stream', (remoteStream) => {
+                connections[call.peer] = connections[call.peer] || {};
+                connections[call.peer].call = call;
+                connections[call.peer].stream = remoteStream;
+
+                // Create audio element for this peer
+                let audio = document.getElementById('audio-' + call.peer);
+                if (!audio) {
+                    audio = document.createElement('audio');
+                    audio.id = 'audio-' + call.peer;
+                    audio.autoplay = true;
+                    document.body.appendChild(audio);
+                }
+                audio.srcObject = remoteStream;
+            });
+
+            call.on('close', () => {
+                const audio = document.getElementById('audio-' + call.peer);
+                if (audio) audio.remove();
+            });
+        }
+
+        // PTT Controls
+        function startTransmit() {
+            if (!isInRoom || isTransmitting) return;
+            isTransmitting = true;
+            playRadioClick();
+
+            // Unmute local stream for all peers in same channel
+            if (localStream) {
+                localStream.getAudioTracks().forEach(t => t.enabled = true);
+                // Replace tracks in active calls
+                Object.values(connections).forEach(c => {
+                    if (c.call && c.channel === myChannel) {
+                        const sender = c.call.peerConnection?.getSenders().find(s => s.track?.kind === 'audio');
+                        if (sender && localStream.getAudioTracks()[0]) {
+                            sender.replaceTrack(localStream.getAudioTracks()[0]);
+                        }
+                    }
+                });
+            }
+
+            // Broadcast speaking state
+            Object.values(connections).forEach(c => {
+                if (c.conn && c.conn.open) {
+                    c.conn.send({ type: 'speaking', value: true });
+                }
+            });
+
+            document.getElementById('pttBtn').classList.add('transmitting');
+            document.getElementById('pttLabel').classList.add('transmitting');
+            document.getElementById('pttLabel').textContent = 'Transmitting...';
+            updateUI();
+        }
+
+        function stopTransmit() {
+            if (!isTransmitting) return;
+            isTransmitting = false;
+            playRadioClick();
+
+            // Mute local stream
+            if (localStream) {
+                localStream.getAudioTracks().forEach(t => t.enabled = false);
+            }
+
+            // Broadcast stop speaking
+            Object.values(connections).forEach(c => {
+                if (c.conn && c.conn.open) {
+                    c.conn.send({ type: 'speaking', value: false });
+                }
+            });
+
+            document.getElementById('pttBtn').classList.remove('transmitting');
+            document.getElementById('pttLabel').classList.remove('transmitting');
+            document.getElementById('pttLabel').textContent = 'Hold to talk (or press Space)';
+            updateUI();
+        }
+
+        // UI Updates
+        function updateUI() {
+            // User list - only show users in same channel
+            const userList = document.getElementById('userList');
+            let html = `<div class="user-entry">
+                <span class="user-dot ${isTransmitting ? 'speaking' : ''}"></span>
+                <span class="user-name">${escapeHtml(myName)} <span class="user-you">(you)</span></span>
+            </div>`;
+
+            let totalInChannel = 1;
+            Object.entries(connections).forEach(([pid, c]) => {
+                if (c.channel === myChannel) {
+                    totalInChannel++;
+                    html += `<div class="user-entry">
+                        <span class="user-dot ${c.speaking ? 'speaking' : ''}"></span>
+                        <span class="user-name">${escapeHtml(c.name || 'Unknown')}</span>
+                    </div>`;
+                }
+            });
+
+            userList.innerHTML = html;
+            document.getElementById('userCount').textContent = totalInChannel;
+
+            // Update channel user counts
+            const channels = ['dispatch', 'patrol', 'tac-1', 'tac-2'];
+            channels.forEach(ch => {
+                let count = (myChannel === ch) ? 1 : 0;
+                Object.values(connections).forEach(c => {
+                    if (c.channel === ch) count++;
+                });
+                const el = document.getElementById('count-' + ch);
+                if (el) el.textContent = count;
+            });
+        }
+
+        function updateStatus(text, connected) {
+            document.getElementById('statusText').textContent = text;
+            const dot = document.getElementById('statusDot');
+            dot.className = 'status-dot ' + (connected ? 'connected' : 'disconnected');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Room management
+        window.createRoom = async function() {
+            const name = document.getElementById('displayName').value.trim();
+            if (!name) { alert('Please enter a display name.'); return; }
+
+            const micOk = await getMicrophone();
+            if (!micOk) return;
+
+            myName = name;
+            roomCode = generateRoomCode();
+            enterRoom(true);
+        };
+
+        window.joinRoom = async function() {
+            const code = document.getElementById('roomCodeInput').value.trim().toUpperCase();
+            const name = document.getElementById('displayName').value.trim();
+
+            if (!code) { alert('Please enter a room code.'); return; }
+            if (!name) { alert('Please enter a display name.'); return; }
+
+            const micOk = await getMicrophone();
+            if (!micOk) return;
+
+            myName = name;
+            roomCode = code;
+            enterRoom(false);
+        };
+
+        function enterRoom(isHost) {
+            document.getElementById('joinPanel').style.display = 'none';
+            document.getElementById('radioPanel').classList.add('active');
+            document.getElementById('statusBar').style.display = 'flex';
+            document.getElementById('roomCodeDisplay').textContent = roomCode;
+            isInRoom = true;
+
+            const roomId = roomCode.replace(/[^A-Z0-9]/g, '');
+            initPeer(roomId, isHost);
+            updateUI();
+        }
+
+        window.leaveRoom = function() {
+            isInRoom = false;
+            isTransmitting = false;
+
+            // Clean up connections
+            Object.values(connections).forEach(c => {
+                if (c.conn) c.conn.close();
+                if (c.call) c.call.close();
+            });
+            connections = {};
+
+            // Stop mic
+            if (localStream) {
+                localStream.getTracks().forEach(t => t.stop());
+                localStream = null;
+            }
+            if (mutedStream) {
+                mutedStream.getTracks().forEach(t => t.stop());
+                mutedStream = null;
+            }
+
+            // Destroy peer
+            if (peer) {
+                peer.destroy();
+                peer = null;
+            }
+
+            // Remove audio elements
+            document.querySelectorAll('audio[id^="audio-"]').forEach(a => a.remove());
+
+            // Reset UI
+            document.getElementById('joinPanel').style.display = 'flex';
+            document.getElementById('radioPanel').classList.remove('active');
+            document.getElementById('statusBar').style.display = 'none';
+            document.getElementById('pttBtn').classList.remove('transmitting');
+            document.getElementById('pttLabel').classList.remove('transmitting');
+            document.getElementById('pttLabel').textContent = 'Hold to talk (or press Space)';
+        };
+
+        window.copyRoomCode = function() {
+            navigator.clipboard.writeText(roomCode).then(() => {
+                const el = document.getElementById('roomCodeDisplay');
+                const orig = el.textContent;
+                el.textContent = 'Copied!';
+                setTimeout(() => el.textContent = orig, 1500);
+            });
+        };
+
+        // Channel switching
+        document.querySelectorAll('.channel').forEach(el => {
+            el.addEventListener('click', () => {
+                if (!isInRoom) return;
+                document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+                el.classList.add('active');
+                myChannel = el.dataset.channel;
+                document.getElementById('channelName').textContent = el.textContent.trim().replace(/\d+$/, '').trim();
+
+                // Notify peers
+                Object.values(connections).forEach(c => {
+                    if (c.conn && c.conn.open) {
+                        c.conn.send({ type: 'channel', channel: myChannel });
+                    }
+                });
+
+                // Mute/unmute audio based on channel
+                Object.entries(connections).forEach(([pid, c]) => {
+                    const audio = document.getElementById('audio-' + pid);
+                    if (audio) {
+                        audio.muted = (c.channel !== myChannel);
+                    }
+                });
+
+                updateUI();
+            });
+        });
+
+        // PTT event listeners
+        const pttBtn = document.getElementById('pttBtn');
+        pttBtn.addEventListener('mousedown', (e) => { e.preventDefault(); startTransmit(); });
+        pttBtn.addEventListener('mouseup', stopTransmit);
+        pttBtn.addEventListener('mouseleave', stopTransmit);
+        pttBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startTransmit(); });
+        pttBtn.addEventListener('touchend', stopTransmit);
+
+        // Spacebar PTT
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !e.repeat && isInRoom) {
+                e.preventDefault();
+                startTransmit();
+            }
+        });
+        document.addEventListener('keyup', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                stopTransmit();
+            }
+        });
+
+        // Prevent spacebar scrolling
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && isInRoom) e.preventDefault();
+        });
+    })();
+    </script>
+</body>
+</html>
