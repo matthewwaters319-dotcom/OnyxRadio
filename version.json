@@ -1,6 +1,6 @@
 {
   "version": "1.2.0",
-  "download_url": "https://github.com/matthewwaters319-dotcom/OnyxRadio/releases/download/v1.2.0/OnyxRadioSetup.exe",
+  "download_url": "https://github.com/matthewwaters319-dotcom/OnyxRadio/releases/download/v1.2.0/OnyxRadioSetup-v1.2.0.zip",
   "changelog": "Installer release — proper setup.exe with silent auto-update support.",
   "changelogs": [
     {
