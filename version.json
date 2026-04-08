@@ -1,8 +1,15 @@
 {
-    "version":  "1.8.43",
-    "download_url":  "https://github.com/matthewwaters319-dotcom/OnyxRadio/releases/download/v1.8.43/OnyxRadioSetup.zip",
+    "version":  "1.8.44",
+    "download_url":  "https://github.com/matthewwaters319-dotcom/OnyxRadio/releases/download/v1.8.44/OnyxRadioSetup.zip",
     "changelog":  "Installer release — proper setup.exe with silent auto-update support.",
     "changelogs":  [
+                       {
+                           "version":  "1.8.44",
+                           "date":  "April 2026",
+                           "notes":  [
+                                         "See release notes on GitHub"
+                                     ]
+                       },
                        {
                            "version":  "1.8.43",
                            "date":  "April 2026",
